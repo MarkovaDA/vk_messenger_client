@@ -16,11 +16,10 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import org.springframework.stereotype.Service;
 
-
+@Service
 public class HTTPService {
-    protected  Gson gson = new Gson();
-    private  Type responseType = new TypeToken<ArrayList<VKObjectDTO>>(){}.getType();
     
     protected String doPOSTQuery(String baseQuery, Map<String,String> params) throws MalformedURLException, UnsupportedEncodingException, ProtocolException, IOException{
         URL url = new URL(baseQuery);
@@ -53,8 +52,9 @@ public class HTTPService {
         return response.toString();
     }
     
-     //общий вид GET-запроса к вк-апи
     protected  List<VKObjectDTO> doGETQuery(String query) throws MalformedURLException, ProtocolException, IOException{
+        Gson gson = new Gson();
+        Type responseType = new TypeToken<ArrayList<VKObjectDTO>>(){}.getType();
         System.out.println("ЗАПРОС:" + query);
         URL obj = new URL(query);
         HttpURLConnection connection = (HttpURLConnection)obj.openConnection();

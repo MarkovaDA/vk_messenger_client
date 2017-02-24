@@ -31,5 +31,4 @@ public interface DBMapper {
     
     @Select("select LAST_INSERT_ID()")
     Integer lastInsertedCriteriaId();
-    //переделать запрос на только с объектом, а объект обновлять из кода
 }
