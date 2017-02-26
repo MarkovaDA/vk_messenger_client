@@ -1,7 +1,9 @@
 
 package su.vistar.client.mapper;
 
+import java.util.List;
 import su.vistar.client.model.User;
+import su.vistar.client.model.Message;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -29,6 +31,12 @@ public interface DBMapper {
     @Insert("insert into vk_messenger_v2.messages (criteria_id, text) values (#{criteria_id},#{text})")
     void saveMessageForCriteria(@Param("criteria_id")int criteriaId, @Param("text")String message);
     
+    @Select("SELECT id, text from vk_messenger_v2.messages")
+    List<Message> getAllMessage();
+    
+    @Select("SELECT id,text from vk_messenger_v2.messages where id=#{mesId}")
+    Message getMessageById(@Param("mesId")Integer mesId);
+      
     @Select("select LAST_INSERT_ID()")
     Integer lastInsertedCriteriaId();
 }

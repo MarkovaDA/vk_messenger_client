@@ -6,7 +6,6 @@ function isEmptyValue(selector) {
         return true;
 }
 $(document).ready(function () {
-
     $("#select_city").click(function () {
         console.log("city_id=" + $(this).val());
         $('#select_univ').empty();
@@ -39,7 +38,6 @@ $(document).ready(function () {
                 }
         );
     });
-
     $('#btn_add').click(function () {
         var criteria = new Object();
         criteria.university = !isEmptyValue('#select_univ') ? $('#select_univ').val() : null;

@@ -11,9 +11,9 @@ public class AdresatCriteria {
     private Integer university_year;
     private Integer age_from;
     private Integer age_to;
-    private String position; //должность
-    private String message; //сообщение
-
+    private String  position; //должность
+    private String  message; //сообщение
+  
     public Integer getUniversity() {
         return university;
     }

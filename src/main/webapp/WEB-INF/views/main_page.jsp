@@ -10,6 +10,8 @@
         <link href="<c:url value='static_resources/css/style.css' />" rel="stylesheet"></link>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
         <script type="text/javascript" src="<c:url value='static_resources/js/criteria.script.js' />"></script>
+        <script type="text/javascript" src="<c:url value='static_resources/js/criteria.script.js' />"></script>
+        <script type="text/javascript" src="<c:url value='static_resources/js/message_dropdown.js' />"></script>
     </head>
     <body>
         <div id="wrapper">
@@ -109,9 +111,22 @@
                                         <tr>
                                             <td><span class="label label-default">Cooбщение</span></td>
                                             <td>
-                                                <div class="form-group">
-                                                    <textarea class="form-control" id="message_field" cols="50" rows="5"></textarea>
+                                                 <!--список позволяющий выбрать сообщения из имеющихся-->
+                                                <div class="dropdown">
+                                                    <!--предусмотерть паттерн для внедрения щаблона-->
+                                                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                                     Выбрать сообщение из имеющихся
+                                                    <span class="caret"></span>
+                                                    </button>
+                                                    <ul id="message_list" class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                                    </ul>
                                                 </div>
+                                                <div class="form-group">
+                                                    <textarea class="form-control" id="message_field" cols="50" rows="5" placeholder="новое сообщение"></textarea>
+                                                </div>
+                                                 <input type="hidden" id="selected_mes_id">
+                                                <br>
+                                                
                                             </td>
                                         </tr>
                                         <tr>
@@ -131,7 +146,6 @@
                             <div class="panel panel-default">
                                 <div class="panel-heading">
                                     Все критерии
-
                                 </div>
                                 <div class="panel-body">
                                 </div> 
