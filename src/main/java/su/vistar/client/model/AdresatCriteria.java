@@ -6,6 +6,7 @@ import java.util.Map;
 
 
 public class AdresatCriteria {
+    private Integer city;
     private Integer university;
     private Integer university_faculty;
     private Integer university_year;
@@ -13,7 +14,24 @@ public class AdresatCriteria {
     private Integer age_to;
     private String  position; //должность
     private String  message; //сообщение
-  
+    private Integer message_id; //идентификатор старого сообщения
+
+    public Integer getCity() {
+        return city;
+    }
+
+    public void setCity(Integer city) {
+        this.city = city;
+    }
+    
+    public Integer getMessage_id() {
+        return message_id;
+    }
+
+    public void setMessage_id(Integer message_id) {
+        this.message_id = message_id;
+    }
+    
     public Integer getUniversity() {
         return university;
     }
@@ -72,7 +90,10 @@ public class AdresatCriteria {
 
     @Override
     public String toString() {
+        //не учитываем нулевские показатели
         Map<String,String> params = new HashMap<>();
+        if (city != null)
+            params.put("city", Integer.toString(city));
         if (university != null)
             params.put("university", Integer.toString(university));
         if (university_faculty != null)
@@ -95,8 +116,7 @@ public class AdresatCriteria {
                 criteria+="&";
             
         }
-        return criteria;
-        //return  "university=" + university + "&university_faculty=" + university_faculty + "&university_year=" + university_year + "&age_from=" + age_from + "&age_to=" + age_to + "&position=" + position;
+        return criteria;      
     }
     
     

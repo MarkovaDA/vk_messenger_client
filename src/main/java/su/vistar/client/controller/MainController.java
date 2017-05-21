@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 
+
 @Controller
 public class MainController {
     @Autowired
@@ -40,6 +41,7 @@ public class MainController {
         model.addAttribute("login", currentUser.getLogin());
         try {
             model.addAttribute("cities", vkService.getCities(token));
+            model.addAttribute("countries", vkService.getCountries(token));
         } catch (IOException ex) {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -50,7 +52,7 @@ public class MainController {
     @ResponseBody
     public String saveCriteria(@RequestBody AdresatCriteria criteria){       
         criteriaService.saveCriteria(criteria);
-        return "ok";
+        return "ok saving";
     }
        
     @GetMapping(value = "/login")

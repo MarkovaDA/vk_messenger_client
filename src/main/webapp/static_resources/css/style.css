@@ -1,8 +1,11 @@
-    input:active, input:hover, input:focus, textarea:active, textarea:hover, textarea:focus {
-        box-shadow: 0 0 5px rgba(0,0,0,0.5) !important;
-        -moz-box-shadow: 0 0 5px rgba(0,0,0,0.5) !important;
-        -webkit-box-shadow: 0 0 5px rgba(0,0,0,0.5) !important;
+    textarea:active, textarea:hover, textarea:focus {
+        box-shadow: 0 0 10px rgba(0,0,0,0.5) !important;
+        -moz-box-shadow: 0 0 10px rgba(0,0,0,0.5) !important;
+        -webkit-box-shadow: 0 0 10px rgba(0,0,0,0.5) !important;
     }
-    input:focus,textarea:focus {
-        border: 1px solid grey !important;
+    textarea:focus {
+        border: 2px solid grey !important;
+    }
+    table tr{
+        display: none;
     }

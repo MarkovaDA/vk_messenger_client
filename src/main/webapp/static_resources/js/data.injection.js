@@ -81,8 +81,8 @@ $(document).ready(function(){
             
             $.ajax({
                     headers: { 
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json' 
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json' 
                     },
                     'type': 'POST',
                     'url': 'api/send_info',

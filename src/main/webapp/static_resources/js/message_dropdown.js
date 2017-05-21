@@ -1,4 +1,8 @@
 $(document).ready(function(){
+   getAllMessagesToList();
+});
+function getAllMessagesToList(){
+    $('#message_list').empty();
     $.ajax({
             headers: {
                 'Accept': 'application/json',
@@ -19,8 +23,8 @@ $(document).ready(function(){
                     });
                 });  
             }
-        });
-});
+        });   
+}
 function getMessageById(mesId){
     $.ajax({
             headers: {
@@ -30,8 +34,9 @@ function getMessageById(mesId){
             'type': 'GET',
             'url': 'api/get_message?mes_id='+mesId,
             'success': function (message) {
-               console.log("полученное сообщение:" + message);
+               console.log("идентификатор сообщения:" + message.id);
                $('#message_field').text(message.text);
+               $('#selected_mes_id').val(message.id);
             }
     });
 }

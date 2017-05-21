@@ -15,7 +15,13 @@ import org.springframework.web.bind.annotation.RestController;
 import su.vistar.client.model.Message;
 import su.vistar.client.service.DBCriteriaService;
 
-
+/*замечания к проекту:
+*критерий вставляется дважды
+*после неправильно ввода редирект снова на регистрацию сделать
+*добавить наименование критерия
+*в поле "все критерии" отобразить имена критериев с кнопками остановить
+*задать критерию имя
+*/
 @RestController
 @RequestMapping("api/")
 public class APIController {
@@ -55,7 +61,18 @@ public class APIController {
             Logger.getLogger(APIController.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
-    }  
+    }
+    
+    @GetMapping(value="get_chairs")
+    public List<VKObjectDTO> getChairs(@RequestParam("token")String accessToken,
+            @RequestParam("faculty_id")int facultyId){
+        try {
+            return vkService.getChairs(facultyId, accessToken);
+        } catch (IOException ex) {
+            Logger.getLogger(APIController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
 
     @GetMapping(value="get_messages")
     @ResponseBody

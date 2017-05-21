@@ -29,7 +29,11 @@ public class VKApiService{
         String response = httpService.doPOSTQuery(query,params);
         return (!response.contains("error"));
     }
-    //параметр count настроить
+    //получить набор стран
+    public  List<VKObjectDTO> getCountries(String accessToken) throws MalformedURLException, IOException{        
+       return httpService.doGETQuery(getQueryForCountries(accessToken));
+    }
+
     public  List<VKObjectDTO> getCities(String accessToken) throws MalformedURLException, IOException{
        return httpService.doGETQuery(getQueryForCities(accessToken));
     }
@@ -40,6 +44,14 @@ public class VKApiService{
     //получение факультетов по идентификатору университета
     public  List<VKObjectDTO> getFaculties(int universityId,String accessToken) throws MalformedURLException, ProtocolException, IOException{
        return httpService.doGETQuery(getQueryForFaculties(universityId,accessToken));
+    }
+    //получение набора кафедр
+    public  List<VKObjectDTO> getChairs(int facultyId, String accessToken) throws MalformedURLException, ProtocolException, IOException{
+       return httpService.doGETQuery(getQueryForChairs(facultyId, accessToken));
+    }
+    private  String getQueryForChairs(int facultyId, String accessToken){
+        String queryFormat = "https://api.vk.com/method/database.getChairs?faculty_id=%d&v=5.60&access_token=%s";        
+        return String.format(queryFormat, facultyId, accessToken);
     }
     private  String getQueryForFaculties(int universityId,String accessToken){
         String queryFormat = "https://api.vk.com/method/database.getFaculties?university_id=%d&v=5.60&access_token=%s";        
@@ -52,8 +64,12 @@ public class VKApiService{
     private  String getQueryForCities(String accessToken){
         String queryFormat = "https://api.vk.com/method/database.getCities?country_id=1&сount=50&v=5.60&access_token=%s";
         return String.format(queryFormat, accessToken);
-    }
-    public String getAccessToken(String clientId, String clientSecret,String redirectUri,String code) throws MalformedURLException, ProtocolException, IOException{
+    } 
+    private  String getQueryForCountries(String accessToken){
+        String queryFormat = "https://api.vk.com/method/database.getCountries?сount=50&v=5.60&access_token=%s";
+        return String.format(queryFormat, accessToken);
+    }    
+    public   String getAccessToken(String clientId, String clientSecret,String redirectUri,String code) throws MalformedURLException, ProtocolException, IOException{
         Gson gson = new Gson();
         String baseUrl = "https://oauth.vk.com/access_token";
         Map<String,String> params = new LinkedHashMap<>();

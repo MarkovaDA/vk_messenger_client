@@ -8,35 +8,16 @@
         <link href="<c:url value='static_resources/css/bootstrap.min.css' />" rel="stylesheet"></link>
         <link href="<c:url value='static_resources/css/simple_sidebar.css' />" rel="stylesheet"></link>
         <link href="<c:url value='static_resources/css/style.css' />" rel="stylesheet"></link>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/css/bootstrap-select.min.css">       
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-        <script type="text/javascript" src="<c:url value='static_resources/js/criteria.script.js' />"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script>
         <script type="text/javascript" src="<c:url value='static_resources/js/criteria.script.js' />"></script>
         <script type="text/javascript" src="<c:url value='static_resources/js/message_dropdown.js' />"></script>
+        <script type="text/javascript" src="<c:url value='static_resources/js/criteria.generate.js' />"></script>
     </head>
     <body>
         <div id="wrapper">
-            <div id="sidebar-wrapper">              
-                <ul class="sidebar-nav">
-                    <a class="closebtn">&times;</a>
-                    <li class="sidebar-brand">
-                        <a href="#">
-                            VK Messenger
-                        </a>
-                    </li>
-                    <li> 
-                        <a href="#add_criteria">
-                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                            Добавить критерий
-                        </a>
-                    </li>
-                    <li>  
-                        <a href="#all_criteria">
-                            <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
-                            Все критерии
-                        </a>
-                    </li>
-                </ul>
-            </div>
+           <jsp:include page="sidebar.jsp"/>
             <div id="page-content-wrapper">
                 <div class="container-fluid">
                     
@@ -61,37 +42,83 @@
                                     Cоздать новый критерий
                                 </div>
                                 <div class="panel-body">
+                                    <jsp:include page="optional_select.jsp"/>                                                                     
+                                    <br><hr><br>
                                     <table>
-                                        <tr>
-                                            <td><span class="label label-default">Город:</span></td>                    
+                                        <tr id="q">
+                                            <td><span class="label label-primary">Шаблон имени:</span></td>
                                             <td>
-                                                <select id="select_city" style="width: 200px">
+                                                 <input type="text" class="form-control" placeholder="pattern">
+                                            </td>
+                                        </tr>
+                                      
+                                        <tr id="country">
+                                            <td><span class="label label-primary">Страна:</span></td>
+                                            <td>        
+                                                <select id="select_country" class="selectpicker" data-show-subtext="true" data-live-search="true" style="width: 200px">
+                                                    <c:forEach items="${countries}" var="coutry"> 
+                                                        <option value="${coutry.id}">${coutry.title}</option>
+                                                    </c:forEach>                                       
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr id="city">
+                                            <td><span class="label label-primary">Город проживания:</span></td>                    
+                                            <td>
+                                                <select id="select_city" class="selectpicker" data-show-subtext="true" data-live-search="true" style="width: 200px">
                                                     <c:forEach items="${cities}" var="city"> 
                                                         <option value="${city.id}">${city.title}</option>
                                                     </c:forEach>                                       
                                                 </select>
                                             </td>
                                         </tr>
-                                        <tr>
-                                            <td><span class="label label-default">Университет:</span></td>
+                                        <tr id="hometown">
+                                            <td><span class="label label-primary">Родной город:</span></td>
+                                            <td>        
+                                                <input type="text" class="form-control" placeholder="hometown">
+                                            </td>
+                                        </tr>                                       
+                                         <tr id="university_country">
+                                            <td><span class="label label-primary">Страна окончания ВУЗа:</span></td>                    
                                             <td>
-                                                <select id="select_univ" style="width: 200px">
+                                                <select id="select_сountry_univ" class="selectpicker" data-show-subtext="true" data-live-search="true" style="width: 200px">
+                                                    <c:forEach items="${countries}" var="coutry"> 
+                                                        <option value="${coutry.id}">${coutry.title}</option>
+                                                    </c:forEach>                                         
                                                 </select>
                                             </td>
+                                        </tr>                                       
+                                        <tr id="university">
+                                            <!-- индентификатор ВУЗА-->
+                                            <td><span class="label label-primary">Университет:</span>                                                
+                                            </td>
+                                            <td>
+                                                <select id="select_univ" class="selectpicker" data-show-subtext="true" data-live-search="true" style="width: 200px">
+                                                </select>                                                
+                                            </td>
                                         </tr>
-                                        <tr>
+                                        <tr id="university_faculty">
                                             <td><span class="label label-default">Факультет:</span></td>
                                             <td>
-                                                <select id="select_fac" style="width: 200px">
-                                                </select>
+                                                <select id="select_fac" class="selectpicker" data-show-subtext="true" data-live-search="true" style="width: 200px">
+                                                </select>      
+                                            </td>
+                                        </tr>
+                                        <tr id="university_chair">
+                                            <td><span class="label label-default">Кафедра:</span></td>
+                                            <td>
+                                                <select id="select_chair" class="selectpicker" data-show-subtext="true" data-live-search="true" style="width: 200px">
+                                                </select>      
                                             </td>
                                         </tr>
                                         <tr>
                                         <input type="hidden" value="${accessToken}" id="token_field">
                                         </tr>
-                                        <tr>                   
-                                            <td><span class="label label-default">Год выпуска:</span></td>
-                                            <td><input type="number" id="year_field" min="1980" max="2030" step="1" ></input></td>
+                                        <tr id="university_year" style="display: none;">                   
+                                            <td><span class="label label-primary">Год выпуска:</span></td>
+                                            <td>
+                                                <input class="form-control" style="width:100px;" type="number" id="year_field" min="1970" max="2030" step="1" ></input>
+                                            </td>    
                                         </tr>
                                         <tr>
                                             <td><span class="label label-default">Возраст (от ... до)</span></td>
@@ -105,8 +132,8 @@
                                             <td>
                                                 <div class="form-group">
                                                     <textarea  class="form-control" id="job_field"></textarea>
-                                                </div>
-                                            </td>
+                                                </div>                                               
+                                            </td>                                       
                                         </tr>
                                         <tr>
                                             <td><span class="label label-default">Cooбщение</span></td>
@@ -121,13 +148,11 @@
                                                     <ul id="message_list" class="dropdown-menu" aria-labelledby="dropdownMenu1">
                                                     </ul>
                                                 </div>
-                                                <div class="form-group">
+                                                <div class="form-group" style="margin-top: 20px !important">
                                                     <textarea class="form-control" id="message_field" cols="50" rows="5" placeholder="новое сообщение"></textarea>
                                                 </div>
-                                                 <input type="hidden" id="selected_mes_id">
-                                                <br>
-                                                
-                                            </td>
+                                                <input type="hidden" id="selected_mes_id">                                                
+                                            </td>                              
                                         </tr>
                                         <tr>
                                             <td></td>
@@ -156,7 +181,9 @@
             </div>
         </div>
         <script>
+             
             $(document).ready(function () {
+                //код меню слева
                 $('#btn_open_menu').hide();
                 $("#btn_open_menu").click(function (e) {
                     e.preventDefault();
@@ -168,8 +195,13 @@
                     //меню закрывается, отобразить кнопочку open
                     $('#btn_open_menu').fadeIn(200);
                     $("#wrapper").toggleClass("toggled");
+                });                      
+                $('.selectpicker').selectpicker({
+                    style: 'btn-info',
+                    size: 10
                 });
-            });
+        });
+           
         </script>
         <script type="text/javascript" src='<c:url value="static_resources/js/bootstrap.min.js"/>'></script>
     </body>
