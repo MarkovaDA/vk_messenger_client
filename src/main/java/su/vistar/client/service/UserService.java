@@ -1,5 +1,4 @@
 package su.vistar.client.service;
-
 import su.vistar.client.model.User;
 
 

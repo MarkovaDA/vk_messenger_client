@@ -1,4 +1,3 @@
-
 package su.vistar.client.model;
 
 

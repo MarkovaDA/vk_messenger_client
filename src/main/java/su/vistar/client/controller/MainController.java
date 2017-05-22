@@ -1,6 +1,4 @@
-
 package su.vistar.client.controller;
-
 
 import su.vistar.client.model.AdresatCriteria;
 import su.vistar.client.model.User;

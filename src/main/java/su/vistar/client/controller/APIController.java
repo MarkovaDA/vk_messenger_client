@@ -15,13 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import su.vistar.client.model.Message;
 import su.vistar.client.service.DBCriteriaService;
 
-/*замечания к проекту:
-*критерий вставляется дважды
-*после неправильно ввода редирект снова на регистрацию сделать
-*добавить наименование критерия
-*в поле "все критерии" отобразить имена критериев с кнопками остановить
-*задать критерию имя
-*/
+
 @RestController
 @RequestMapping("api/")
 public class APIController {

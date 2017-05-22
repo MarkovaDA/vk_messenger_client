@@ -20,49 +20,50 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class HTTPService {
-    
-    protected String doPOSTQuery(String baseQuery, Map<String,String> params) throws MalformedURLException, UnsupportedEncodingException, ProtocolException, IOException{
+
+    protected String doPOSTQuery(String baseQuery, Map<String, String> params) throws MalformedURLException, UnsupportedEncodingException, ProtocolException, IOException {
         URL url = new URL(baseQuery);
         StringBuilder postData = new StringBuilder();
-        for(Map.Entry<String, String> param: params.entrySet())
-        {
-            if (postData.length() != 0) postData.append('&');
+        for (Map.Entry<String, String> param : params.entrySet()) {
+            if (postData.length() != 0) {
+                postData.append('&');
+            }
             postData.append(URLEncoder.encode(param.getKey(), "UTF-8"));
             postData.append('=');
-            postData.append(URLEncoder.encode(String.valueOf(param.getValue()), "UTF-8")); 
+            postData.append(URLEncoder.encode(String.valueOf(param.getValue()), "UTF-8"));
         }
         byte[] postDataBytes = postData.toString().getBytes("UTF-8");
-        HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("POST");
         conn.setRequestProperty("Content-Length", String.valueOf(postDataBytes.length));
         conn.setDoOutput(true);
-        conn.getOutputStream().write(postDataBytes); 
+        conn.getOutputStream().write(postDataBytes);
         return readResponse(conn);
     }
-    
-    private String readResponse(HttpURLConnection connection) throws IOException{
+
+    private String readResponse(HttpURLConnection connection) throws IOException {
         BufferedReader in = new BufferedReader(
-        new InputStreamReader(connection.getInputStream()));
+                new InputStreamReader(connection.getInputStream(), "UTF-8"));
         String inputLine;
         StringBuffer response = new StringBuffer();
         while ((inputLine = in.readLine()) != null) {
-                response.append(inputLine);
+            response.append(inputLine);
         }
         in.close();
         return response.toString();
     }
-    
-    protected  List<VKObjectDTO> doGETQuery(String query) throws MalformedURLException, ProtocolException, IOException{
+
+    protected List<VKObjectDTO> doGETQuery(String query) throws MalformedURLException, ProtocolException, IOException {
         Gson gson = new Gson();
-        Type responseType = new TypeToken<ArrayList<VKObjectDTO>>(){}.getType();
-        System.out.println("ЗАПРОС:" + query);
+        Type responseType = new TypeToken<ArrayList<VKObjectDTO>>() {
+        }.getType();
         URL obj = new URL(query);
-        HttpURLConnection connection = (HttpURLConnection)obj.openConnection();
+        HttpURLConnection connection = (HttpURLConnection) obj.openConnection();
         connection.setRequestMethod("GET");
         int responseCode = connection.getResponseCode();
-        String response = "";      
-        if (responseCode == HttpURLConnection.HTTP_OK){
-            response = readResponse(connection);          
+        String response = "";
+        if (responseCode == HttpURLConnection.HTTP_OK) {
+            response = readResponse(connection);
         }
         int startIndex = response.lastIndexOf("items") + "items".length() + 1;
         response = response.substring(startIndex + 1, response.length() - 2);

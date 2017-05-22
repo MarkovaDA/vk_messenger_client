@@ -4,18 +4,22 @@ function isEmptyValue(selector) {
         return !(value.length > 0);
     else
         return true;
-}//ОБОБЩИТЬ СТРУКТУРУ ЗАПРОСОВ ОДНИМ МЕТОДОМ
+}
 $(document).ready(function () {
     $('.selectpicker').on('change', function(){
         var id = $(this).attr('id');//идентификатор селекта  
         switch(id){
-            case'select_city': 
+            case 'select_city': 
                 $('#select_univ').empty();
                 $.get("api/get_universities?token=" + $('#token_field').val() + "&city_id=" + $(this).val(),
                         function (data) {
                             var university;
+                            $('#select_univ').append($('<option>', {
+                                    value: '',
+                                    text: 'выберите университет'
+                                }));
                             for (var i = 0; i < data.length; i++) {
-                                university = data[i];
+                                university = data[i];                                
                                 $('#select_univ').append($('<option>', {
                                     value: university.id,
                                     text: university.title
@@ -30,6 +34,10 @@ $(document).ready(function () {
                 $.get("api/get_faculties?token=" + $('#token_field').val() + "&univ_id=" + $(this).val(),
                         function (data) {
                             var faculty; 
+                            $('#select_fac').append($('<option>', {
+                                    value: -1,
+                                    text: 'выберите факультет'
+                            }))
                             for (var i = 0; i < data.length; i++) {
                                 faculty = data[i];                              
                                 $('#select_fac').append($('<option>', {
@@ -43,9 +51,13 @@ $(document).ready(function () {
                 break;
             case 'select_fac':
                 $('#select_chair').empty();
-                $.get("api/get_chairs?token=" + $('#token_field').val() + "&chair_id=" + $(this).val(),
+                $.get("api/get_chairs?token=" + $('#token_field').val() + "&faculty_id=" + $(this).val(),
                         function (data) {
                             var chair; 
+                            $('#select_chair').append($('<option>', {
+                                    value: -1,
+                                    text: 'выберите кафедру'
+                            }));
                             for (var i = 0; i < data.length; i++) {
                                 chair = data[i];                              
                                 $('#select_chair').append($('<option>', {
@@ -57,36 +69,26 @@ $(document).ready(function () {
                         }
                 );
                 break;
-             default:
-                 
+             default:                
         }
     });
-    //добавление и отправка критерия на сервер
-    $('#btn_add').click(function () {
-        var criteria = new Object();
-        criteria.city = !isEmptyValue('#select_city') ? $('#select_city').val() : null;
-        criteria.university = !isEmptyValue('#select_univ') ? $('#select_univ').val() : null;
-        criteria.university_faculty = !isEmptyValue('#select_fac') ? $('#select_fac').val() : null;
-        criteria.university_year = !isEmptyValue('#year_field') ? $('#year_field').val() : null;
-        criteria.age_from = !isEmptyValue('#age_from_field') ? $('#age_from_field').val() : null;
-        criteria.age_to = !isEmptyValue('#age_to_field') ? $('#age_to_field').val() : null;
-        criteria.position = !isEmptyValue('#job_field') ? $('#job_field').val() : null;
-        criteria.message = $('#message_field').val();
-        criteria.message_id = $('#selected_mes_id').val();
-        console.log(criteria);
-        /*$.ajax({
-             headers: {
-                 'Accept': 'application/json',
-                 'Content-Type': 'application/json'
-             },
-             'type': 'POST',
-             'url': 'save_criteria',
-             'data': JSON.stringify(criteria),
-             'dataType': 'json'         
-        });*/
-        //updating message performance
-        getAllMessagesToList();
-    });
+    
+    function get_objects(select_id,api_str,param_id){
+        $(select_id).empty();
+        $.get("api/"+api_str+"?token=" + $('#token_field').val() + param_id + $(this).val(),
+                function (data) {
+                    var item; 
+                    for (var i = 0; i < data.length; i++) {
+                        item = data[i];                              
+                        $(select_id).append($('<option>', {
+                            value: item.id,
+                            text: item.title
+                        }));
+                    }
+                    $(select_id).selectpicker('refresh');
+                }
+        );
+    }            
 });
 
 

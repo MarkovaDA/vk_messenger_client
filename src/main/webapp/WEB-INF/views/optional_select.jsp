@@ -1,4 +1,4 @@
-<%-- 
+﻿<%-- 
     Document   : optional_select
     Created on : May 21, 2017, 3:49:54 PM
     Author     : darya
@@ -21,13 +21,13 @@
     <option value="university_year">год окончания ВУЗа</option>
     <option value="university_faculty">факультет</option>
     <option value="university_chair">кафедра университета</option>
-    <option>sex</option>
-    <option>status</option>
-    <option>age_from</option>
-    <option>age_to</option>
-    <option >birth_day</option>
-    <option >birth_month</option>
-    <option>birth_year</option>
+    <option value="sex">пол</option>
+    <option value="status">семейное положение</option>
+    <option value="age_from">возраст(нижняя граница)</option>
+    <option value="age_to">возраст(верхняя граница)</option>
+    <option value="birth_day">день рождения</option>
+    <option value="birth_month">месяц рождения</option>
+    <option value="birth_year">год рождения</option>
     <option >school_country</option>
     <option >school_city</option>
     <option >school_class</option>
