@@ -1,4 +1,4 @@
-﻿<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
@@ -45,27 +45,30 @@
                                     <jsp:include page="optional_select.jsp"/>                                                                     
                                     <br><hr><br>
                                     <table>
+                                        <!--паттерн имени-->
                                         <tr id="q">
                                             <td><span class="label label-primary">Шаблон имени:</span></td>
                                             <td>
-                                                 <input type="text" class="form-control for_reading" placeholder="pattern">
+                                                 <input type="text" property="q" class="form-control for_reading" placeholder="pattern">
                                             </td>
-                                        </tr>
-                                      
+                                        </tr> 
+                                        <!--страна-->
                                         <tr id="country">
                                             <td><span class="label label-primary">Страна:</span></td>
                                             <td>        
-                                                <select id="select_country" class="selectpicker for_reading" data-show-subtext="true" data-live-search="true" style="width: 200px">
+                                                <select property="country" id="select_country" class="selectpicker for_reading" data-show-subtext="true" data-live-search="true" style="width: 200px">
+                                                    <option value=''>выберите страну</option>
                                                     <c:forEach items="${countries}" var="coutry"> 
                                                         <option value="${coutry.id}">${coutry.title}</option>
                                                     </c:forEach>                                       
                                                 </select>
                                             </td>
                                         </tr>
+                                        <!--город-->
                                         <tr id="city">
                                             <td><span class="label label-primary">Город проживания:</span></td>                    
                                             <td>
-                                                <select id="select_city" class="selectpicker for_reading" data-show-subtext="true" data-live-search="true" style="width: 200px">
+                                                <select property="city" id="select_city" class="selectpicker for_reading" data-show-subtext="true" data-live-search="true" style="width: 200px">
                                                     <option value="">выберите город</option>
                                                     <c:forEach items="${cities}" var="city"> 
                                                         <option value="${city.id}">${city.title}</option>
@@ -73,42 +76,48 @@
                                                 </select>
                                             </td>
                                         </tr>
+                                        <!--родной город-->
                                         <tr id="hometown">
                                             <td><span class="label label-primary">Родной город:</span></td>
                                             <td>        
-                                                <input type="text" class="form-control for_reading" placeholder="hometown">
+                                                <input type="text" property="hometown" class="form-control for_reading" placeholder="hometown">
                                             </td>
                                         </tr>                                       
-                                         <tr id="university_country">
+                                        <!--страна окончания вуза-->
+                                        <tr id="university_country">
                                             <td><span class="label label-primary">Страна окончания ВУЗа:</span></td>                    
                                             <td>
-                                                <select id="select_сountry_univ" class="selectpicker for_reading" data-show-subtext="true" data-live-search="true" style="width: 200px">
+                                                <select property="university_country" id="select_сountry_univ" class="selectpicker for_reading" data-show-subtext="true" data-live-search="true" style="width: 200px">
+                                                    <option value="">выберите страну</option>
                                                     <c:forEach items="${countries}" var="coutry"> 
                                                         <option value="${coutry.id}">${coutry.title}</option>
                                                     </c:forEach>                                         
                                                 </select>
                                             </td>
                                         </tr>                                       
+                                        <!--университет-->
                                         <tr id="university">
                                             <!-- индентификатор ВУЗА-->
                                             <td><span class="label label-primary">Университет:</span>                                                
                                             </td>
                                             <td>
-                                                <select id="select_univ" class="selectpicker for_reading" data-show-subtext="true" data-live-search="true" style="width: 200px">
+                                                <select property="university" id="select_univ" class="selectpicker for_reading" data-show-subtext="true" data-live-search="true" style="width: 200px">
                                                 </select>                                                
                                             </td>
                                         </tr>
+                                        <!--факультет-->
                                         <tr id="university_faculty">
                                             <td><span class="label label-primary">Факультет:</span></td>
                                             <td>
-                                                <select id="select_fac" class="selectpicker for_reading" data-show-subtext="true" data-live-search="true" style="width: 200px">
+                                                <select property="university_faculty" id="select_fac" class="selectpicker for_reading" data-show-subtext="true" data-live-search="true" style="width: 200px">
                                                 </select>      
                                             </td>
                                         </tr>
+                                        <!--кафедра-->
                                         <tr id="university_chair">
                                             <td><span class="label label-primary">Кафедра:</span></td>
                                             <td>
-                                                <select id="select_chair" class="selectpicker for_reading" data-show-subtext="true" data-live-search="true" style="width: 200px">
+                                                <select property="university_chair" id="select_chair" class="selectpicker for_reading" data-show-subtext="true" data-live-search="true" style="width: 200px">
                                                 </select>      
                                             </td>
                                         </tr>
@@ -116,14 +125,11 @@
                                         <tr id="sex">
                                             <td><span class="label label-primary">Пол:</span></td>
                                             <td>
-                                                <select id="select_sex" class="selectpicker for_reading" data-show-subtext="true" data-live-search="true" style="width: 200px">
+                                                <select property="sex" id="select_sex" class="selectpicker for_reading" data-show-subtext="true" data-live-search="true" style="width: 200px">
+                                                    <option value=''>выберите пол</option>
                                                     <option value="1">женский</option>
                                                     <option value="2">мужской</option>
-                                                    <option value="0">любой</option>
-                                                    <option value="4">женат</option>
-                                                    <option value="5">все сложно</option>
-                                                    <option value="6">в активном поиске</option>
-                                                    <option value="7">влюблен</option>
+                                                    <option value="0">любой</option>                                                
                                                 </select>      
                                             </td>
                                         </tr>
@@ -131,49 +137,58 @@
                                         <tr id="status">
                                             <td><span class="label label-primary">Семейное положение:</span></td>
                                             <td>
-                                                <select id="select_sex" class="selectpicker for_reading" data-show-subtext="true" data-live-search="true" style="width: 200px">
+                                                <select property="status" id="select_sex" class="selectpicker for_reading" data-show-subtext="true" data-live-search="true" style="width: 200px">
+                                                    <option value=''>выберите статус</option>
                                                     <option value="1">не женат</option>
                                                     <option value="2">встречается</option>
                                                     <option value="3">помолвлен</option>
+                                                    <option value="4">женат</option>
+                                                    <option value="5">все сложно</option>
+                                                    <option value="6">в активном поиске</option>
+                                                    <option value="7">влюблен</option>
                                                 </select>      
                                             </td>
                                         </tr>
                                         <!--год рождения-->
                                         <tr id="birth_year">
                                             <td><span class="label label-primary">Год рождения:</span></td>
-                                            <td><input type="text" class="form-control for_reading" placeholder="birth_year"></td>
+                                            <td><input property="birth_year" type="text" class="form-control for_reading" placeholder="birth_year"></td>
                                         </tr>
                                         <!--месяц рождения-->
                                         <tr id="birth_month">
                                             <td><span class="label label-primary">Месяц рождения:</span></td>
-                                            <td><input type="text" class="form-control for_reading" placeholder="birth_month"></td>
+                                            <td><input type="text" property="birth_month" class="form-control for_reading" placeholder="birth_month"></td>
                                         </tr>
                                          <!--число рождения-->
                                         <tr id="birth_day">
                                             <td><span class="label label-primary">Число рождения:</span></td>
-                                            <td><input type="text" class="form-control for_reading" placeholder="birth_day"></td>
+                                            <td><input type="text" property="birth_day" class="form-control for_reading" placeholder="birth_day"></td>
                                         </tr>
                                         <tr>                                          
                                             <input type="hidden" value="${accessToken}" id="token_field">
                                         </tr>
+                                        <!--год выпуска из ВУЗА-->
                                         <tr id="university_year" style="display: none;">                   
                                             <td><span class="label label-primary">Год выпуска:</span></td>
                                             <td>
-                                                <input class="form-control for_reading" style="width:100px;" type="number" id="year_field" min="1970" max="2030" step="1" ></input>
+                                                <input property="university_year" class="form-control for_reading" style="width:100px;" type="number" id="year_field" min="1970" max="2030" step="1" ></input>
                                             </td>    
                                         </tr>
+                                        <!--возраст от -->
                                         <tr id="age_from">
                                             <td><span class="label label-primary">Возраст (нижняя граница)</span></td>
                                             <td>
-                                                <input  class="form-control for_reading" type="number" id="age_from_field" value="40" min="10" max="50" step="1"></input>
+                                                <input property="age_from" class="form-control for_reading" type="number" id="age_from_field"  min="10" max="50" step="1"></input>
                                             </td>
                                         </tr>
+                                        <!--возраст до-->
                                         <tr id="age_to">
                                             <td><span class="label label-primary">Возраст (верхняя граница)</span></td>
                                             <td>
-                                                <input class="form-control for_reading" type="number" id="age_to_field" value="40" min="10" max="50" step="1"></input>
+                                                <input property="age_to" class="form-control for_reading" type="number" id="age_to_field" min="10" max="50" step="1"></input>
                                             </td>
                                         </tr>
+                                        <!--профессия-->
                                         <tr>
                                             <td><span class="label label-primary">Профессия</span></td>
                                             <td>
@@ -215,7 +230,7 @@
                                 </div>
                             </div>
                         </div>
-
+                        <!--раздел все критерии-->
                         <div class="col-lg-12" id="all_criteria">   
                             <div class="panel panel-default">
                                 <div class="panel-heading">
@@ -229,8 +244,7 @@
                 </div>
             </div>
         </div>
-        <script>
-             
+        <script>            
             $(document).ready(function () {
                 $('.visible_tr').show();
                 //код меню слева
@@ -250,8 +264,7 @@
                     style: 'btn-info',
                     size: 10
                 });
-        });
-           
+        });         
         </script>
         <script type="text/javascript" src='<c:url value="static_resources/js/bootstrap.min.js"/>'></script>
     </body>

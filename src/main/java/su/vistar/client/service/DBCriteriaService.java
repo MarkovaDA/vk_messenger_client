@@ -17,17 +17,20 @@ public class DBCriteriaService {
     AuthService authService;
     
     private void saveCriteria(String criteria, int offset, int userId){
-        dbMapper.saveCriteria(criteria,0, userId);
+        dbMapper.saveCriteria(criteria,offset,userId);
     }
  
     public void saveCriteria(AdresatCriteria criteria){
         User currentUser = authService.getCurrentUser();  
+        //сохранение текста критерия
         saveCriteria(criteria.toString(), 0, currentUser.getId());
         int criteriaId = dbMapper.lastInsertedId();
         int messageId;
+        //было создано новое сообщение
         if (criteria.getMessage_id() != null){
             dbMapper.saveMessageCriteria(criteriaId, criteria.getMessage_id());
         }
+        //сообщение выбрано среди существующих
         else if (criteria.getMessage() != null){
             dbMapper.saveMessage(criteria.getMessage());
             messageId = dbMapper.lastInsertedId();

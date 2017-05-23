@@ -1,4 +1,11 @@
+function isEmptyValue(value) {
+    if (value !== null && typeof value !== 'undefined')
+        return !(value.length > 0);
+    else
+        return true;
+}
 $(document).ready(function () {
+    var criteria = new Object();
     $('#criteria_type').on('changed.bs.select', function(event, clickedIndex, newValue, oldValue){
         var prop = $(this).children().eq(clickedIndex).attr('value');
         if (String(newValue)==='true'){
@@ -8,39 +15,60 @@ $(document).ready(function () {
             $('#' + prop).fadeOut(100);
         }     
     });
-
-
-    $('#btn_add').click(function () {
-        var propertyName, propertyValue;       
-        $('table tr').each(function(index,elem){
-            propertyName = $(this).attr('id');
-                if (typeof propertyName !== 'undefined'){
-                    propertyValue = $(this).find('.for_reading').length;
-                    console.log(propertyValue);
-                }
+    //считываем с селектов параметры в объект criteria
+    $('.selectpicker').on('changed.bs.select', function(event, clickedIndex, newValue, oldValue){
+        if ($(this).hasClass('for_reading')){
+            var selectedValue = $(this).find('option').eq(clickedIndex).val();
+            var propertyName = $(this).attr('property');
+            if (!isEmptyValue(selectedValue))
+                criteria[propertyName] = selectedValue;
+        }
+    });
+    $('#message_field').keypress(function(){
+        criteria.message_id = "";
+    });
+    //считываем значение остальных, текстовых полей
+    $('#btn_add').click(function () {        
+        var propertyName, propertyValue;
+        $('.for_reading').each(function(){
+            //propertyName = $(this).parent().parent().attr('id');
+            propertyName = $(this).attr('property');
+            propertyValue = $(this).val();           
+            if (typeof propertyName !== 'undefined' && !isEmptyValue(propertyValue)){
+                criteria[propertyName] = propertyValue;            
+            }            
         });
-        /*var criteria = new Object();
-        criteria.city = !isEmptyValue('#select_city') ? $('#select_city').val() : null;
-        criteria.university = !isEmptyValue('#select_univ') ? $('#select_univ').val() : null;
-        criteria.university_faculty = !isEmptyValue('#select_fac') ? $('#select_fac').val() : null;
-        criteria.university_year = !isEmptyValue('#year_field') ? $('#year_field').val() : null;
-        criteria.age_from = !isEmptyValue('#age_from_field') ? $('#age_from_field').val() : null;
-        criteria.age_to = !isEmptyValue('#age_to_field') ? $('#age_to_field').val() : null;
-        criteria.position = !isEmptyValue('#job_field') ? $('#job_field').val() : null;
-        criteria.message = $('#message_field').val();
-        criteria.message_id = $('#selected_mes_id').val();
+        var criteriaString = "";
+        for(var key in criteria){
+            if (!isEmptyValue(key) && !isEmptyValue(criteria[key]))
+                criteriaString += key + "=" + criteria[key] + "&";
+        }
+        console.log(criteriaString);
+        //criteriaString = criteriaString.substring(0, criteriaString.length-2);
+        var serverObject = new Object();
+        serverObject.criteriaString = criteriaString;
+        serverObject.message = $('#message_field').val();        
+        serverObject.message_id = $('#selected_mes_id').val();
+        console.log(serverObject);
+        //отправка критерия на сервер
         $.ajax({
-             headers: {
-                 'Accept': 'application/json',
-                 'Content-Type': 'application/json'
-             },
-             'type': 'POST',
-             'url': 'save_criteria',
-             'data': JSON.stringify(criteria),
-             'dataType': 'json'         
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            'type': 'POST',
+            'url': 'save_criteria',
+            'data': JSON.stringify(serverObject),
+            'dataType': 'json',
+            success: function(){
+                alert('критерий успешно добавлен');
+            },
+            fail:function(){
+                 alert('ошибка добавления критерия');
+            }
         });
         //updating message performance
-        getAllMessagesToList();*/
+        getAllMessagesToList();
     });   
 });
 

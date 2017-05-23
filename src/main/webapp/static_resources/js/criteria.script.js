@@ -1,10 +1,4 @@
-function isEmptyValue(selector) {
-    var value = $(selector).val();
-    if (value !== null && typeof value !== 'undefined')
-        return !(value.length > 0);
-    else
-        return true;
-}
+
 $(document).ready(function () {
     $('.selectpicker').on('change', function(){
         var id = $(this).attr('id');//идентификатор селекта  
