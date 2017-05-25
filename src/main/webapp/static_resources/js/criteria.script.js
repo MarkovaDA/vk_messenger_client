@@ -63,7 +63,28 @@ $(document).ready(function () {
                         }
                 );
                 break;
-             default:                
+            case 'select_school_country':
+                $('#select_school_city').empty();
+                $.get("api/get_cities_bycountry?token=" + $('#token_field').val() + "&country_id=" + $(this).val(),
+                        function (data) {
+                            console.log(data);
+                            var city; 
+                            $('#select_school_city').append($('<option>', {
+                                    value: -1,
+                                    text: 'выберите город'
+                            }));
+                            for (var i = 0; i < data.length; i++) {
+                                city = data[i];                              
+                                $('#select_school_city').append($('<option>', {
+                                    value: city.id,
+                                    text: city.title
+                                }));
+                            }
+                            $('#select_school_city').selectpicker('refresh');
+                        }
+                );
+                break;
+             default:
         }
     });
     

@@ -35,6 +35,16 @@ public class APIController {
         return null;
     }
     
+    @GetMapping(value="get_cities_bycountry")
+    public List<VKObjectDTO> getCities(@RequestParam("country_id")Integer countryId, @RequestParam("token")String accessToken){
+        try {
+            return vkService.getCitiesByCountry(accessToken, countryId);
+        } catch (IOException ex) {
+            Logger.getLogger(APIController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
     @GetMapping(value="get_universities")
     public List<VKObjectDTO> getUniversities(@RequestParam("token")String accessToken,
             @RequestParam("city_id")int cityId){

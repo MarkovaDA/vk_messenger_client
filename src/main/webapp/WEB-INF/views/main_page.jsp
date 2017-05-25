@@ -164,6 +164,27 @@
                                             <td><span class="label label-primary">Число рождения:</span></td>
                                             <td><input type="text" property="birth_day" class="form-control for_reading" placeholder="birth_day"></td>
                                         </tr>
+                                        <!--страна окончания школы-->
+                                        <tr id="school_country">
+                                            <td><span class="label label-primary">Страна окончания школы:</span></td>
+                                            <td>                               
+                                                <select property="school_country" id="select_school_country" class="selectpicker for_reading" data-show-subtext="true" data-live-search="true" style="width: 200px">
+                                                    <option value=''>выберите страну</option>
+                                                    <c:forEach items="${countries}" var="coutry"> 
+                                                        <option value="${coutry.id}">${coutry.title}</option>
+                                                    </c:forEach>                                       
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <!--город окончания школы-->
+                                        <tr  id="school_city">
+                                            <td><span class="label label-primary">Город окончания школы:</span></td>
+                                            <td>                               
+                                                <select property="school_city" id="select_school_city" class="selectpicker for_reading" data-show-subtext="true" data-live-search="true" style="width: 200px">
+                                                    <option value=''>выберите город</option>                                                                      
+                                                </select>
+                                            </td>
+                                        </tr>
                                         <tr>                                          
                                             <input type="hidden" value="${accessToken}" id="token_field">
                                         </tr>

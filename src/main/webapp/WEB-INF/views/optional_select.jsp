@@ -28,8 +28,8 @@
     <option value="birth_day">день рождения</option>
     <option value="birth_month">месяц рождения</option>
     <option value="birth_year">год рождения</option>
-    <option >school_country</option>
-    <option >school_city</option>
+    <option value="school_country">страна окончания школы</option>
+    <option value="school_city">город окончания школы</option>
     <option >school_class</option>
     <option >school</option>
     <option >school_year</option>

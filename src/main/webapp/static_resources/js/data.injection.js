@@ -15,8 +15,7 @@ $(document).ready(function(){
             for(var i=0; i < data.length; i++){
                 var course = data[i];
                 var option = '<div course_id='+course.id + '>' + course.number + '</div>';
-                $('#select_courses .select_items').append(option);
-                
+                $('#select_courses .select_items').append(option);                
             }
             //привязать событие выборки
             $('#select_courses .select_items div').click(function()

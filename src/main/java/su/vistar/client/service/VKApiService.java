@@ -25,6 +25,7 @@ public class VKApiService{
     private String facultyQueryFormat = "https://api.vk.com/method/database.getFaculties?university_id=%d&v=5.60&access_token=%s"; 
     private String  universityQueryFormat = "https://api.vk.com/method/database.getUniversities?city_id=%d&v=5.60&access_token=%s"; 
     private String chairQueryFormat = "https://api.vk.com/method/database.getChairs?faculty_id=%d&v=5.60&access_token=%s";
+    private String cityQueryByCountryFormat = "https://api.vk.com/method/database.getCities?country_id=%d&count=50&v=5.60&access_token=%s";
     
     public  boolean sendMessage(String userId, String message, String accessToken) throws IOException, MalformedURLException, MalformedURLException, IOException, UnsupportedEncodingException{ 
         String query = "https://api.vk.com/method/messages.send";
@@ -40,6 +41,10 @@ public class VKApiService{
     }
     public  List<VKObjectDTO> getCities(String accessToken) throws MalformedURLException, IOException{
        return httpService.doGETQuery(getQueryForCities(accessToken));
+    }
+    //получение городов страны
+    public  List<VKObjectDTO> getCitiesByCountry(String accessToken, Integer countryId) throws MalformedURLException, IOException{
+       return httpService.doGETQuery(getQueryForCitiesByCountry(accessToken, countryId));
     }
     public  List<VKObjectDTO> getUniversities(int cityId,String accessToken) throws MalformedURLException, IOException{
         return httpService.doGETQuery(getQueryForUniversities(cityId, accessToken));
@@ -65,7 +70,10 @@ public class VKApiService{
     } 
     private  String getQueryForCountries(String accessToken){      
         return String.format(countryQueryFormat, accessToken);
-    }    
+    }
+    private String getQueryForCitiesByCountry(String accessToken, int countryId){
+        return String.format(cityQueryByCountryFormat, countryId, accessToken);
+    }
     public   String getAccessToken(String clientId, String clientSecret,String redirectUri,String code) throws MalformedURLException, ProtocolException, IOException{
         Gson gson = new Gson();
         String baseUrl = "https://oauth.vk.com/access_token";
