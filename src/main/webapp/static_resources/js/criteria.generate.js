@@ -4,7 +4,6 @@ function isEmptyValue(value) {
     else
         return true;
 }
-//создать приложение "вконтакте", для того чтобы пользователь от своего имени мог вести отправку по критериям
 $(document).ready(function () {
     var criteria = new Object();
     $('#criteria_type').on('changed.bs.select', function(event, clickedIndex, newValue, oldValue){

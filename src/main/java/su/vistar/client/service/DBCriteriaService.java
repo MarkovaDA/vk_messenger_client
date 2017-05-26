@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import su.vistar.client.mapper.DBMapper;
 import su.vistar.client.model.AdresatCriteria;
+import su.vistar.client.model.Company;
 import su.vistar.client.model.Message;
 import su.vistar.client.model.User;
 
@@ -36,6 +37,9 @@ public class DBCriteriaService {
             messageId = dbMapper.lastInsertedId();
             dbMapper.saveMessageCriteria(criteriaId, messageId);
         }
+    }
+    public void saveCompany(Company company){
+        dbMapper.saveCompany(company);
     }
     
     public List<Message> getMessages(){

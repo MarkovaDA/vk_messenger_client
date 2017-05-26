@@ -8,12 +8,19 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.springframework.transaction.annotation.Transactional;
+import su.vistar.client.model.Company;
 
 @Transactional("mainManager")
 public interface DBMapper {
     
     @Select("SELECT * from vk_messenger_v2.users WHERE login=#{login}")
     User findUserByLogin(@Param("login")String login);
+    
+    @Select("SELECT * from vk_messenger_v2.company WHERE user_id=#{user_id}")
+    List<Company> findCompany(@Param("user_id")Integer userId);
+    
+    @Insert("INSERT into vk_messenger_v2.company (title,code,user_id) values=(#{title},#{code},#{user_id})")
+    void saveCompany(Company company);
     
     @Select("SELECT type FROM vk_messenger_v2.users left join vk_messenger_v2.user_profile " +
     "ON vk_messenger_v2.user_profile.user_id = vk_messenger_v2.users.id " +

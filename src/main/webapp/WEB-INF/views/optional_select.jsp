@@ -30,10 +30,10 @@
     <option value="birth_year">год рождения</option>
     <option value="school_country">страна окончания школы</option>
     <option value="school_city">город окончания школы</option>
-    <option >school_class</option>
-    <option >school</option>
-    <option >school_year</option>
-    <option >religion</option>
+    <option value="school_class">номер класса школы</option>
+    <option value="school">школа</option>
+    <option value="school_year">год окончания школы</option>
+    <option value="religion">религиозные взгляды</option>
     <option >interests</option>
     <option >company</option>
     <option >position</option>

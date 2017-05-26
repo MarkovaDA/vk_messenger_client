@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import su.vistar.client.model.Company;
 
 
 
@@ -31,15 +32,18 @@ public class MainController {
     @Autowired
     AuthService authService;
     
+   
     @GetMapping(value = "/tools_options")
     public ModelAndView getToolPage(Model model){
         User currentUser = authService.getCurrentUser();
-        String  token = currentUser.getAccess_token();   
-        model.addAttribute("accessToken", token);
+        //здесь список компаний
+        //String  token = currentUser.getAccess_token();   
+        //model.addAttribute("accessToken", token);
         model.addAttribute("login", currentUser.getLogin());
         try {
-            model.addAttribute("cities", vkService.getCities(token));
-            model.addAttribute("countries", vkService.getCountries(token));
+            model.addAttribute("companies", authService.getCompanies(currentUser.getId()));
+            model.addAttribute("cities", vkService.getCities());
+            model.addAttribute("countries", vkService.getCountries());
         } catch (IOException ex) {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -50,6 +54,13 @@ public class MainController {
     @ResponseBody
     public String saveCriteria(@RequestBody AdresatCriteria criteria){       
         criteriaService.saveCriteria(criteria);
+        return "ok saving";
+    }
+    
+    @PostMapping(value = "/add_company")
+    @ResponseBody
+    public String addCompany(@RequestBody Company company){
+        company.setUser_id(authService.getCurrentUser().getId());
         return "ok saving";
     }
        

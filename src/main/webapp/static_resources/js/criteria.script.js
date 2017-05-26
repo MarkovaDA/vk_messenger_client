@@ -5,7 +5,7 @@ $(document).ready(function () {
         switch(id){
             case 'select_city': 
                 $('#select_univ').empty();
-                $.get("api/get_universities?token=" + $('#token_field').val() + "&city_id=" + $(this).val(),
+                $.get("api/get_universities?" + "city_id=" + $(this).val(),
                         function (data) {
                             var university;
                             $('#select_univ').append($('<option>', {
@@ -25,7 +25,7 @@ $(document).ready(function () {
                 break;
             case 'select_univ':
                 $('#select_fac').empty();
-                $.get("api/get_faculties?token=" + $('#token_field').val() + "&univ_id=" + $(this).val(),
+                $.get("api/get_faculties?"  + "univ_id=" + $(this).val(),
                         function (data) {
                             var faculty; 
                             $('#select_fac').append($('<option>', {
@@ -45,7 +45,7 @@ $(document).ready(function () {
                 break;
             case 'select_fac':
                 $('#select_chair').empty();
-                $.get("api/get_chairs?token=" + $('#token_field').val() + "&faculty_id=" + $(this).val(),
+                $.get("api/get_chairs?" + "faculty_id=" + $(this).val(),
                         function (data) {
                             var chair; 
                             $('#select_chair').append($('<option>', {
@@ -65,7 +65,7 @@ $(document).ready(function () {
                 break;
             case 'select_school_country':
                 $('#select_school_city').empty();
-                $.get("api/get_cities_bycountry?token=" + $('#token_field').val() + "&country_id=" + $(this).val(),
+                $.get("api/get_cities_bycountry?" + "country_id=" + $(this).val(),
                         function (data) {
                             console.log(data);
                             var city; 
@@ -88,6 +88,7 @@ $(document).ready(function () {
         }
     });
     
+    //функция, обобщающая все запросы
     function get_objects(select_id,api_str,param_id){
         $(select_id).empty();
         $.get("api/"+api_str+"?token=" + $('#token_field').val() + param_id + $(this).val(),

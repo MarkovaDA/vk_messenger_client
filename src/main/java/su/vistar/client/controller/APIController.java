@@ -26,9 +26,9 @@ public class APIController {
     DBCriteriaService criteriaService;
     
     @GetMapping(value="get_cities")
-    public List<VKObjectDTO> getCities(@RequestParam("token")String accessToken){
+    public List<VKObjectDTO> getCities(){
         try {
-            return vkService.getCities(accessToken);
+            return vkService.getCities();
         } catch (IOException ex) {
             Logger.getLogger(APIController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -36,9 +36,9 @@ public class APIController {
     }
     
     @GetMapping(value="get_cities_bycountry")
-    public List<VKObjectDTO> getCities(@RequestParam("country_id")Integer countryId, @RequestParam("token")String accessToken){
+    public List<VKObjectDTO> getCities(@RequestParam("country_id")Integer countryId){
         try {
-            return vkService.getCitiesByCountry(accessToken, countryId);
+            return vkService.getCitiesByCountry(countryId);
         } catch (IOException ex) {
             Logger.getLogger(APIController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -46,10 +46,9 @@ public class APIController {
     }
     
     @GetMapping(value="get_universities")
-    public List<VKObjectDTO> getUniversities(@RequestParam("token")String accessToken,
-            @RequestParam("city_id")int cityId){
+    public List<VKObjectDTO> getUniversities(@RequestParam("city_id")int cityId){
         try {
-            return vkService.getUniversities(cityId, accessToken);
+            return vkService.getUniversities(cityId);
         } catch (IOException ex) {
             Logger.getLogger(APIController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -57,10 +56,9 @@ public class APIController {
     }
     
     @GetMapping(value="get_faculties")
-    public List<VKObjectDTO> getFaculties(@RequestParam("token")String accessToken,
-            @RequestParam("univ_id")int univId){
+    public List<VKObjectDTO> getFaculties(@RequestParam("univ_id")int univId){
         try {
-            return vkService.getFaculties(univId,accessToken);
+            return vkService.getFaculties(univId);
         } catch (IOException ex) {
             Logger.getLogger(APIController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -68,10 +66,9 @@ public class APIController {
     }
     
     @GetMapping(value="get_chairs")
-    public List<VKObjectDTO> getChairs(@RequestParam("token")String accessToken,
-            @RequestParam("faculty_id")int facultyId){
+    public List<VKObjectDTO> getChairs(@RequestParam("faculty_id")int facultyId){
         try {
-            return vkService.getChairs(facultyId, accessToken);
+            return vkService.getChairs(facultyId);
         } catch (IOException ex) {
             Logger.getLogger(APIController.class.getName()).log(Level.SEVERE, null, ex);
         }

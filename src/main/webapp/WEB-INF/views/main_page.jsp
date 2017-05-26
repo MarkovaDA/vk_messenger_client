@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Personal tools</title>
+        <title>Личный кабинет</title>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <link href="<c:url value='static_resources/css/bootstrap.min.css' />" rel="stylesheet"></link>
         <link href="<c:url value='static_resources/css/simple_sidebar.css' />" rel="stylesheet"></link>
@@ -14,6 +14,7 @@
         <script type="text/javascript" src="<c:url value='static_resources/js/criteria.script.js' />"></script>
         <script type="text/javascript" src="<c:url value='static_resources/js/message_dropdown.js' />"></script>
         <script type="text/javascript" src="<c:url value='static_resources/js/criteria.generate.js' />"></script>
+        <script type="text/javascript" src="<c:url value='static_resources/js/company.script.js' />"></script>
     </head>
     <body>
         <div id="wrapper">
@@ -32,14 +33,16 @@
                             <!-- имя пользователя-->
                            <div class="panel panel-default">
                                <div class="panel-body">
-                                   Welcome, ${login}
+                                   <span class="glyphicon glyphicon-home"></span>
+                                    Пользователь:<b>${login}</b>
                                </div>
                            </div>
                         </div>
+                        <jsp:include page="сompany_page.jsp"/>        
                         <div class="col-lg-12" id="add_criteria">
                             <div class="panel panel-default">
                                 <div class="panel-heading">
-                                    Cоздать новый критерий
+                                    Cоздать новый критерий в <b class="company_title"></b>
                                 </div>
                                 <div class="panel-body">
                                     <jsp:include page="optional_select.jsp"/>                                                                     
@@ -177,13 +180,38 @@
                                             </td>
                                         </tr>
                                         <!--город окончания школы-->
-                                        <tr  id="school_city">
+                                        <tr id="school_city">
                                             <td><span class="label label-primary">Город окончания школы:</span></td>
                                             <td>                               
                                                 <select property="school_city" id="select_school_city" class="selectpicker for_reading" data-show-subtext="true" data-live-search="true" style="width: 200px">
                                                     <option value=''>выберите город</option>                                                                      
                                                 </select>
                                             </td>
+                                        </tr>
+                                        <!--номер класса школы-->
+                                        <tr id="school_class">
+                                           <td><span class="label label-primary">Номер класса школы:</span></td>
+                                            <td>
+                                                <input property="school_class" class="form-control for_reading" style="width:100px;" type="number" min="1" max="11"></input>
+                                            </td> 
+                                        </tr>
+                                        <!--год окончания школы-->
+                                        <tr id="school_year">
+                                            <td><span class="label label-primary">Год окончания школы:</span></td>
+                                            <td>
+                                                <input property="school_year" class="form-control for_reading" style="width:100px;"></input>
+                                            </td> 
+                                        </tr>
+                                        <!--идентификатор законченной школы-->
+                                        <tr id="school">
+                                            
+                                        </tr>
+                                        <!--религиозные взгляды, строка-->
+                                        <tr id="religion">
+                                            <td><span class="label label-primary">Религиозные взгляды:</span></td>
+                                            <td>
+                                                <input property="religion" class="form-control for_reading"></input>
+                                            </td> 
                                         </tr>
                                         <tr>                                          
                                             <input type="hidden" value="${accessToken}" id="token_field">
@@ -250,17 +278,9 @@
                                         
                                 </div>
                             </div>
-                        </div>
-                        <!--раздел все критерии-->
-                        <div class="col-lg-12" id="all_criteria">   
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    Все критерии
-                                </div>
-                                <div class="panel-body">
-                                </div> 
-                            </div>
-                        </div>
+                        </div>    
+                        <jsp:include page="criteria_page.jsp"/> 
+                        <jsp:include page="company_add_page.jsp"/> 
                     </div>
                 </div>
             </div>
