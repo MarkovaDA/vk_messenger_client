@@ -9,6 +9,9 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -57,11 +60,17 @@ public class MainController {
         return "ok saving";
     }
     
-    @PostMapping(value = "/add_company")
+    @PostMapping(value = "/add_company", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public String addCompany(@RequestBody Company company){
+    public ResponseEntity<String> addCompany(@RequestBody Company company){
+         ResponseEntity<String> response;
         company.setUser_id(authService.getCurrentUser().getId());
-        return "ok saving";
+        int count =  criteriaService.addCompany(company);
+        if (count > 0)
+            response = new ResponseEntity<>("success inserting", HttpStatus.OK);
+        else 
+            response = new ResponseEntity<>("error inserting", HttpStatus.OK);
+        return response;
     }
        
     @GetMapping(value = "/login")

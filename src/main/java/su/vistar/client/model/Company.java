@@ -4,8 +4,8 @@ package su.vistar.client.model;
 public class Company {
     private String title;//название компании
     private String code;//код компании
-    private Integer user_id; 
-
+    private Integer user_id;
+   
     public Integer getUser_id() {
         return user_id;
     }

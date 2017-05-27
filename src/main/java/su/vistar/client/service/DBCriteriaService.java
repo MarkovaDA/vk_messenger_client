@@ -38,8 +38,8 @@ public class DBCriteriaService {
             dbMapper.saveMessageCriteria(criteriaId, messageId);
         }
     }
-    public void saveCompany(Company company){
-        dbMapper.saveCompany(company);
+    public int addCompany(Company company){
+       return dbMapper.addCompany(company);
     }
     
     public List<Message> getMessages(){

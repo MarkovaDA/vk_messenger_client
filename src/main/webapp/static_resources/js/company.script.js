@@ -19,21 +19,20 @@ $(document).ready(function(){
         var company = new Object();
         company.title = $('#company_title').val();
         company.code = $('#company_code').val();
+        //проверять на пустоту и выводить сообщение об ошибке
         $.ajax({
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
-            'type': 'POST',
-            'url': 'add_company',
-            'data': JSON.stringify(company),
-            'dataType': 'json',
-            success: function(){
-                alert('компания успешно создана');
-            },
-            fail:function(){
-                 alert('ошибка создания компании');
-            }
+            type: 'POST',
+            url: 'add_company',
+            data: JSON.stringify(company),        
+            success: function(data){
+                console.log("успех");
+                console.log(data);
+            },           
+            dataType: 'json'
         });
     });
 });
