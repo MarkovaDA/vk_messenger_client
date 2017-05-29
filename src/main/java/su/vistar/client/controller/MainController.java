@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 import su.vistar.client.model.Company;
 
@@ -55,21 +56,23 @@ public class MainController {
     
     @PostMapping(value = "/save_criteria")
     @ResponseBody
+    @ResponseStatus(HttpStatus.OK)
     public String saveCriteria(@RequestBody AdresatCriteria criteria){       
         criteriaService.saveCriteria(criteria);
         return "ok saving";
     }
     
     @PostMapping(value = "/add_company", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public ResponseEntity<String> addCompany(@RequestBody Company company){
-         ResponseEntity<String> response;
+        ResponseEntity<String> response;
         company.setUser_id(authService.getCurrentUser().getId());
         int count =  criteriaService.addCompany(company);
         if (count > 0)
             response = new ResponseEntity<>("success inserting", HttpStatus.OK);
         else 
-            response = new ResponseEntity<>("error inserting", HttpStatus.OK);
+            response = new ResponseEntity<>("error inserting", HttpStatus.BAD_REQUEST);
         return response;
     }
        

@@ -3,6 +3,7 @@ package su.vistar.client.service;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import su.vistar.client.dto.CompanyDTO;
 import su.vistar.client.mapper.DBMapper;
 import su.vistar.client.model.AdresatCriteria;
 import su.vistar.client.model.Company;
@@ -50,4 +51,26 @@ public class DBCriteriaService {
         return dbMapper.getMessageById(mesId);
     }
     
+    public int subscribe(String vkUid, int companyId){
+        return dbMapper.subscribe(vkUid, companyId);
+    }
+    
+    public Company getCompanyByCode(String code){
+        return dbMapper.getCompanyByCode(code);
+    }
+    
+    public Object tryUnigueSubscribe(String vkUid, int companyId){
+        return dbMapper.tryUnigueSubscribe(vkUid, companyId);
+    }
+    
+    public int unscribe(String vkUid, Integer companyId){
+        if (companyId != null){           
+            return dbMapper.unscribeFromCompany(vkUid, companyId);
+        }
+        else return dbMapper.unscribeFromAll(vkUid);
+    }
+    
+    public List<CompanyDTO> getCompanies(String vkUid){
+        return dbMapper.getCompanies(vkUid);
+    }
 }
