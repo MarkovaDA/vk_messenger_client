@@ -6,6 +6,16 @@ public class ResponseObjectDTO {
     private String message;
     private Object responseObject;
 
+    public ResponseObjectDTO(String message, Object responseObject) {
+        this.message = message;
+        this.responseObject = responseObject;
+    }
+
+    public ResponseObjectDTO(Object responseObject) {
+        this.responseObject = responseObject;
+    }
+    
+    
     public String getMessage() {
         return message;
     }
