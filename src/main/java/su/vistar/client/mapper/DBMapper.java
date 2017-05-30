@@ -10,6 +10,7 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.springframework.transaction.annotation.Transactional;
 import su.vistar.client.dto.CompanyDTO;
+import su.vistar.client.dto.CriteriaDTO;
 import su.vistar.client.model.Company;
 
 @Transactional("mainManager")
@@ -71,5 +72,12 @@ public interface DBMapper {
             + "left join vk_messenger_v2.users on vk_messenger_v2.company.user_id = vk_messenger_v2.users.id "
             + "where vk_uid=#{vk_uid}")
     List<CompanyDTO> getCompanies(@Param("vk_uid")String vkUid);
+    
+    @Select("SELECT * from vk_messenger_v2.criteria where company_id=#{company_id} and considered=0")
+    List<CriteriaDTO> getCriteriesByCompanyId(@Param("company_id")Integer companyId);
+    
+    @Select("SELECT * FROM vk_messenger_v2.messages join vk_messenger_v2.criteria_message on id=message_id "
+            + "where criteria_id=#{criteria_id}")
+    Message getMessageByCriteriaId(@Param("criteria_id")Integer criteriaId);
     
 }

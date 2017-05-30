@@ -1,6 +1,10 @@
 package su.vistar.client.controller;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,9 +15,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import su.vistar.client.dto.CompanyDTO;
+import su.vistar.client.dto.CriteriaDTO;
 import su.vistar.client.dto.ResponseObjectDTO;
+import su.vistar.client.dto.VKUserDTO;
 import su.vistar.client.model.Company;
 import su.vistar.client.service.DBCriteriaService;
+import su.vistar.client.service.ExtractUsersService;
 
 @RestController
 @RequestMapping("external_api/")
@@ -21,9 +28,12 @@ public class ExternalAPIController {
 
     @Autowired
     DBCriteriaService dbService;
-
-    //подписаться на рассылку - и это будет POST
-    @GetMapping(value = "/subscribe")
+    
+    @Autowired
+    ExtractUsersService  extractService;
+    
+    //подписаться на рассылку
+    @PostMapping(value = "/subscribe")
     @ResponseBody
     public ResponseEntity<?> subscribe(@RequestParam("vk_uid") String vkUid, @RequestParam("code") String code) {
 
@@ -45,7 +55,7 @@ public class ExternalAPIController {
         Company company;
         company = (code != null) ? dbService.getCompanyByCode(code) : null;
         //указан неверный код компании для отписки
-        if (company != null && code != null) {
+        if (company == null && code != null) {
             return new ResponseEntity<>(new ResponseObjectDTO("компании с заданным кодом не существует", null), HttpStatus.NOT_FOUND);
         } //отписываемся только от рассылки по текущей компании
         else if (company != null) {
@@ -69,9 +79,54 @@ public class ExternalAPIController {
         return new ResponseEntity<>(new ResponseObjectDTO(companies), HttpStatus.OK);
     }
 
-    //получить сообщение и адресатов
-    public void getMessageAndRecipients() {
-
+    //получить сообщение и адресатов по критериям
+    @GetMapping(value = "/get_users_and_message")
+    @ResponseBody
+    public ResponseEntity<?> getMessageAndRecipients(@RequestParam("company_id")int companyId, @RequestParam("count")int count) {
+        List<CriteriaDTO> listCriteria = dbService.getCriteriaByCompanyId(companyId);
+        int criteriaCount = listCriteria.size();
+        List<VKUserDTO> users = new ArrayList<>();   
+        //кол-во сообщений меньше числа существующих критериев
+        if (count <= criteriaCount){
+            listCriteria.forEach(criteria-> {
+                String queryVkString = criteria.getCondition();//строка запроса
+                int offset = criteria.getOffset();//смещение
+                String message = dbService.getMessageByCriteriaId(criteria.getId())
+                                .getText();
+                try {
+                    //обновить offset
+                    users.addAll(extractService.getUsers(queryVkString, offset, 1));    
+                } catch (IOException ex) {
+                    Logger.getLogger(ExternalAPIController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            });            
+        }
+        ////кол-во сообщений больше числа существующих критериев
+        else {
+            //распределение количества сообщений по критериям
+            int[] numberByCriteria = new int[criteriaCount];
+            //по каждому критерию отправляем portion сообщений
+            int portion = count / criteriaCount;
+            for(int i=0; i < criteriaCount; i++){
+                numberByCriteria[i] = portion;
+            }
+            //остаток сливаем в последний критерий
+            numberByCriteria[criteriaCount-2] = count - portion*criteriaCount; 
+            //вытаскиваем по критериям
+            for(int i=0; i < criteriaCount; i++){
+                String queryVkString = listCriteria.get(i).getCondition();
+                //обновляем offset
+                try { 
+                    users.addAll(extractService.getUsers(queryVkString, numberByCriteria[i], 1));
+                } catch (IOException ex) {
+                    Logger.getLogger(ExternalAPIController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        if (users.isEmpty())
+            return new ResponseEntity<>(new ResponseObjectDTO("все адресаты исчерпаны",null), HttpStatus.NOT_FOUND); 
+        //придумать подходящую структуру данных
+        return new ResponseEntity<>(new ResponseObjectDTO(users), HttpStatus.OK); 
     }
 
 }

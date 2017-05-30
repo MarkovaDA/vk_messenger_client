@@ -10,8 +10,8 @@
          <!--опция только для админа-->
         <li>
             <a href="#add_user">
-                <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-                Добавить пользователя
+                <span class="glyphicon glyphicon-align-justify" aria-hidden="true"></span>
+                Статистика
             </a>
         </li>
         <li> 
@@ -20,11 +20,5 @@
                 Добавить кампанию
             </a>
         </li>
-        <!--<li>  
-            <a href="#all_companies">
-                <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
-                Мои компании
-            </a>
-        </li>-->   
     </ul>
 </div>

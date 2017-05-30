@@ -14,15 +14,15 @@ public class VKApiService{
     
     @Autowired
     HTTPService httpService;  
-    
-    private String cityQueryFormat = "https://api.vk.com/method/database.getCities?country_id=1&count=50&v=5.60";
-    private String countryQueryFormat = "https://api.vk.com/method/database.getCountries?сount=50&v=5.60";
+      
+    private String cityQueryFormat = "https://api.vk.com/method/database.getCities?country_id=1&count=100&v=5.60";
+    private String countryQueryFormat = "https://api.vk.com/method/database.getCountries?сount=100&v=5.60";
     private String facultyQueryFormat = "https://api.vk.com/method/database.getFaculties?university_id=%d&v=5.60"; 
-    private String  universityQueryFormat = "https://api.vk.com/method/database.getUniversities?city_id=%d&v=5.60"; 
+    private String universityQueryFormat = "https://api.vk.com/method/database.getUniversities?city_id=%d&v=5.60"; 
     private String chairQueryFormat = "https://api.vk.com/method/database.getChairs?faculty_id=%d&v=5.60";
-    private String cityQueryByCountryFormat = "https://api.vk.com/method/database.getCities?country_id=%d&count=50&v=5.60";
-    private String schoolQueryFormat = "https://api.vk.com/method/database.getCities?country_id=%d&count=50&v=5.60";
-    
+    private String cityQueryByCountryFormat = "https://api.vk.com/method/database.getCities?country_id=%d&count=100&v=5.60";
+    private String schoolQueryFormat = "https://api.vk.com/method/database.getCities?country_id=%d&count=100&v=5.60";
+    private String searchUserQueryFormat = "https://api.vk.com/method/users.search?%s&offset=%d";
    
     public  List<VKObjectDTO> getCountries() throws MalformedURLException, IOException{        
        return httpService.doGETQuery(getQueryForCountries());
@@ -42,7 +42,8 @@ public class VKApiService{
     }
     public  List<VKObjectDTO> getChairs(int facultyId) throws MalformedURLException, ProtocolException, IOException{
        return httpService.doGETQuery(getQueryForChairs(facultyId));
-    }        
+    }
+   
     private  String getQueryForChairs(int facultyId){                
         return String.format(chairQueryFormat, facultyId);
     }        

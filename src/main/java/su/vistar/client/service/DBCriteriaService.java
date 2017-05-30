@@ -4,6 +4,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import su.vistar.client.dto.CompanyDTO;
+import su.vistar.client.dto.CriteriaDTO;
 import su.vistar.client.mapper.DBMapper;
 import su.vistar.client.model.AdresatCriteria;
 import su.vistar.client.model.Company;
@@ -72,5 +73,12 @@ public class DBCriteriaService {
     
     public List<CompanyDTO> getCompanies(String vkUid){
         return dbMapper.getCompanies(vkUid);
+    }
+    //извлекаем активные критерии
+    public List<CriteriaDTO> getCriteriaByCompanyId(int criteriaId){
+        return dbMapper.getCriteriesByCompanyId(criteriaId);
+    }
+    public Message getMessageByCriteriaId(int criteriaId){
+        return dbMapper.getMessageByCriteriaId(criteriaId);
     }
 }

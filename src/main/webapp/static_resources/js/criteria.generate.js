@@ -51,7 +51,7 @@ $(document).ready(function () {
         serverObject.message_id = $('#selected_mes_id').val();
         console.log(serverObject);
         //отправка критерия на сервер
-        /*$.ajax({
+        $.ajax({
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
@@ -66,7 +66,7 @@ $(document).ready(function () {
             fail:function(){
                  alert('ошибка добавления критерия');
             }
-        });*/
+        });
         //updating message performance
         getAllMessagesToList();
     });   
