@@ -3,11 +3,11 @@ package su.vistar.client.dto;
 
 
 public class ResponseObjectDTO {
-    private String message;
+    private String serverMessage;
     private Object responseObject;
 
     public ResponseObjectDTO(String message, Object responseObject) {
-        this.message = message;
+        this.serverMessage = message;
         this.responseObject = responseObject;
     }
 
@@ -16,12 +16,12 @@ public class ResponseObjectDTO {
     }
     
     
-    public String getMessage() {
-        return message;
+    public String getServerMessage() {
+        return serverMessage;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setServerMessage(String serverMessage) {
+        this.serverMessage = serverMessage;
     }
 
     public Object getResponseObject() {

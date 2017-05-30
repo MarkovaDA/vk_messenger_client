@@ -1,19 +1,13 @@
 package su.vistar.client.service;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import org.springframework.stereotype.Service;
-import su.vistar.client.dto.VKUserDTO;
 
 @Service
 public class CommonHTTPService {

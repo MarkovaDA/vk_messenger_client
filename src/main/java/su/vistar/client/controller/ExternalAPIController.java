@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import su.vistar.client.dto.CompanyDTO;
 import su.vistar.client.dto.CriteriaDTO;
+import su.vistar.client.dto.ResponseForSearchDTO;
 import su.vistar.client.dto.ResponseObjectDTO;
-import su.vistar.client.dto.VKUserDTO;
 import su.vistar.client.model.Company;
 import su.vistar.client.service.DBCriteriaService;
 import su.vistar.client.service.ExtractUsersService;
@@ -85,21 +85,29 @@ public class ExternalAPIController {
     public ResponseEntity<?> getMessageAndRecipients(@RequestParam("company_id")int companyId, @RequestParam("count")int count) {
         List<CriteriaDTO> listCriteria = dbService.getCriteriaByCompanyId(companyId);
         int criteriaCount = listCriteria.size();
-        List<VKUserDTO> users = new ArrayList<>();   
+        List<ResponseForSearchDTO> list = new ArrayList<>();
+        //перенести метод в сервис и обобщить для двух случаев
         //кол-во сообщений меньше числа существующих критериев
-        if (count <= criteriaCount){
-            listCriteria.forEach(criteria-> {
-                String queryVkString = criteria.getCondition();//строка запроса
-                int offset = criteria.getOffset();//смещение
-                String message = dbService.getMessageByCriteriaId(criteria.getId())
-                                .getText();
+        String message;
+        String queryVkString;
+        int offset;           
+        CriteriaDTO criteria;
+        ResponseForSearchDTO serverResponse;
+        if (count <= criteriaCount){          
+            for(int i=0; i < count; i++){
+                criteria = listCriteria.get(i);
+                queryVkString = criteria.getCondition();//строка запроса
+                offset = criteria.getOffset();//смещение
+                message = dbService.getMessageByCriteriaId(criteria.getId()).getText();
                 try {
-                    //обновить offset
-                    users.addAll(extractService.getUsers(queryVkString, offset, 1));    
+                    //обновить offset 
+                    serverResponse = extractService.getUsers(queryVkString, offset, 1);
+                    serverResponse.setMessage(message);
+                    list.add(serverResponse);
                 } catch (IOException ex) {
                     Logger.getLogger(ExternalAPIController.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            });            
+            }          
         }
         ////кол-во сообщений больше числа существующих критериев
         else {
@@ -111,22 +119,25 @@ public class ExternalAPIController {
                 numberByCriteria[i] = portion;
             }
             //остаток сливаем в последний критерий
-            numberByCriteria[criteriaCount-2] = count - portion*criteriaCount; 
+            numberByCriteria[criteriaCount-2] += count - portion*criteriaCount;
             //вытаскиваем по критериям
             for(int i=0; i < criteriaCount; i++){
-                String queryVkString = listCriteria.get(i).getCondition();
-                //обновляем offset
+                criteria = listCriteria.get(i);
+                queryVkString = criteria.getCondition();
+                offset = listCriteria.get(i).getOffset();
+                message = dbService.getMessageByCriteriaId(criteria.getId()).getText();
+                //обновляем offset              
                 try { 
-                    users.addAll(extractService.getUsers(queryVkString, numberByCriteria[i], 1));
+                    serverResponse = extractService.getUsers(queryVkString, offset, numberByCriteria[i]);
+                    serverResponse.setMessage(message);
+                    list.add(serverResponse);
+                    
                 } catch (IOException ex) {
                     Logger.getLogger(ExternalAPIController.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-        }
-        if (users.isEmpty())
-            return new ResponseEntity<>(new ResponseObjectDTO("все адресаты исчерпаны",null), HttpStatus.NOT_FOUND); 
-        //придумать подходящую структуру данных
-        return new ResponseEntity<>(new ResponseObjectDTO(users), HttpStatus.OK); 
+        }      
+           //return new ResponseEntity<>(new ResponseObjectDTO("все адресаты исчерпаны", null), HttpStatus.NOT_FOUND); 
+        return new ResponseEntity<>(new ResponseObjectDTO(list), HttpStatus.OK); 
     }
-
 }
