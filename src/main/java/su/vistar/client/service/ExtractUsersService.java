@@ -25,6 +25,7 @@ public class ExtractUsersService {
     
     private String getQueryForUsersSearch(String queryString, int offset, int count){          
         String response =  String.format(searchUserQueryFormat, queryString, offset, count, httpService.ACCESS_TOKEN);
+        System.out.println(response);
         return response;
     }
 }

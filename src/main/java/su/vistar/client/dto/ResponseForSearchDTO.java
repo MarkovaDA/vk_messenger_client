@@ -8,20 +8,20 @@ import java.util.List;
 public class ResponseForSearchDTO{
     
     String message;
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
     
     @SerializedName("response")
     Response response;
 
     public Response getResponse() {
         return response;
+    }
+    
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     public void setResponse(Response response) {

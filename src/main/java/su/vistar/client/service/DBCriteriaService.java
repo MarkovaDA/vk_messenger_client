@@ -52,8 +52,8 @@ public class DBCriteriaService {
         return dbMapper.getMessageById(mesId);
     }
     
-    public int subscribe(String vkUid, int companyId){
-        return dbMapper.subscribe(vkUid, companyId);
+    public int subscribe(String vkUid, int companyId, int countCompany){
+        return dbMapper.subscribe(vkUid, companyId, countCompany);
     }
     
     public Company getCompanyByCode(String code){
@@ -80,5 +80,14 @@ public class DBCriteriaService {
     }
     public Message getMessageByCriteriaId(int criteriaId){
         return dbMapper.getMessageByCriteriaId(criteriaId);
+    }
+    public void updateOffset(Integer criteriaId, Integer offset){
+        dbMapper.updateOffset(criteriaId, offset);
+    }
+    public int countOfSubscribesForUser(String vkUid){
+        return dbMapper.countOfSubscribesForUser(vkUid);
+    }
+    public int getCountMessagesByCompanyId(int companyId, String vkUid){
+        return dbMapper.getCountMessagesByCompanyId(vkUid, companyId);
     }
 }

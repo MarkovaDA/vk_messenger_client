@@ -55,14 +55,14 @@ public interface DBMapper {
     @Select("SELECT * from vk_messenger_v2.company where code=#{code}")
     Company getCompanyByCode(@Param("code")String code);
     
-    @Insert("INSERT into vk_messenger_v2.sendors(vk_uid, company_id) values (#{vk_uid},#{company_id})")
-    int subscribe(@Param("vk_uid")String vkUid, @Param("company_id")int companyId);   
+    @Insert("INSERT into vk_messenger_v2.sendors(vk_uid, company_id, count_company) values (#{vk_uid},#{company_id},#{count_company})")
+    int subscribe(@Param("vk_uid")String vkUid, @Param("company_id")Integer companyId,  @Param("count_company")Integer count_company);   
  
     @Delete("DELETE from vk_messenger_v2.sendors where vk_uid=#{vk_uid} and company_id=#{company_id}")
-    int unscribeFromCompany(@Param("vk_uid")String vkUid, @Param("company_id")int companyId);
+    Integer unscribeFromCompany(@Param("vk_uid")String vkUid, @Param("company_id")int companyId);
     
     @Delete("DELETE from vk_messenger_v2.sendors where vk_uid=#{vk_uid}")
-    int unscribeFromAll(@Param("vk_uid")String vkUid);
+    Integer unscribeFromAll(@Param("vk_uid")String vkUid);
     
     @Select("SELECT id from vk_messenger_v2.sendors where vk_uid=#{vk_uid} and company_id=#{company_id}")
     Object tryUnigueSubscribe(@Param("vk_uid")String vkUid, @Param("company_id")int companyId);
@@ -80,4 +80,12 @@ public interface DBMapper {
             + "where criteria_id=#{criteria_id}")
     Message getMessageByCriteriaId(@Param("criteria_id")Integer criteriaId);
     
+    @Update("UPDATE vk_messenger_v2.criteria set offset=#{offset} where id=#{criteria_id}")
+    void updateOffset(@Param("criteria_id")Integer criteriaId, @Param("offset")Integer offset);
+    
+    @Select("SELECT sum(count_company) from vk_messenger_v2.sendors where vk_uid=#{vk_uid} group by vk_uid")
+    int countOfSubscribesForUser(@Param("vk_uid")String vkUid);
+    
+    @Select("SELECT count_company from vk_messenger_v2.sendors where vk_uid=#{vk_uid} and company_id=#{company_id}")
+    int getCountMessagesByCompanyId(@Param("vk_uid")String vkUid,@Param("company_id")Integer companyId);
 }
