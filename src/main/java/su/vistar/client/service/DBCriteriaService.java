@@ -52,19 +52,19 @@ public class DBCriteriaService {
         return dbMapper.getMessageById(mesId);
     }
     
-    public int subscribe(String vkUid, int companyId, int countCompany){
+    public int subscribe(Long vkUid, int companyId, int countCompany){
         return dbMapper.subscribe(vkUid, companyId, countCompany);
     }
     
-    public Company getCompanyByCode(String code){
+    public Company getCompanyByCode(Long code){
         return dbMapper.getCompanyByCode(code);
     }
     
-    public Object tryUnigueSubscribe(String vkUid, int companyId){
+    public Object tryUnigueSubscribe(Long vkUid, int companyId){
         return dbMapper.tryUnigueSubscribe(vkUid, companyId);
     }
     
-    public int unscribe(String vkUid, Integer companyId){
+    public int unscribe(Long vkUid, Integer companyId){
         if (companyId != null){           
             return dbMapper.unscribeFromCompany(vkUid, companyId);
         }
@@ -73,6 +73,10 @@ public class DBCriteriaService {
     
     public List<CompanyDTO> getCompanies(String vkUid){
         return dbMapper.getCompanies(vkUid);
+    }
+
+    public CompanyDTO getCompanyInfo(Long companyCode){     
+        return dbMapper.getCompanyInfo(companyCode);
     }
     //извлекаем активные критерии
     public List<CriteriaDTO> getCriteriaByCompanyId(int criteriaId){
@@ -84,10 +88,10 @@ public class DBCriteriaService {
     public void updateOffset(Integer criteriaId, Integer offset){
         dbMapper.updateOffset(criteriaId, offset);
     }
-    public int countOfSubscribesForUser(String vkUid){
+    public Integer countOfSubscribesForUser(Long vkUid){
         return dbMapper.countOfSubscribesForUser(vkUid);
     }
-    public int getCountMessagesByCompanyId(int companyId, String vkUid){
+    public Integer getCountMessagesByCompanyId(int companyId, String vkUid){
         return dbMapper.getCountMessagesByCompanyId(vkUid, companyId);
     }
 }

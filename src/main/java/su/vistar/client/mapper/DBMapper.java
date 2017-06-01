@@ -53,25 +53,29 @@ public interface DBMapper {
     Integer lastInsertedId();
     
     @Select("SELECT * from vk_messenger_v2.company where code=#{code}")
-    Company getCompanyByCode(@Param("code")String code);
+    Company getCompanyByCode(@Param("code")Long code);
     
-    @Insert("INSERT into vk_messenger_v2.sendors(vk_uid, company_id, count_company) values (#{vk_uid},#{company_id},#{count_company})")
-    int subscribe(@Param("vk_uid")String vkUid, @Param("company_id")Integer companyId,  @Param("count_company")Integer count_company);   
+    @Insert("INSERT into vk_messenger_v2.sendors(vk_uid, company_id, message_count) values (#{vk_uid},#{company_id},#{message_count})")
+    Integer subscribe(@Param("vk_uid")Long vkUid, @Param("company_id")Integer companyId,  @Param("message_count")Integer message_count);   
  
     @Delete("DELETE from vk_messenger_v2.sendors where vk_uid=#{vk_uid} and company_id=#{company_id}")
-    Integer unscribeFromCompany(@Param("vk_uid")String vkUid, @Param("company_id")int companyId);
+    Integer unscribeFromCompany(@Param("vk_uid")Long vkUid, @Param("company_id")int companyId);
     
     @Delete("DELETE from vk_messenger_v2.sendors where vk_uid=#{vk_uid}")
-    Integer unscribeFromAll(@Param("vk_uid")String vkUid);
+    Integer unscribeFromAll(@Param("vk_uid")Long vkUid);
     
     @Select("SELECT id from vk_messenger_v2.sendors where vk_uid=#{vk_uid} and company_id=#{company_id}")
-    Object tryUnigueSubscribe(@Param("vk_uid")String vkUid, @Param("company_id")int companyId);
+    Object tryUnigueSubscribe(@Param("vk_uid")Long vkUid, @Param("company_id")int companyId);
 
     @Select("SELECT distinct title, code, fio FROM vk_messenger_v2.company join vk_messenger_v2.sendors ON "
             + "vk_messenger_v2.company.id = vk_messenger_v2.sendors.company_id "
             + "left join vk_messenger_v2.users on vk_messenger_v2.company.user_id = vk_messenger_v2.users.id "
             + "where vk_uid=#{vk_uid}")
     List<CompanyDTO> getCompanies(@Param("vk_uid")String vkUid);
+    
+    @Select("SELECT company.id,code, title, fio FROM vk_messenger_v2.company join " +
+            "vk_messenger_v2.users on users.id=company.user_id where code=#{code}")
+    CompanyDTO getCompanyInfo(Long code);
     
     @Select("SELECT * from vk_messenger_v2.criteria where company_id=#{company_id} and considered=0")
     List<CriteriaDTO> getCriteriesByCompanyId(@Param("company_id")Integer companyId);
@@ -83,9 +87,9 @@ public interface DBMapper {
     @Update("UPDATE vk_messenger_v2.criteria set offset=#{offset} where id=#{criteria_id}")
     void updateOffset(@Param("criteria_id")Integer criteriaId, @Param("offset")Integer offset);
     
-    @Select("SELECT sum(count_company) from vk_messenger_v2.sendors where vk_uid=#{vk_uid} group by vk_uid")
-    int countOfSubscribesForUser(@Param("vk_uid")String vkUid);
+    @Select("SELECT sum(message_count) from vk_messenger_v2.sendors where vk_uid=#{vk_uid} group by vk_uid")
+    Integer countOfSubscribesForUser(@Param("vk_uid")Long vkUid);
     
-    @Select("SELECT count_company from vk_messenger_v2.sendors where vk_uid=#{vk_uid} and company_id=#{company_id}")
-    int getCountMessagesByCompanyId(@Param("vk_uid")String vkUid,@Param("company_id")Integer companyId);
+    @Select("SELECT message_count from vk_messenger_v2.sendors where vk_uid=#{vk_uid} and company_id=#{company_id}")
+    Integer getCountMessagesByCompanyId(@Param("vk_uid")String vkUid,@Param("company_id")Integer companyId);
 }
