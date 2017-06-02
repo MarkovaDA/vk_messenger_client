@@ -4,10 +4,11 @@ $(document).ready(function(){
              //выбранная компания
             var company_code = $(this).find('option').eq(clickedIndex).val();
             var company_title = $(this).find('option').eq(clickedIndex).text();
-            console.log(company_title);
             $('#txt_company_code').val(company_code);
             $('.company_title').empty();
             $('.company_title').append(company_title);
+            //разблокирование блока критериев
+            $('.toggle_visible').fadeIn(100);
         });
     //генерируем код
     $('#generate').click(function(){
@@ -42,16 +43,6 @@ $(document).ready(function(){
             dataType: 'json'
         });*/
         //тестирвоание работы апи
-        $.ajax({
-            type: 'GET',
-            url: 'external_api/subscribe?vk_uid=1234553&code=31234',
-            success: function(data){console.log(data);},
-            error: function(xhr, ajaxOptions, thrownError){
-                console.log(thrownError, ajaxOptions, xhr.status);
-            },
-            complete: function(){console.log('complete');},
-            dataType: 'json'
-        });
     });
 });
 

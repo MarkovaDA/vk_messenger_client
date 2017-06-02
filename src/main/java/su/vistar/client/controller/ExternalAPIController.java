@@ -38,20 +38,20 @@ public class ExternalAPIController {
     @ResponseBody
     public ResponseEntity<?> subscribe(@RequestParam("vk_uid") Long vkUid,
             @PathVariable("code") Long code,
-            @RequestParam("message_count")Integer count) {
+            @RequestParam("message_count") Integer count) {
         //добавить контроль общего числа подписок
         CompanyDTO companyInfo = dbService.getCompanyInfo(code);
         if (companyInfo == null) {
             return new ResponseEntity<>(new ErrorResponse("компании с заданным кодом не существует"), HttpStatus.NOT_FOUND);
         } else if (dbService.tryUnigueSubscribe(vkUid, companyInfo.getId()) != null) {
-            return new ResponseEntity<>(new ErrorResponse("вы уже подписаны на данную кампанию"), HttpStatus.ACCEPTED);
+            return new ResponseEntity<>(new ErrorResponse("вы уже подписаны на данную кампанию"), HttpStatus.CONFLICT);
         } else {
             //проверка на соответсвие заданному количеству
             int limit = 20;
             Integer busyCount = dbService.countOfSubscribesForUser(vkUid);
             busyCount = (busyCount == null) ? 0 : busyCount;
             if (busyCount + count > limit) {
-                return new ResponseEntity<>(new ErrorResponse("количество сообщений превышает отведенный лимит;" + "осталось сообщений " + (limit - busyCount)),HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>(new ErrorResponse("количество сообщений превышает отведенный лимит;" + "осталось сообщений " + (limit - busyCount)), HttpStatus.BAD_REQUEST);
             }
             dbService.subscribe(vkUid, companyInfo.getId(), count);
             return new ResponseEntity<>(companyInfo, HttpStatus.OK);
@@ -61,22 +61,26 @@ public class ExternalAPIController {
     //отписаться
     @PostMapping(value = "/company/{code}/unsubscribe")
     @ResponseBody
-    public ResponseEntity<?> unsubscribe(@RequestParam("vk_uid")Long vkUid, 
+    public ResponseEntity<?> unsubscribe(@RequestParam("vk_uid") Long vkUid,
             @PathVariable(value = "code", required = false) Long code) {
-        
+
         CompanyDTO companyInfo;
         companyInfo = (code != null) ? dbService.getCompanyInfo(code) : null;
         //указан неверный код компании для отписки
         if (companyInfo == null && code != null) {
             return new ResponseEntity<>(new ErrorResponse("компании с заданным кодом не существует"), HttpStatus.NOT_FOUND);
-        } //отписываемся только от рассылки по текущей компании
+        }
+        //юзер итак не подписан
+        if (dbService.tryUnigueSubscribe(vkUid, companyInfo.getId()) == null) {
+            return new ResponseEntity<>(new ErrorResponse("юзер с заданным vk_uid не подписан на рассылку по данной кампании"), HttpStatus.CONFLICT);
+        } //отписка от установленной компании
         else if (companyInfo != null) {
             dbService.unscribe(vkUid, companyInfo.getId());
-            return new ResponseEntity<>(companyInfo, HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.OK);
         } //отписываемся ото всех компаний, на которые подписаны
         else {
             dbService.unscribe(vkUid, null);
-            return new ResponseEntity<>(companyInfo, HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.OK);
         }
     }
 
@@ -94,14 +98,16 @@ public class ExternalAPIController {
     //получить сообщение и адресатов по критериям
     @GetMapping(value = "/company/{code}/messages")
     @ResponseBody
-    public ResponseEntity<?> getMessageAndRecipients(@PathVariable("code")Long code, @RequestParam("vk_uid") String vkUid) {
+    public ResponseEntity<?> getMessageAndRecipients(@PathVariable("code") Long code, @RequestParam("vk_uid") String vkUid) {
         CompanyDTO companyInfo = dbService.getCompanyInfo(code);
-        if (companyInfo == null)
+        if (companyInfo == null) {
             return new ResponseEntity<>(new ErrorResponse("компании с заданным code не суествует"), HttpStatus.BAD_REQUEST);
+        }
         //кол-во сообщений, которые юзер готов отправлять за кампанию ежедневно
-        Integer count = dbService.getCountMessagesByCompanyId(companyInfo.getId(), vkUid);  
-        if (count == null)
-            return new ResponseEntity<>(new ErrorResponse("юзер с заданным vk_uid не подписан на рассылку по данной кампании"), HttpStatus.ACCEPTED);
+        Integer count = dbService.getCountMessagesByCompanyId(companyInfo.getId(), vkUid);
+        if (count == null) {
+            return new ResponseEntity<>(new ErrorResponse("юзер с заданным vk_uid не подписан на рассылку по данной кампании"), HttpStatus.CONFLICT);
+        }
         List<CriteriaDTO> listCriteria = dbService.getCriteriaByCompanyId(companyInfo.getId());
         int criteriaCount = listCriteria.size();
         List<UsersToMessageDTO> responseList = new ArrayList<>();

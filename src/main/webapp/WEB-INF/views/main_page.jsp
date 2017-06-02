@@ -39,12 +39,12 @@
                            </div>
                         </div>
                         <jsp:include page="сompany_page.jsp"/>        
-                        <div class="col-lg-12" id="add_criteria">
+                        <div class="col-lg-12 toggle_visible" id="add_criteria" style="display: none;">
                             <div class="panel panel-default">
                                 <div class="panel-heading">
                                     Cоздать новый критерий в <b class="company_title"></b>
                                 </div>
-                                <div class="panel-body">
+                                <div class="panel-body"> 
                                     <jsp:include page="optional_select.jsp"/>                                                                     
                                     <br><hr><br>
                                     <table>
@@ -274,8 +274,7 @@
                                                 </button>
                                             </td>
                                         </tr>
-                                    </table>
-                                        
+                                    </table>                                    
                                 </div>
                             </div>
                         </div>    

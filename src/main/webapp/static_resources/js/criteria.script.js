@@ -29,7 +29,7 @@ $(document).ready(function () {
                         function (data) {
                             var faculty; 
                             $('#select_fac').append($('<option>', {
-                                    value: -1,
+                                    value: '',
                                     text: 'выберите факультет'
                             }))
                             for (var i = 0; i < data.length; i++) {
@@ -49,7 +49,7 @@ $(document).ready(function () {
                         function (data) {
                             var chair; 
                             $('#select_chair').append($('<option>', {
-                                    value: -1,
+                                    value: '',
                                     text: 'выберите кафедру'
                             }));
                             for (var i = 0; i < data.length; i++) {
@@ -70,7 +70,7 @@ $(document).ready(function () {
                             console.log(data);
                             var city; 
                             $('#select_school_city').append($('<option>', {
-                                    value: -1,
+                                    value: '',
                                     text: 'выберите город'
                             }));
                             for (var i = 0; i < data.length; i++) {

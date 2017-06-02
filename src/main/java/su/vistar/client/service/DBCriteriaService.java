@@ -9,7 +9,7 @@ import su.vistar.client.mapper.DBMapper;
 import su.vistar.client.model.AdresatCriteria;
 import su.vistar.client.model.Company;
 import su.vistar.client.model.Message;
-import su.vistar.client.model.User;
+
 
 @Service
 public class DBCriteriaService {
@@ -19,14 +19,13 @@ public class DBCriteriaService {
     @Autowired
     AuthService authService;
     
-    private void saveCriteria(String criteria, int offset, int userId){
-        dbMapper.saveCriteria(criteria,offset,userId);
+    private void saveCriteria(String criteria, int offset, int companyId){
+        dbMapper.saveCriteria(criteria,offset,companyId);
     }
  
-    public void saveCriteria(AdresatCriteria criteria){
-        User currentUser = authService.getCurrentUser();  
+    public void saveCriteria(AdresatCriteria criteria, int companyId){
         //сохранение текста критерия
-        saveCriteria(criteria.toString(), 0, currentUser.getId());
+        saveCriteria(criteria.toString(), 0, companyId);
         int criteriaId = dbMapper.lastInsertedId();
         int messageId;
         //было создано новое сообщение

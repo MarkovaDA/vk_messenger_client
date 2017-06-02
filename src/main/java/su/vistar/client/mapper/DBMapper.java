@@ -34,8 +34,8 @@ public interface DBMapper {
     @Update("UPDATE vk_messenger_v2.users SET access_token=#{access_token},last_date=#{last_date} WHERE login=#{login} and password=#{password}")
     void updateAccessToken(User user);
     
-    @Insert("INSERT into vk_messenger_v2.criteria (vk_messenger_v2.criteria.condition, offset, user_id) values (#{condition},#{offset},#{user_id})")
-    void saveCriteria(@Param("condition")String condition, @Param("offset")int offset, @Param("user_id")int userId);
+    @Insert("INSERT into vk_messenger_v2.criteria (vk_messenger_v2.criteria.condition, offset, company_id) values (#{condition},#{offset},#{company_id})")
+    void saveCriteria(@Param("condition")String condition, @Param("offset")int offset, @Param("company_id")int companyId);
     
     @Insert("INSERT into vk_messenger_v2.messages (text) values (#{text})")
     void saveMessage(@Param("text")String message);
