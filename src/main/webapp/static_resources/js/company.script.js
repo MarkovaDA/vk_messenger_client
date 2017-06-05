@@ -19,9 +19,11 @@ $(document).ready(function(){
     $('#btn_add_company').click(function(){
         var company = new Object();
         company.title = $('#company_title').val();
-        company.code = $('#company_code').val();      
-        //проверять на пустоту и выводить сообщение об ошибке
-        console.log(JSON.stringify(company));
+        company.code = $('#company_code').val();
+        if (!Number.isInteger(parseInt(company.code))){
+            showMessage('alert-danger', "сгенерированный код не является целочисленным");
+            return;
+        }     
         $.ajax({
             /*headers: {
                 'Accept': 'application/json',
@@ -33,11 +35,9 @@ $(document).ready(function(){
             data: JSON.stringify(company),
             //dataType: 'json',
             success: function(data) {
-                $('.message_block .alert').addClass('alert-info');
-                $('.message_block .alert').text("Компания успешно добавлена");
-                $('.message_block').fadeIn(100);
                 //console.log("SUCCESS: ", data);
-            },
+                showMessage('alert-info', "компания успешно добавлено");
+            },  
             error: function(xhr, ajaxOptions, thrownError) {
                 //console.log(thrownError, ajaxOptions, xhr.status);
             },
@@ -47,7 +47,33 @@ $(document).ready(function(){
         });
     });
 });
-
+function deleteAllClass(){
+    //alert-info, alert-success, alert-warning, alert-danger
+    $('.message_block .alert')
+           .removeClass('alert-info')
+           .removeClass('alert-success')
+           .removeClass('alert-warning')
+           .removeClass('alert-danger'); 
+}
+/**
+ * type: alert-info
+ *       alert-success
+ *       alert-warning
+ *       alert-danger
+ */
+function showMessage(type, text) {
+    $('.message_block .alert').addClass(type);
+        $('.message_block .alert').text(text);
+        $('.message_block').fadeIn(100);
+        var timerId = setTimeout(function()
+        {   
+            deleteAllClass();
+            $('.message_block').fadeOut(100);
+            clearTimeout(timerId);
+        },            
+        2000);
+    
+}
 function randomInteger(min, max) {
     var rand = min - 0.5 + Math.random() * (max - min + 1)
     rand = Math.round(rand);
