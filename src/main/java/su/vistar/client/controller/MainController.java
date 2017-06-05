@@ -10,7 +10,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,7 +19,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 import su.vistar.client.model.Company;
 
@@ -57,24 +55,44 @@ public class MainController {
     
     @PostMapping(value = "/save_criteria/{company_code}")
     @ResponseBody
-    @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<?> saveCriteria(@RequestBody AdresatCriteria criteria, 
             @PathVariable("company_code")Long companyCode){
-        int companyId = criteriaService.getCompanyByCode(companyCode).getId();
+        Company company = criteriaService.getCompanyByCode(companyCode);
+        if (company == null)
+            return new ResponseEntity<>("error code", HttpStatus.BAD_REQUEST);
+        int companyId = company.getId();
         criteriaService.saveCriteria(criteria, companyId);
         return new ResponseEntity<>("success saving", HttpStatus.OK);
     }
+   
+   
     //produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE
     @PostMapping(value = "/add_company")
     @ResponseBody
     public ResponseEntity<?> addCompany(@RequestBody Company company){
         ResponseEntity<String> response;
         company.setUser_id(authService.getCurrentUser().getId());
-        int count =  criteriaService.addCompany(company);
+        Integer count =  criteriaService.addCompany(company);
+        count = (count != null) ? count : 0;
         if (count > 0)
             response = new ResponseEntity<>("success inserting", HttpStatus.OK);
         else 
             response = new ResponseEntity<>("error inserting", HttpStatus.BAD_REQUEST);
+        return response;
+    }
+    
+    @PostMapping(value = "/update_company")
+    @ResponseBody
+    public ResponseEntity<?> updateCompany(@RequestBody Company company){
+        //отработать событие,когда код используется уже
+        company.setUser_id(authService.getCurrentUser().getId());
+        Integer count =  criteriaService.updateCompany(company);
+        count = (count != null) ? count : 0;
+        ResponseEntity<String> response;
+        if (count > 0)
+            response = new ResponseEntity<>("success updating", HttpStatus.OK);
+        else 
+            response = new ResponseEntity<>("error updating", HttpStatus.BAD_REQUEST);
         return response;
     }
        

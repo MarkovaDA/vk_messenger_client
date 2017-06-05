@@ -16,7 +16,7 @@
             <br><br>
             <input type="text" class="form-control" placeholder="код компании" id="txt_company_code">
             <br>
-            <button class = "btn btn-default">обновить код</button>
+            <button class = "btn btn-default" id="btn_update_company">обновить код</button>
         </div> 
     </div>
 </div>

@@ -34,7 +34,12 @@ $(document).ready(function () {
         criteria.message_id = "";
     });
     //считываем значение остальных, текстовых полей
-    $('#btn_add').click(function () {        
+    $('#btn_add').click(function () {
+        //проверка содержимого сообщения
+        if (isEmptyValue($('#message_field').text())){
+            showMessage('alert-danger', "сообщение не выбрано/не указано");
+            return;
+        }
         var propertyName, propertyValue;
         $('.readable').each(function(){
             propertyName = $(this).attr('property');
@@ -48,7 +53,7 @@ $(document).ready(function () {
             if (!isEmptyValue(key) && !isEmptyValue(criteria[key]))
                 criteriaString += key + "=" + criteria[key] + "&";
         }
-        console.log(criteriaString);
+        //console.log(criteriaString);
         //criteriaString = criteriaString.substring(0, criteriaString.length-2);
         var serverObject = new Object();
         serverObject.criteriaString = criteriaString;
@@ -56,23 +61,20 @@ $(document).ready(function () {
         serverObject.message_id = $('#selected_mes_id').val();
         var company_code = $('#txt_company_code').val();
         //отправка критерия на сервер
-        /*$.ajax({
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
+        $.ajax({
+            'contentType' : "application/json",
             'type': 'POST',
             'url': 'save_criteria/'+ company_code,
             'data': JSON.stringify(serverObject),
-            'dataType': 'json',
             success: function(data){
-                console.log(data);
+                console.log("SUCCESS: ", data);               
+                showMessage('alert-info', "критерий успешно добавлен");
             },
             error:function(jqXHR, textStatus, errorThrown){
                 console.log(jqXHR + textStatus+errorThrown);
+                showMessage('alert-danger', "ошибка добавления критерия");
             }
-        });*/
-        //updating message performance
+        });
         getAllMessagesToList();
     });   
 });

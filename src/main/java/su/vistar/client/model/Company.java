@@ -3,7 +3,7 @@ package su.vistar.client.model;
 
 public class Company {
     private String title;//название компании
-    private String code;//код компании
+    private Long code;//код компании
     private Integer user_id;
     private Integer id;
 
@@ -31,11 +31,11 @@ public class Company {
         this.title = title;
     }
 
-    public String getCode() {
+    public Long getCode() {
         return code;
     }
 
-    public void setCode(String code) {
+    public void setCode(Long code) {
         this.code = code;
     }
     

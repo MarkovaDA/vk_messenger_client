@@ -39,41 +39,36 @@ public class DBCriteriaService {
             dbMapper.saveMessageCriteria(criteriaId, messageId);
         }
     }
-    public int addCompany(Company company){
+    public Integer addCompany(Company company){
        return dbMapper.addCompany(company);
+    }    
+    public Integer updateCompany(Company company){
+        return dbMapper.updateCompany(company);
     }
-    
     public List<Message> getMessages(){
         return dbMapper.getAllMessage();
-    }
-    
+    }   
     public Message getMessageById(Integer mesId){
         return dbMapper.getMessageById(mesId);
-    }
-    
+    }   
     public int subscribe(Long vkUid, int companyId, int countCompany){
         return dbMapper.subscribe(vkUid, companyId, countCompany);
-    }
-    
+    }    
     public Company getCompanyByCode(Long code){
         return dbMapper.getCompanyByCode(code);
-    }
-    
+    }    
     public Object tryUnigueSubscribe(Long vkUid, int companyId){
         return dbMapper.tryUnigueSubscribe(vkUid, companyId);
-    }
-    
+    }    
     public int unscribe(Long vkUid, Integer companyId){
         if (companyId != null){           
             return dbMapper.unscribeFromCompany(vkUid, companyId);
         }
         else return dbMapper.unscribeFromAll(vkUid);
-    }
-    
+    }    
     public List<CompanyDTO> getCompanies(String vkUid){
         return dbMapper.getCompanies(vkUid);
     }
-
     public CompanyDTO getCompanyInfo(Long companyCode){     
         return dbMapper.getCompanyInfo(companyCode);
     }
