@@ -19,18 +19,17 @@
     <body>
         <div id="wrapper">
            <jsp:include page="sidebar.jsp"/>
-            <div id="page-content-wrapper">
-                <div class="container-fluid">
-                    
+            <div id="page-content-wrapper">              
+                <div class="container-fluid" style="position:relative!important;">
                     <div class="row">
                         <div class="col-lg-2">
                              <!-- кнопка динамического открытия меню-->
                              <button class = "btn btn-default" id='btn_open_menu'>
                                 <span class="glyphicon glyphicon-th-large"></span>     
                              </button>
-                        </div>
-                        <div class="col-lg-offset-7 col-lg-3">
-                            <!-- имя пользователя-->
+                        </div>        
+                        <!-- имя пользователя-->
+                        <div class="col-lg-offset-7 col-lg-3">                            
                            <div class="panel panel-default">
                                <div class="panel-body">
                                    <span class="glyphicon glyphicon-home"></span>
@@ -38,6 +37,7 @@
                                </div>
                            </div>
                         </div>
+                        <jsp:include page="message_zone.jsp"/>
                         <jsp:include page="сompany_page.jsp"/>        
                         <div class="col-lg-12 toggle_visible" id="add_criteria" style="display: none;">
                             <div class="panel panel-default">

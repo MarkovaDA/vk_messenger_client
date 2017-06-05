@@ -21,28 +21,30 @@ $(document).ready(function(){
         company.title = $('#company_title').val();
         company.code = $('#company_code').val();      
         //проверять на пустоту и выводить сообщение об ошибке
-         /*headers: {
+        console.log(JSON.stringify(company));
+        $.ajax({
+            /*headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
-         },*/
-        /*$.ajax({           
-            //ответ интерпретируется как ошибка
+            },*/            
             contentType : "application/json",
             type: 'POST',
             url: 'add_company',
             data: JSON.stringify(company),
+            //dataType: 'json',
             success: function(data) {
-                console.log("SUCCESS: ", data);
+                $('.message_block .alert').addClass('alert-info');
+                $('.message_block .alert').text("Компания успешно добавлена");
+                $('.message_block').fadeIn(100);
+                //console.log("SUCCESS: ", data);
             },
             error: function(xhr, ajaxOptions, thrownError) {
-                console.log(thrownError, ajaxOptions, xhr.status);
+                //console.log(thrownError, ajaxOptions, xhr.status);
             },
             done: function(e) {
-                console.log("DONE");
-            },          
-            dataType: 'json'
-        });*/
-        //тестирвоание работы апи
+                //console.log("DONE");
+            }                    
+        });
     });
 });
 

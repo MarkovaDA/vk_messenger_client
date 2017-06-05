@@ -1,3 +1,8 @@
 table tr{
     display: none;
 }
+.message_block{
+   position: absolute!important; 
+   top: 0px;
+   display: none;
+}

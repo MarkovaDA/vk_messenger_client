@@ -64,11 +64,10 @@ public class MainController {
         criteriaService.saveCriteria(criteria, companyId);
         return new ResponseEntity<>("success saving", HttpStatus.OK);
     }
-    
-    @PostMapping(value = "/add_company", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.OK)
+    //produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE
+    @PostMapping(value = "/add_company")
     @ResponseBody
-    public ResponseEntity<String> addCompany(@RequestBody Company company){
+    public ResponseEntity<?> addCompany(@RequestBody Company company){
         ResponseEntity<String> response;
         company.setUser_id(authService.getCurrentUser().getId());
         int count =  criteriaService.addCompany(company);

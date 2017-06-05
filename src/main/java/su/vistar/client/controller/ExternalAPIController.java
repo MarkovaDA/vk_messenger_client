@@ -57,6 +57,7 @@ public class ExternalAPIController {
             return new ResponseEntity<>(companyInfo, HttpStatus.OK);
         }
     }
+    //если подписка есть, то изменить
 
     //отписаться
     @PostMapping(value = "/company/{code}/unsubscribe")
@@ -84,7 +85,7 @@ public class ExternalAPIController {
         }
     }
 
-    //запрос на список компаний, на которые осуществляется подписка
+    //запрос на список компаний, на которые осуществляется подписка (+)добавить кол-во собщений
     @GetMapping(value = "/subscriptions")
     @ResponseBody
     public ResponseEntity<?> getCompanies(@RequestParam("vk_uid") String vkUid) {
@@ -95,7 +96,7 @@ public class ExternalAPIController {
         return new ResponseEntity<>(companies, HttpStatus.OK);
     }
 
-    //получить сообщение и адресатов по критериям
+    //получить сообщение и адресатов по критериям 
     @GetMapping(value = "/company/{code}/messages")
     @ResponseBody
     public ResponseEntity<?> getMessageAndRecipients(@PathVariable("code") Long code, @RequestParam("vk_uid") String vkUid) {
