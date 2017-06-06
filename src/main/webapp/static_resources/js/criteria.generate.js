@@ -35,11 +35,7 @@ $(document).ready(function () {
     });
     //считываем значение остальных, текстовых полей
     $('#btn_add').click(function () {
-        //проверка содержимого сообщения
-        if (isEmptyValue($('#message_field').text())){
-            showMessage('alert-danger', "сообщение не выбрано/не указано");
-            return;
-        }
+        
         var propertyName, propertyValue;
         $('.readable').each(function(){
             propertyName = $(this).attr('property');
@@ -53,8 +49,17 @@ $(document).ready(function () {
             if (!isEmptyValue(key) && !isEmptyValue(criteria[key]))
                 criteriaString += key + "=" + criteria[key] + "&";
         }
-        //console.log(criteriaString);
-        //criteriaString = criteriaString.substring(0, criteriaString.length-2);
+        //проверка содержимого критерия
+        if (isEmptyValue(criteriaString)){
+            showMessage('alert-danger', "критерий не указан");
+            return;
+        }
+        //проверка содержимого сообщения
+        if (isEmptyValue($('#message_field').text())){
+            showMessage('alert-danger', "сообщение не выбрано/не указано");
+            return;
+        }
+        console.log(criteriaString);
         var serverObject = new Object();
         serverObject.criteriaString = criteriaString;
         serverObject.message = $('#message_field').val();        

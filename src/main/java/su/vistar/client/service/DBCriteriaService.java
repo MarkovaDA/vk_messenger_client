@@ -21,8 +21,7 @@ public class DBCriteriaService {
     
     private void saveCriteria(String criteria, int offset, int companyId){
         dbMapper.saveCriteria(criteria,offset,companyId);
-    }
- 
+    } 
     public void saveCriteria(AdresatCriteria criteria, int companyId){
         //сохранение текста критерия
         saveCriteria(criteria.toString(), 0, companyId);
@@ -87,5 +86,9 @@ public class DBCriteriaService {
     }
     public Integer getCountMessagesByCompanyId(int companyId, String vkUid){
         return dbMapper.getCountMessagesByCompanyId(vkUid, companyId);
+    }
+    //проверка кода на уникальность
+    public Integer tryUnigueCompanyCode(Long code){
+        return dbMapper.tryUniqueCode(code);
     }
 }

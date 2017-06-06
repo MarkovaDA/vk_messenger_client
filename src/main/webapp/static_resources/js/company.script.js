@@ -20,22 +20,22 @@ $(document).ready(function(){
     $('#btn_update_company').click(function(){
         var company = new Object();
         company.title = company_title;
-        company.code =  $('#txt_company_code').val();//сюда новое значение нужно
-        console.log(company);
+        company.code =  $('#txt_company_code').val();//сюда новое значение нужно        
         if (!Number.isInteger(parseInt(company.code))){
             showMessage('alert-danger', "обновленный код не является целочисленным");
             return;
         }
+        //может указать dataType нужно? чтобы срабатывал?
         $.ajax({          
             contentType : "application/json",
             type: 'POST',
             url: 'update_company',
             data: JSON.stringify(company),
-            success: function() {
+            success: function(data) {
                 showMessage('alert-info', "код обновлен успешно");
             },  
             error: function(xhr, ajaxOptions, thrownError) {
-                showMessage('alert-danger', "в процессе обновления кода произошла ошибка");
+                showMessage('alert-danger', "ошибка обновления");
             }
         });
         
@@ -77,7 +77,7 @@ function deleteAllClass(){
            .removeClass('alert-warning')
            .removeClass('alert-danger'); 
 }
-/**
+/*
  * Отображение всплывающего сообщения со статусом выполнения
  * type: alert-info
  *       alert-success
@@ -88,6 +88,8 @@ function showMessage(type, text) {
     $('.message_block .alert').addClass(type);
         $('.message_block .alert').text(text);
         $('.message_block').fadeIn(100);
+        //прокрутка к всплывающему сообщению
+        scrollUp();
         var timerId = setTimeout(function()
         {   
             deleteAllClass();
@@ -97,6 +99,7 @@ function showMessage(type, text) {
         2000);
     
 }
+/*генерирование рандомного кода*/
 function randomInteger(min, max) {
     var rand = min - 0.5 + Math.random() * (max - min + 1)
     rand = Math.round(rand);

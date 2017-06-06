@@ -9,7 +9,9 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -41,7 +43,6 @@ public class MainController {
         User currentUser = authService.getCurrentUser();
         //здесь список компаний
         //String  token = currentUser.getAccess_token();   
-        //model.addAttribute("accessToken", token);
         model.addAttribute("login", currentUser.getLogin());
         try {
             model.addAttribute("companies", authService.getCompanies(currentUser.getId()));
@@ -52,21 +53,20 @@ public class MainController {
         }
         return new ModelAndView("main_page");
     }
-    
+    //разобраться с заголовками и возвращаемыми ответами
     @PostMapping(value = "/save_criteria/{company_code}")
     @ResponseBody
     public ResponseEntity<?> saveCriteria(@RequestBody AdresatCriteria criteria, 
             @PathVariable("company_code")Long companyCode){
         Company company = criteriaService.getCompanyByCode(companyCode);
         if (company == null)
-            return new ResponseEntity<>("error code", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("ошибка добавления критерия", HttpStatus.BAD_REQUEST);
         int companyId = company.getId();
         criteriaService.saveCriteria(criteria, companyId);
-        return new ResponseEntity<>("success saving", HttpStatus.OK);
+        return new ResponseEntity<>("критерий успешно добавлен", HttpStatus.OK);
     }
    
-   
-    //produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE
+
     @PostMapping(value = "/add_company")
     @ResponseBody
     public ResponseEntity<?> addCompany(@RequestBody Company company){
@@ -75,24 +75,28 @@ public class MainController {
         Integer count =  criteriaService.addCompany(company);
         count = (count != null) ? count : 0;
         if (count > 0)
-            response = new ResponseEntity<>("success inserting", HttpStatus.OK);
+            response = new ResponseEntity<>("кампания добавлена успешно", HttpStatus.OK);
         else 
-            response = new ResponseEntity<>("error inserting", HttpStatus.BAD_REQUEST);
+            response = new ResponseEntity<>("ошибка обновления кода кампании", HttpStatus.BAD_REQUEST);
         return response;
     }
     
     @PostMapping(value = "/update_company")
     @ResponseBody
     public ResponseEntity<?> updateCompany(@RequestBody Company company){
-        //отработать событие,когда код используется уже
+        
+        Integer isUniqueCode = criteriaService.tryUnigueCompanyCode(company.getCode());
+        isUniqueCode = (isUniqueCode != null) ? isUniqueCode : 0;
+        if (isUniqueCode > 0)            
+            return new ResponseEntity<>("предложенный код уже используется", HttpStatus.CONFLICT);         
         company.setUser_id(authService.getCurrentUser().getId());
         Integer count =  criteriaService.updateCompany(company);
         count = (count != null) ? count : 0;
         ResponseEntity<String> response;
         if (count > 0)
-            response = new ResponseEntity<>("success updating", HttpStatus.OK);
+            response = new ResponseEntity<>("код успешно обновлен", HttpStatus.OK);
         else 
-            response = new ResponseEntity<>("error updating", HttpStatus.BAD_REQUEST);
+            response = new ResponseEntity<>("ошибка обновления кода", HttpStatus.BAD_REQUEST);          
         return response;
     }
        

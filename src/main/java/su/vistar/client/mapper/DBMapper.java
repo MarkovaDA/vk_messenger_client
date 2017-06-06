@@ -95,4 +95,7 @@ public interface DBMapper {
     
     @Select("SELECT message_count from vk_messenger_v2.sendors where vk_uid=#{vk_uid} and company_id=#{company_id}")
     Integer getCountMessagesByCompanyId(@Param("vk_uid")String vkUid,@Param("company_id")Integer companyId);
+    
+    @Select("SELECT * from vk_messenger_v2.company where code=#{code}")
+    Integer tryUniqueCode(@Param("code")Long code);
 }
