@@ -12,12 +12,14 @@ $(document).ready(function () {
         if (String(newValue)==='true'){
             $('#' + prop).find('select').addClass('readable');
             $('#' + prop).find('input').addClass('readable');
+            $('#' + prop).find('textarea').addClass('readable');
             $('#' + prop).fadeIn(100);           
         }
         if (String(newValue)==='false'){
             delete criteria[prop];
             $('#' + prop).find('select').removeClass('readable');
             $('#' + prop).find('input').removeClass('readable');
+            $('#' + prop).find('textarea').removeClass('readable');
             $('#' + prop).fadeOut(100);          
         }     
     });
@@ -34,9 +36,9 @@ $(document).ready(function () {
         criteria.message_id = "";
     });
     //считываем значение остальных, текстовых полей
-    $('#btn_add').click(function () {
-        
+    $('#btn_add').click(function () {       
         var propertyName, propertyValue;
+        //значение считывается только с селекта (?)
         $('.readable').each(function(){
             propertyName = $(this).attr('property');
             propertyValue = $(this).val();           
@@ -49,38 +51,38 @@ $(document).ready(function () {
             if (!isEmptyValue(key) && !isEmptyValue(criteria[key]))
                 criteriaString += key + "=" + criteria[key] + "&";
         }
+        //console.log(criteriaString);
+        //отладить этот модуль!!!!!!!!!!!!!
+        console.log($('#message_field').val());
         //проверка содержимого критерия
         if (isEmptyValue(criteriaString)){
             showMessage('alert-danger', "критерий не указан");
             return;
         }
         //проверка содержимого сообщения
-        if (isEmptyValue($('#message_field').text())){
+        if (isEmptyValue($('#message_field').val())){
             showMessage('alert-danger', "сообщение не выбрано/не указано");
             return;
         }
-        console.log(criteriaString);
         var serverObject = new Object();
         serverObject.criteriaString = criteriaString;
-        serverObject.message = $('#message_field').val();        
+        serverObject.message =$('#message_field').text();        
         serverObject.message_id = $('#selected_mes_id').val();
         var company_code = $('#txt_company_code').val();
         //отправка критерия на сервер
-        $.ajax({
+        /*$.ajax({
             'contentType' : "application/json",
             'type': 'POST',
             'url': 'save_criteria/'+ company_code,
             'data': JSON.stringify(serverObject),
-            success: function(data){
-                console.log("SUCCESS: ", data);               
-                showMessage('alert-info', "критерий успешно добавлен");
+            success: function(data){            
+                showMessage('alert-info',data);
             },
             error:function(jqXHR, textStatus, errorThrown){
-                console.log(jqXHR + textStatus+errorThrown);
-                showMessage('alert-danger', "ошибка добавления критерия");
+                showMessage('alert-danger', xhr.responseJSON);
             }
         });
-        getAllMessagesToList();
+        getAllMessagesToList();*/
     });   
 });
 

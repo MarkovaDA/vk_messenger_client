@@ -27,15 +27,17 @@ $(document).ready(function(){
         }
         //может указать dataType нужно? чтобы срабатывал?
         $.ajax({          
-            contentType : "application/json",
+            contentType : 'application/json',
             type: 'POST',
             url: 'update_company',
             data: JSON.stringify(company),
+            dataType: 'json',
             success: function(data) {
-                showMessage('alert-info', "код обновлен успешно");
+                showMessage('alert-info', data);
             },  
             error: function(xhr, ajaxOptions, thrownError) {
-                showMessage('alert-danger', "ошибка обновления");
+                console.log(xhr,ajaxOptions,thrownError);
+                showMessage('alert-danger', xhr.responseJSON);
             }
         });
         
@@ -53,18 +55,17 @@ $(document).ready(function(){
             /*headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
-            },*/            
+            }*/        
             contentType : "application/json",
             type: 'POST',
             url: 'add_company',
             data: JSON.stringify(company),
-            //dataType: 'json',
-            success: function() {
-                showMessage('alert-info', "компания успешно добавлено");
+            dataType: 'json',
+            success: function(data) {
+                showMessage('alert-info', data);
             },  
             error: function(xhr, ajaxOptions, thrownError) {
-                showMessage('alert-danger', "в процессе добавления компании произошла ошибка");
-                //console.log(thrownError, ajaxOptions, xhr.status);
+                showMessage('alert-danger', xhr.responseJSON);
             }                   
         });
     });

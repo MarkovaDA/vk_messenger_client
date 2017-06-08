@@ -237,13 +237,49 @@
                                             <td>
                                                 <input property="age_to" class="form-control for_reading" type="number" id="age_to_field" min="10" max="50" step="1"></input>
                                             </td>
-                                        </tr>
-                                        <!--профессия-->
-                                        <tr>
-                                            <td><span class="label label-primary">Профессия</span></td>
+                                        </tr>                                  
+                                        <!-- интересы -->
+                                        <tr id="interests">
+                                            <td><span class="label label-primary">Интересы</span></td>
                                             <td>
                                                 <div class="form-group">
-                                                    <textarea  class="form-control for_reading" id="job_field"></textarea>
+                                                    <textarea property="interests" class="form-control for_reading" ></textarea>
+                                                </div>                                               
+                                            </td>                                       
+                                        </tr>
+                                        <!-- место работы -->
+                                        <tr id="company">
+                                            <td><span class="label label-primary">Место работы</span></td>
+                                            <td>
+                                                <div class="form-group">
+                                                    <textarea property="company" class="form-control for_reading" ></textarea>
+                                                </div>                                               
+                                            </td>                                       
+                                        </tr>
+                                        <!--профессия-->
+                                        <tr id="position">
+                                            <td><span class="label label-primary">Должность</span></td>
+                                            <td>
+                                                <div class="form-group">
+                                                    <input property="position" class="form-control for_reading">
+                                                </div>                                               
+                                            </td>                                       
+                                        </tr>
+                                        <!--идентификатор группы, откуда ведется поиск-->
+                                        <tr id="group_id">
+                                            <td><span class="label label-primary">Группа поиска</span></td>
+                                            <td>
+                                                <div class="form-group">
+                                                    <input property="group_id" class="form-control for_reading">
+                                                </div>                                               
+                                            </td>                                       
+                                        </tr>
+                                        <!--идентификатор группы, откуда ведется поиск-->
+                                        <tr id="from_list">
+                                            <td><span class="label label-primary">Разделы поиска</span></td>
+                                            <td>
+                                                <div class="form-group">
+                                                    <input property="from_list" class="form-control for_reading">
                                                 </div>                                               
                                             </td>                                       
                                         </tr>

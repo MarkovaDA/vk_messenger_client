@@ -1,5 +1,6 @@
 package su.vistar.client.controller;
 
+import com.google.gson.Gson;
 import su.vistar.client.model.AdresatCriteria;
 import su.vistar.client.model.User;
 import su.vistar.client.service.AuthService;
@@ -37,7 +38,9 @@ public class MainController {
     @Autowired
     AuthService authService;
     
-   
+    //дополнительный json-конвертер
+    private static final Gson gson = new Gson();
+    
     @GetMapping(value = "/tools_options")
     public ModelAndView getToolPage(Model model){
         User currentUser = authService.getCurrentUser();
@@ -53,50 +56,62 @@ public class MainController {
         }
         return new ModelAndView("main_page");
     }
-    //разобраться с заголовками и возвращаемыми ответами
-    @PostMapping(value = "/save_criteria/{company_code}")
+
+    
+    @PostMapping(value = "/save_criteria/{company_code}",  
+            produces = "application/json;charset=UTF-8")
     @ResponseBody
     public ResponseEntity<?> saveCriteria(@RequestBody AdresatCriteria criteria, 
             @PathVariable("company_code")Long companyCode){
         Company company = criteriaService.getCompanyByCode(companyCode);
         if (company == null)
-            return new ResponseEntity<>("ошибка добавления критерия", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(gson.toJson("ошибка добавления критерия"), HttpStatus.BAD_REQUEST);
         int companyId = company.getId();
         criteriaService.saveCriteria(criteria, companyId);
-        return new ResponseEntity<>("критерий успешно добавлен", HttpStatus.OK);
+        return new ResponseEntity<>(gson.toJson("критерий успешно добавлен"), HttpStatus.OK);
     }
    
 
-    @PostMapping(value = "/add_company")
+    @PostMapping(value = "/add_company", produces = "application/json;charset=UTF-8"
+    /*MediaType.APPLICATION_JSON_VALUE*/)
     @ResponseBody
     public ResponseEntity<?> addCompany(@RequestBody Company company){
         ResponseEntity<String> response;
+        Integer isUniqueCode = criteriaService.tryUnigueCompanyCode(company.getCode());
+        isUniqueCode = (isUniqueCode != null) ? isUniqueCode : 0;
+        if (isUniqueCode > 0)            
+            return new ResponseEntity<>(gson.toJson("Такой код кампании уже используется"), HttpStatus.CONFLICT);
+        Integer isUniqueTitle = criteriaService.tryUniqueCompanyTitle(company.getTitle());
+        isUniqueTitle = (isUniqueTitle != null) ? isUniqueTitle : 0;
+        if (isUniqueTitle > 0)            
+            return new ResponseEntity<>(gson.toJson("Такое название кампании уже используется"), HttpStatus.CONFLICT);
         company.setUser_id(authService.getCurrentUser().getId());
         Integer count =  criteriaService.addCompany(company);
+        //проверить код и название на уникальность
         count = (count != null) ? count : 0;
         if (count > 0)
-            response = new ResponseEntity<>("кампания добавлена успешно", HttpStatus.OK);
+            response = new ResponseEntity<>(gson.toJson("кампания добавлена успешно"), HttpStatus.OK);
         else 
-            response = new ResponseEntity<>("ошибка обновления кода кампании", HttpStatus.BAD_REQUEST);
+            response = new ResponseEntity<>(gson.toJson("ошибка обновления кода кампании"), HttpStatus.BAD_REQUEST);
         return response;
     }
     
-    @PostMapping(value = "/update_company")
+    @PostMapping(value = "/update_company", produces = "application/json;charset=UTF-8")
     @ResponseBody
     public ResponseEntity<?> updateCompany(@RequestBody Company company){
         
         Integer isUniqueCode = criteriaService.tryUnigueCompanyCode(company.getCode());
         isUniqueCode = (isUniqueCode != null) ? isUniqueCode : 0;
         if (isUniqueCode > 0)            
-            return new ResponseEntity<>("предложенный код уже используется", HttpStatus.CONFLICT);         
+            return new ResponseEntity<>(gson.toJson("предложенный код уже используется"), HttpStatus.CONFLICT);         
         company.setUser_id(authService.getCurrentUser().getId());
-        Integer count =  criteriaService.updateCompany(company);
+        Integer count =  criteriaService.updateCompanyCode(company);
         count = (count != null) ? count : 0;
         ResponseEntity<String> response;
         if (count > 0)
-            response = new ResponseEntity<>("код успешно обновлен", HttpStatus.OK);
+            response = new ResponseEntity<>(gson.toJson("код успешно обновлен"), HttpStatus.OK);
         else 
-            response = new ResponseEntity<>("ошибка обновления кода", HttpStatus.BAD_REQUEST);          
+            response = new ResponseEntity<>(gson.toJson("ошибка обновления кода"), HttpStatus.BAD_REQUEST);          
         return response;
     }
        

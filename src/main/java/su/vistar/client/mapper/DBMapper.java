@@ -9,7 +9,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.springframework.transaction.annotation.Transactional;
-import su.vistar.client.dto.CompanyDTO;
+import su.vistar.client.dto.UserToCompanyDTO;
 import su.vistar.client.dto.CriteriaDTO;
 import su.vistar.client.model.Company;
 
@@ -26,7 +26,7 @@ public interface DBMapper {
     Integer addCompany(Company company);
     
     @Update("UPDATE vk_messenger_v2.company set code=#{code} where title=#{title} and user_id=#{user_id}")
-    Integer updateCompany(Company company);
+    Integer updateCompanyCodeByTitle(Company company);
     
     @Select("SELECT type FROM vk_messenger_v2.users left join vk_messenger_v2.user_profile " +
     "ON vk_messenger_v2.user_profile.user_id = vk_messenger_v2.users.id " +
@@ -70,15 +70,15 @@ public interface DBMapper {
     @Select("SELECT id from vk_messenger_v2.sendors where vk_uid=#{vk_uid} and company_id=#{company_id}")
     Object tryUnigueSubscribe(@Param("vk_uid")Long vkUid, @Param("company_id")int companyId);
 
-    @Select("SELECT distinct title, code, fio FROM vk_messenger_v2.company join vk_messenger_v2.sendors ON "
+    @Select("SELECT distinct title, code, fio, message_count FROM vk_messenger_v2.company join vk_messenger_v2.sendors ON "
             + "vk_messenger_v2.company.id = vk_messenger_v2.sendors.company_id "
             + "left join vk_messenger_v2.users on vk_messenger_v2.company.user_id = vk_messenger_v2.users.id "
             + "where vk_uid=#{vk_uid}")
-    List<CompanyDTO> getCompanies(@Param("vk_uid")String vkUid);
+    List<UserToCompanyDTO> getCompanies(@Param("vk_uid")String vkUid);
     
-    @Select("SELECT company.id,code, title, fio FROM vk_messenger_v2.company join " +
+    @Select("SELECT company.id, code, title, fio FROM vk_messenger_v2.company join " +
             "vk_messenger_v2.users on users.id=company.user_id where code=#{code}")
-    CompanyDTO getCompanyInfo(Long code);
+    UserToCompanyDTO getCompanyInfo(Long code);
     
     @Select("SELECT * from vk_messenger_v2.criteria where company_id=#{company_id} and considered=0")
     List<CriteriaDTO> getCriteriesByCompanyId(@Param("company_id")Integer companyId);
@@ -89,13 +89,27 @@ public interface DBMapper {
     
     @Update("UPDATE vk_messenger_v2.criteria set offset=#{offset} where id=#{criteria_id}")
     void updateOffset(@Param("criteria_id")Integer criteriaId, @Param("offset")Integer offset);
-    
+    /*не учла здесь компании, кроме текущей*/
     @Select("SELECT sum(message_count) from vk_messenger_v2.sendors where vk_uid=#{vk_uid} group by vk_uid")
-    Integer countOfSubscribesForUser(@Param("vk_uid")Long vkUid);
+    Integer countOfSubscribesForUser(@Param("vk_uid")Long vkUid);//исправить на массив значений
+    
+    @Select("SELECT message_count from vk_messenger_v2.sendors where vk_uid=#{vk_uid} and company_id=#{company_id} limit 1")
+    Integer countOfSubscribeForUser(@Param("vk_uid")Long vkUid, @Param("company_id")Integer companyId);
     
     @Select("SELECT message_count from vk_messenger_v2.sendors where vk_uid=#{vk_uid} and company_id=#{company_id}")
-    Integer getCountMessagesByCompanyId(@Param("vk_uid")String vkUid,@Param("company_id")Integer companyId);
+    Integer getCountMessagesByCompanyId(@Param("vk_uid")Long vkUid, @Param("company_id")Integer companyId);
+    
+    @Update("update vk_messenger_v2.sendors " +
+            "set message_count = #{message_count} where vk_uid=#{vk_uid} " +
+            "and company_id in " +
+            "(select id from company where code = #{code})")
+    Integer updateCompanyCode(@Param("vk_uid")Long vkUid, 
+                              @Param("message_count")Integer message_count,
+                              @Param("code")Long code);
     
     @Select("SELECT * from vk_messenger_v2.company where code=#{code}")
     Integer tryUniqueCode(@Param("code")Long code);
+    
+    @Select("SELECT * from vk_messenger_v2.company where title=#{title}")
+    Integer tryUniqueTitle(@Param("title")String title);
 }

@@ -3,7 +3,7 @@ package su.vistar.client.service;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import su.vistar.client.dto.CompanyDTO;
+import su.vistar.client.dto.UserToCompanyDTO;
 import su.vistar.client.dto.CriteriaDTO;
 import su.vistar.client.mapper.DBMapper;
 import su.vistar.client.model.AdresatCriteria;
@@ -41,8 +41,8 @@ public class DBCriteriaService {
     public Integer addCompany(Company company){
        return dbMapper.addCompany(company);
     }    
-    public Integer updateCompany(Company company){
-        return dbMapper.updateCompany(company);
+    public Integer updateCompanyCode(Company company){
+        return dbMapper.updateCompanyCodeByTitle(company);
     }
     public List<Message> getMessages(){
         return dbMapper.getAllMessage();
@@ -65,10 +65,10 @@ public class DBCriteriaService {
         }
         else return dbMapper.unscribeFromAll(vkUid);
     }    
-    public List<CompanyDTO> getCompanies(String vkUid){
+    public List<UserToCompanyDTO> getCompanies(String vkUid){
         return dbMapper.getCompanies(vkUid);
     }
-    public CompanyDTO getCompanyInfo(Long companyCode){     
+    public UserToCompanyDTO getCompanyInfo(Long companyCode){     
         return dbMapper.getCompanyInfo(companyCode);
     }
     //извлекаем активные критерии
@@ -83,12 +83,22 @@ public class DBCriteriaService {
     }
     public Integer countOfSubscribesForUser(Long vkUid){
         return dbMapper.countOfSubscribesForUser(vkUid);
+    }   
+    public Integer countOfSubscribeForUser(Long vkUid, Integer companyId){
+        return dbMapper.countOfSubscribeForUser(vkUid, companyId);
     }
-    public Integer getCountMessagesByCompanyId(int companyId, String vkUid){
+    public Integer getCountMessagesByCompanyId(int companyId, Long vkUid){
         return dbMapper.getCountMessagesByCompanyId(vkUid, companyId);
     }
     //проверка кода на уникальность
     public Integer tryUnigueCompanyCode(Long code){
         return dbMapper.tryUniqueCode(code);
+    }
+    //проверка названия кампании на уникальность
+    public Integer tryUniqueCompanyTitle(String title){
+        return dbMapper.tryUniqueTitle(title);
+    }
+    public Integer updateCompanyCode(Long vkUid, Integer messageCount, Long code){
+        return dbMapper.updateCompanyCode(vkUid, messageCount, code);
     }
 }

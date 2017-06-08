@@ -34,9 +34,9 @@
     <option value="school">школа</option>
     <option value="school_year">год окончания школы</option>
     <option value="religion">религиозные взгляды</option>
-    <option >interests</option>
-    <option >company</option>
-    <option >position</option>
-    <option>group_id</option>
-    <option>from_list</option>
+    <option value="interests">интересы</option>
+    <option value="company">место работы</option>
+    <option value="position">должность</option>
+    <option value="group_id">идентификатор группы, среди которой будем искать</option>
+    <option value="from_list">разделы,среди которых нужно осуществить поиск</option>
 </select>
