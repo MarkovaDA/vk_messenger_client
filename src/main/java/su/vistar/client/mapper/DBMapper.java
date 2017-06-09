@@ -40,6 +40,7 @@ public interface DBMapper {
     @Insert("INSERT into vk_messenger_v2.criteria (vk_messenger_v2.criteria.condition, offset, company_id) values (#{condition},#{offset},#{company_id})")
     void saveCriteria(@Param("condition")String condition, @Param("offset")int offset, @Param("company_id")int companyId);
     
+    
     @Insert("INSERT into vk_messenger_v2.messages (text) values (#{text})")
     void saveMessage(@Param("text")String message);
     
@@ -112,4 +113,7 @@ public interface DBMapper {
     
     @Select("SELECT * from vk_messenger_v2.company where title=#{title}")
     Integer tryUniqueTitle(@Param("title")String title);
+    
+    @Select("SELECT * from vk_messenger_v2.messages where text=#{text} limit 1")
+    Message tryUniqueMessage(@Param("text")String text);
 }

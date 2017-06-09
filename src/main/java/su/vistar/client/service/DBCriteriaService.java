@@ -23,20 +23,22 @@ public class DBCriteriaService {
         dbMapper.saveCriteria(criteria,offset,companyId);
     } 
     public void saveCriteria(AdresatCriteria criteria, int companyId){
+        //почему-то вываливается при одинаковых уид
         //сохранение текста критерия
         saveCriteria(criteria.toString(), 0, companyId);
         int criteriaId = dbMapper.lastInsertedId();
-        int messageId;
-        //было создано новое сообщение
-        if (criteria.getMessage_id() != null){
-            dbMapper.saveMessageCriteria(criteriaId, criteria.getMessage_id());
+        int messageId; //если объект существует, то берем его id
+        Message suggestedMessage = dbMapper.tryUniqueMessage(criteria.getMessage());
+        //сообщение уже существует, берем существующий id
+        if (suggestedMessage != null){
+            messageId = suggestedMessage.getId();          
         }
-        //сообщение выбрано среди существующих
-        else if (criteria.getMessage() != null){
+        else {
+            //вставляем сообщение,запоминаем его id
             dbMapper.saveMessage(criteria.getMessage());
-            messageId = dbMapper.lastInsertedId();
-            dbMapper.saveMessageCriteria(criteriaId, messageId);
+            messageId = dbMapper.lastInsertedId();         
         }
+        dbMapper.saveMessageCriteria(criteriaId, messageId);
     }
     public Integer addCompany(Company company){
        return dbMapper.addCompany(company);
@@ -98,7 +100,9 @@ public class DBCriteriaService {
     public Integer tryUniqueCompanyTitle(String title){
         return dbMapper.tryUniqueTitle(title);
     }
+    
     public Integer updateCompanyCode(Long vkUid, Integer messageCount, Long code){
         return dbMapper.updateCompanyCode(vkUid, messageCount, code);
     }
+
 }

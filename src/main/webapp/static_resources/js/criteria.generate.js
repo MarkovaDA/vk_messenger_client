@@ -52,8 +52,6 @@ $(document).ready(function () {
                 criteriaString += key + "=" + criteria[key] + "&";
         }
         //console.log(criteriaString);
-        //отладить этот модуль!!!!!!!!!!!!!
-        console.log($('#message_field').val());
         //проверка содержимого критерия
         if (isEmptyValue(criteriaString)){
             showMessage('alert-danger', "критерий не указан");
@@ -66,11 +64,11 @@ $(document).ready(function () {
         }
         var serverObject = new Object();
         serverObject.criteriaString = criteriaString;
-        serverObject.message =$('#message_field').text();        
+        serverObject.message = $('#message_field').val();        
         serverObject.message_id = $('#selected_mes_id').val();
         var company_code = $('#txt_company_code').val();
         //отправка критерия на сервер
-        /*$.ajax({
+        $.ajax({
             'contentType' : "application/json",
             'type': 'POST',
             'url': 'save_criteria/'+ company_code,
@@ -82,7 +80,7 @@ $(document).ready(function () {
                 showMessage('alert-danger', xhr.responseJSON);
             }
         });
-        getAllMessagesToList();*/
+        getAllMessagesToList();
     });   
 });
 

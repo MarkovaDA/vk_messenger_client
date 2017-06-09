@@ -16,9 +16,11 @@ function getAllMessagesToList(){
                             "><a href='#'>" + (messages[mesIndex].text).substring(0,100) + "...</a></li>";
                     $('#message_list').append(li);                  
                 }
+                //для каждого пункта сообщения выполняется подписка
                 $('#message_list li').each(function(index, value){
                     $(this).bind("click", function(){
                         var mesIndex = parseInt($(this).attr('mesid'));
+                        //при клике на листе выполняется отображение сообщения
                         getMessageById(mesIndex);
                     });
                 });  
@@ -34,7 +36,8 @@ function getMessageById(mesId){
             'type': 'GET',
             'url': 'api/get_message?mes_id='+mesId,
             'success': function (message) {
-               $('#message_field').text(message.text);
+               //console.log(message.text);
+               $('#message_field').val(message.text);
                $('#selected_mes_id').val(message.id);
             }
     });

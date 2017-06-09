@@ -10,9 +10,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -57,12 +55,12 @@ public class MainController {
         return new ModelAndView("main_page");
     }
 
-    
+    //сохранение критерия
     @PostMapping(value = "/save_criteria/{company_code}",  
             produces = "application/json;charset=UTF-8")
     @ResponseBody
     public ResponseEntity<?> saveCriteria(@RequestBody AdresatCriteria criteria, 
-            @PathVariable("company_code")Long companyCode){
+           @PathVariable("company_code")Long companyCode){
         Company company = criteriaService.getCompanyByCode(companyCode);
         if (company == null)
             return new ResponseEntity<>(gson.toJson("ошибка добавления критерия"), HttpStatus.BAD_REQUEST);
@@ -71,7 +69,6 @@ public class MainController {
         return new ResponseEntity<>(gson.toJson("критерий успешно добавлен"), HttpStatus.OK);
     }
    
-
     @PostMapping(value = "/add_company", produces = "application/json;charset=UTF-8"
     /*MediaType.APPLICATION_JSON_VALUE*/)
     @ResponseBody
