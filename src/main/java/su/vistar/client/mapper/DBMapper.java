@@ -55,6 +55,13 @@ public interface DBMapper {
       
     @Select("SELECT LAST_INSERT_ID()")
     Integer lastInsertedId();
+    //сделать отдельные методы для получения последнего id у критерия и у сообщения
+    
+    @Select("SELECT max(id) from vk_messenger_v2.messages")
+    Integer lastMessageId();
+    
+    @Select("SELECT max(id) from vk_messenger_v2.criteria")
+    Integer lastCriteriaId();
     
     @Select("SELECT * from vk_messenger_v2.company where code=#{code}")
     Company getCompanyByCode(@Param("code")Long code);

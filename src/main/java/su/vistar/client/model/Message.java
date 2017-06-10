@@ -1,6 +1,6 @@
 package su.vistar.client.model;
 
-
+/*связуемые сущности*/
 public class Message {
     private Integer id;
     private String text;

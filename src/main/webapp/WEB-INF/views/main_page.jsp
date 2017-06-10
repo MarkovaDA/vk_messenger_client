@@ -46,9 +46,13 @@
                                     Cоздать новый критерий в <b class="company_title"></b>
                                 </div>
                                 <div class="panel-body"> 
-                                    <jsp:include page="optional_select.jsp"/>                                                                     
+                                    <!--имя критерия-->
+                                    <input type="text" id="criteria_title" class="form-control" placeholder="наименование критерия">
+                                    <br>
+                                    <jsp:include page="optional_select.jsp"/>           
                                     <br><hr><br>
                                     <table>
+                                
                                         <!--паттерн имени-->
                                         <tr id="q">
                                             <td><span class="label label-primary">Шаблон имени:</span></td>

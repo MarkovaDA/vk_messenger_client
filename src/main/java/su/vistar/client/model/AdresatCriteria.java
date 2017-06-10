@@ -13,12 +13,15 @@ public class AdresatCriteria {
     public String toString() {
       return criteriaString;
     }
+    
     public String getCriteriaString() {
         return criteriaString;
-    }     
+    }
+    
     public Integer getMessage_id() {
         return message_id;
     }
+    
     public String getMessage() {
         return message;
     }

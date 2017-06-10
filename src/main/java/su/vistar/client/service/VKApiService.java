@@ -61,17 +61,5 @@ public class VKApiService{
     }
     private String getQueryForCitiesByCountry(int countryId){
         return String.format(cityQueryByCountryFormat, countryId);
-    }
-   /*public   String getAccessToken(String clientId, String clientSecret,String redirectUri,String code) throws MalformedURLException, ProtocolException, IOException{
-        Gson gson = new Gson();
-        String baseUrl = "https://oauth.vk.com/access_token";
-        Map<String,String> params = new LinkedHashMap<>();
-        params.put("client_id", clientId);
-        params.put("client_secret", clientSecret);
-        params.put("redirect_uri", redirectUri);
-        params.put("code", code);
-        String accessToken = httpService.doPOSTQuery(baseUrl, params);
-        AccessTokenObject token = gson.fromJson(accessToken, AccessTokenObject.class);
-        return token.getAccess_token();
-    }*/        
+    }       
 }

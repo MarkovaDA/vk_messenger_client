@@ -21,22 +21,21 @@ public class DBCriteriaService {
     
     private void saveCriteria(String criteria, int offset, int companyId){
         dbMapper.saveCriteria(criteria,offset,companyId);
-    } 
+    }
+    
     public void saveCriteria(AdresatCriteria criteria, int companyId){
-        //почему-то вываливается при одинаковых уид
-        //сохранение текста критерия
-        saveCriteria(criteria.toString(), 0, companyId);
-        int criteriaId = dbMapper.lastInsertedId();
+
+        saveCriteria(criteria.toString(), 0, companyId); 
+        int criteriaId = dbMapper.lastCriteriaId();
         int messageId; //если объект существует, то берем его id
         Message suggestedMessage = dbMapper.tryUniqueMessage(criteria.getMessage());
         //сообщение уже существует, берем существующий id
-        if (suggestedMessage != null){
+        if (suggestedMessage != null)
             messageId = suggestedMessage.getId();          
-        }
         else {
             //вставляем сообщение,запоминаем его id
             dbMapper.saveMessage(criteria.getMessage());
-            messageId = dbMapper.lastInsertedId();         
+            messageId = dbMapper.lastMessageId();
         }
         dbMapper.saveMessageCriteria(criteriaId, messageId);
     }

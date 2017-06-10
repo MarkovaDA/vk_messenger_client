@@ -19,7 +19,7 @@ import su.vistar.client.dto.UserToCompanyDTO;
 import su.vistar.client.dto.CriteriaDTO;
 import su.vistar.client.dto.UsersToMessageDTO;
 import su.vistar.client.dto.VKUserDTO;
-import su.vistar.client.model.ErrorResponse;
+import su.vistar.client.dto.ErrorResponse;
 import su.vistar.client.service.DBCriteriaService;
 import su.vistar.client.service.ExtractUsersService;
 

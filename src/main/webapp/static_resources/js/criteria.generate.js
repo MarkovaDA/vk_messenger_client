@@ -23,10 +23,12 @@ $(document).ready(function () {
             $('#' + prop).fadeOut(100);          
         }     
     });
-    //считываем с селектов параметры в объект criteria
+    //считываем с селектов параметры в объект criteria - кажется, этот кусок кода вообще не работает
     $('.selectpicker').on('changed.bs.select', function(event, clickedIndex, newValue, oldValue){
-        if ($(this).hasClass('.readable')){
+        if ($(this).hasClass('readable')) 
+        {
             var selectedValue = $(this).find('option').eq(clickedIndex).val();
+            //var selectedText = $(this).find('option').eq(clickedIndex).text();
             var propertyName = $(this).attr('property');
             if (!isEmptyValue(selectedValue))
                 criteria[propertyName] = selectedValue;
@@ -36,22 +38,29 @@ $(document).ready(function () {
         criteria.message_id = "";
     });
     //считываем значение остальных, текстовых полей
-    $('#btn_add').click(function () {       
-        var propertyName, propertyValue;
+    $('#btn_add').click(function () {
+        var propertyName, propertyValue, propertyText;
+        var criteriaName = "";
         //значение считывается только с селекта (?)
         $('.readable').each(function(){
             propertyName = $(this).attr('property');
-            propertyValue = $(this).val();           
-            if (typeof propertyName !== 'undefined' && !isEmptyValue(propertyValue)){
-                criteria[propertyName] = propertyValue;            
+            propertyValue = $(this).val();               
+        
+            if (/*typeof propertyName !== 'undefined'*/ !isEmptyValue(propertyName) && !isEmptyValue(propertyValue)){
+                criteria[propertyName] = propertyValue; 
+                //это для селектов только пропахивает
+                propertyText = $(this).find("option:selected").text();
+                criteriaName +=  propertyName + "="+  propertyText + ";";
+                console.log(propertyText);
             }            
         });
+        console.log(criteriaName);
         var criteriaString = "";
         for(var key in criteria){
             if (!isEmptyValue(key) && !isEmptyValue(criteria[key]))
                 criteriaString += key + "=" + criteria[key] + "&";
         }
-        //console.log(criteriaString);
+        console.log(criteriaString);
         //проверка содержимого критерия
         if (isEmptyValue(criteriaString)){
             showMessage('alert-danger', "критерий не указан");
