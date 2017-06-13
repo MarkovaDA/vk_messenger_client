@@ -19,13 +19,13 @@ public class DBCriteriaService {
     @Autowired
     AuthService authService;
     
-    private void saveCriteria(String criteria, int offset, int companyId){
-        dbMapper.saveCriteria(criteria,offset,companyId);
+    private void saveCriteria(String criteria,String title,int offset, int companyId){
+        dbMapper.saveCriteria(criteria,title,offset,companyId);
     }
     
     public void saveCriteria(AdresatCriteria criteria, int companyId){
 
-        saveCriteria(criteria.toString(), 0, companyId); 
+        saveCriteria(criteria.toString(),criteria.getCriteriaName(), 0, companyId); 
         int criteriaId = dbMapper.lastCriteriaId();
         int messageId; //если объект существует, то берем его id
         Message suggestedMessage = dbMapper.tryUniqueMessage(criteria.getMessage());

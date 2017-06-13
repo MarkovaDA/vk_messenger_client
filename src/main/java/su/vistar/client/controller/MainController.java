@@ -7,6 +7,7 @@ import su.vistar.client.service.AuthService;
 import su.vistar.client.service.VKApiService;
 import su.vistar.client.service.DBCriteriaService;
 import java.io.IOException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import su.vistar.client.dto.CriteriaDTO;
 import su.vistar.client.model.Company;
 
 
@@ -68,8 +70,18 @@ public class MainController {
         criteriaService.saveCriteria(criteria, companyId);
         return new ResponseEntity<>(gson.toJson("критерий успешно добавлен"), HttpStatus.OK);
     }
+    
+    @GetMapping(value = "/company/criteria/{company_code}",  
+            produces = "application/json;charset=UTF-8")
+    @ResponseBody
+    public List<CriteriaDTO> getCriteria(@PathVariable("company_code")Long companyCode){
+        Company company = criteriaService.getCompanyByCode(companyCode);
+        int companyId = company.getId();
+        List<CriteriaDTO> criteriaList = criteriaService.getCriteriaByCompanyId(companyId);
+        return criteriaList;
+    }
    
-    @PostMapping(value = "/add_company", produces = "application/json;charset=UTF-8"
+    @GetMapping(value = "/add_company", produces = "application/json;charset=UTF-8"
     /*MediaType.APPLICATION_JSON_VALUE*/)
     @ResponseBody
     public ResponseEntity<?> addCompany(@RequestBody Company company){

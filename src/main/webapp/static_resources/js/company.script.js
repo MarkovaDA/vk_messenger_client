@@ -10,6 +10,7 @@ $(document).ready(function(){
             $('.company_title').append(company_title);
             //разблокирование блока критериев
             $('.toggle_visible').fadeIn(100);
+            //getAllCriteria(company_code);
         });
     //генерируем код
     $('#generate').click(function(){
@@ -25,7 +26,7 @@ $(document).ready(function(){
             showMessage('alert-danger', "обновленный код не является целочисленным");
             return;
         }
-        //может указать dataType нужно? чтобы срабатывал?
+        
         $.ajax({          
             contentType : 'application/json',
             type: 'POST',

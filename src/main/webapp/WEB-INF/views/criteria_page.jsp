@@ -6,8 +6,13 @@
         <div class="panel-heading">
             Все критерии компании <b class="company_title"></b>
         </div>
-        <div class="panel-body">
-     
+        <div class="panel-body separate_criteria" criteria_id="-1">
+            <div class="input-group">
+                <input type="text" class="form-control" value="название критерия">
+                <span class="input-group-btn">
+                  <button class="btn btn-default" type="button">удалить</button>
+                </span>
+            </div>
         </div> 
     </div>
 </div>

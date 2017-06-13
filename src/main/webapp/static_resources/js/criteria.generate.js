@@ -26,7 +26,7 @@ $(document).ready(function () {
     //считываем с селектов параметры в объект criteria - кажется, этот кусок кода вообще не работает
     $('.selectpicker').on('changed.bs.select', function(event, clickedIndex, newValue, oldValue){
         if ($(this).hasClass('readable')) 
-        {
+        {   console.log("событие");
             var selectedValue = $(this).find('option').eq(clickedIndex).val();
             //var selectedText = $(this).find('option').eq(clickedIndex).text();
             var propertyName = $(this).attr('property');
@@ -45,22 +45,27 @@ $(document).ready(function () {
         $('.readable').each(function(){
             propertyName = $(this).attr('property');
             propertyValue = $(this).val();               
-        
             if (/*typeof propertyName !== 'undefined'*/ !isEmptyValue(propertyName) && !isEmptyValue(propertyValue)){
                 criteria[propertyName] = propertyValue; 
                 //это для селектов только пропахивает
                 propertyText = $(this).find("option:selected").text();
-                criteriaName +=  propertyName + "="+  propertyText + ";";
-                console.log(propertyText);
+                if (isEmptyValue(propertyText)){
+                    propertyText = propertyValue;
+                }
+                criteriaName += propertyName + "="+ propertyText + ";";          
             }            
         });
-        console.log(criteriaName);
+        var criteriaUserName = $('#criteria_title').val();//пользовательское имя критерия
+        if (isEmptyValue(criteriaUserName)) {
+            //если пользователь для критерия не указал имя, то вставляем пользвательское
+            $('#criteria_title').val(criteriaName);
+        }
         var criteriaString = "";
         for(var key in criteria){
             if (!isEmptyValue(key) && !isEmptyValue(criteria[key]))
                 criteriaString += key + "=" + criteria[key] + "&";
         }
-        console.log(criteriaString);
+        //console.log(criteriaString);
         //проверка содержимого критерия
         if (isEmptyValue(criteriaString)){
             showMessage('alert-danger', "критерий не указан");
@@ -75,6 +80,8 @@ $(document).ready(function () {
         serverObject.criteriaString = criteriaString;
         serverObject.message = $('#message_field').val();        
         serverObject.message_id = $('#selected_mes_id').val();
+        serverObject.criteriaName = $('#criteria_title').val();
+        
         var company_code = $('#txt_company_code').val();
         //отправка критерия на сервер
         $.ajax({
