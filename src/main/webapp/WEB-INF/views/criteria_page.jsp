@@ -5,14 +5,18 @@
     <div class="panel panel-default">
         <div class="panel-heading">
             Все критерии компании <b class="company_title"></b>
-        </div>
-        <div class="panel-body separate_criteria" criteria_id="-1">
-            <div class="input-group">
-                <input type="text" class="form-control" value="название критерия">
-                <span class="input-group-btn">
-                  <button class="btn btn-default" type="button">удалить</button>
-                </span>
+            <div class="separate_criteria" style="display:none;">
+                <div class="input-group" criteria_id="-1">
+                    <input type="text" class="form-control" value="название критерия">
+                    <span class="input-group-btn">
+                      <button class="btn btn-default" type="button">удалить</button>
+                    </span>
+                </div>
+                <br>
             </div>
+        </div>
+        <div class="panel-body" >
+           <!--здесь будут выводиться критерии-->
         </div> 
     </div>
 </div>
