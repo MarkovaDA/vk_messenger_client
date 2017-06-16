@@ -80,6 +80,12 @@ public class MainController {
         List<CriteriaDTO> criteriaList = criteriaService.getCriteriaByCompanyId(companyId);
         return criteriaList;
     }
+    
+    @PostMapping(value = "/company/criteria/{id}/delete",  
+            produces = "application/json;charset=UTF-8")
+    public ResponseEntity<?> deleteCriteria(@PathVariable("id")Integer id){
+        return new ResponseEntity<>(gson.toJson("критерий удален успешно"), HttpStatus.OK);
+    }
    
     @GetMapping(value = "/add_company", produces = "application/json;charset=UTF-8"
     /*MediaType.APPLICATION_JSON_VALUE*/)

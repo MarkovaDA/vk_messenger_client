@@ -9,7 +9,7 @@
                 <div class="input-group" criteria_id="-1">
                     <input type="text" class="form-control" value="название критерия">
                     <span class="input-group-btn">
-                      <button class="btn btn-default" type="button">удалить</button>
+                        <button class="btn btn-default btn_delete_criteria" type="button">удалить</button>
                     </span>
                 </div>
                 <br>
