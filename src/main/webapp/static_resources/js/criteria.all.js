@@ -14,7 +14,10 @@ function getAllCriteria(company_code){
         'type': 'GET',
         'url': 'company/criteria/'+ company_code,
         success: function(data){
-            console.log(data);
+            if (data.length === 0) {
+                $('#all_criteria .panel-body').empty();
+                $('#all_criteria .panel-body').append("<p>критерии отсутсвуют</p>");
+            };
             $('#all_criteria .panel-body .separate_criteria').remove();
             var cloned_block = $('.separate_criteria');
             for(index in data){
@@ -44,7 +47,12 @@ function deleteCriteriaById(id){
         'type': 'POST',
         'url': 'company/criteria/'+ id + '/delete',
         success:function(data){
-            console.log(data);
+            $('.separate_criteria').find('.input-group').each(function(index){             
+                if (parseInt($(this).attr('criteria_id')) === id){                    
+                    $(this).parent().fadeOut(100);
+                }
+            });
+            showMessage('alert-info', data);
         },
         error:function(jqXHR, textStatus, errorThrown){
             console.log(jqXHR,textStatus,errorThrown);

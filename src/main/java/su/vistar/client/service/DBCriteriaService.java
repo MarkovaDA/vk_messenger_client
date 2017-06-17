@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import su.vistar.client.dto.UserToCompanyDTO;
 import su.vistar.client.dto.CriteriaDTO;
+import su.vistar.client.mapper.CriteriaMapper;
 import su.vistar.client.mapper.DBMapper;
 import su.vistar.client.model.AdresatCriteria;
 import su.vistar.client.model.Company;
@@ -13,8 +14,10 @@ import su.vistar.client.model.Message;
 
 @Service
 public class DBCriteriaService {
+    
     @Autowired
     DBMapper dbMapper;
+    
     
     @Autowired
     AuthService authService;

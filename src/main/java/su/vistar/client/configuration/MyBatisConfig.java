@@ -9,6 +9,7 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 @Configuration
 @MapperScan("su.vistar.client.mapper")
 public class MyBatisConfig {
+   
     @Bean
     public BasicDataSource dataSource() {
             BasicDataSource dataSource = new BasicDataSource();

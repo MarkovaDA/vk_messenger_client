@@ -1,0 +1,3 @@
+<mappers>
+    <mapper resource="CriteriaMapper.xml"/> 
+</mappers>

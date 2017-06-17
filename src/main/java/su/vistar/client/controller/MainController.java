@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import su.vistar.client.dto.CriteriaDTO;
+import su.vistar.client.mapper.CriteriaMapper;
 import su.vistar.client.model.Company;
 
 
@@ -37,6 +38,9 @@ public class MainController {
     
     @Autowired
     AuthService authService;
+    
+    @Autowired
+    CriteriaMapper criteriaMapper;
     
     //дополнительный json-конвертер
     private static final Gson gson = new Gson();
@@ -84,6 +88,7 @@ public class MainController {
     @PostMapping(value = "/company/criteria/{id}/delete",  
             produces = "application/json;charset=UTF-8")
     public ResponseEntity<?> deleteCriteria(@PathVariable("id")Integer id){
+        //criteriaMapper.deleteCriteriaById(id);
         return new ResponseEntity<>(gson.toJson("критерий удален успешно"), HttpStatus.OK);
     }
    

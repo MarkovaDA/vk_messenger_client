@@ -91,7 +91,7 @@ function showMessage(type, text) {
         $('.message_block .alert').text(text);
         $('.message_block').fadeIn(100);
         //прокрутка к всплывающему сообщению
-        scrollUp();
+        scrollUp();//вот эта функция вызывает сложности
         var timerId = setTimeout(function()
         {   
             deleteAllClass();

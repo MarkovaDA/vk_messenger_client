@@ -15,7 +15,7 @@
         <script type="text/javascript" src="<c:url value='static_resources/js/message_dropdown.js' />"></script>
         <script type="text/javascript" src="<c:url value='static_resources/js/criteria.generate.js' />"></script>
         <script type="text/javascript" src="<c:url value='static_resources/js/company.script.js' />"></script>
-        <script type="text/javascript" src="<c:url value='static_resources/js/company.script.js' />"></script>
+        <script type="text/javascript" src="<c:url value='static_resources/js/scroll.up.js' />"></script>
         <script type="text/javascript" src="<c:url value='static_resources/js/criteria.all.js' />"></script>
     </head>
     <body>
