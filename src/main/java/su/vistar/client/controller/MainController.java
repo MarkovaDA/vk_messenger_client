@@ -134,9 +134,9 @@ public class MainController {
             response = new ResponseEntity<>(gson.toJson("ошибка обновления кода"), HttpStatus.BAD_REQUEST);          
         return response;
     }
-       
+  
     @GetMapping(value = "/login")
     public ModelAndView getLoginPage(ModelMap model){
         return new ModelAndView("login");
-    } 
+    }   
 }

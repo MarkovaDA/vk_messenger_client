@@ -10,6 +10,9 @@ $(document).ready(function(){
             $('.company_title').append(company_title);
             //разблокирование блока критериев
             $('.toggle_visible').fadeIn(100);
+            $('#st_company_title').empty();
+            $('#st_company_title').append(company_title);
+            fullStatistics(company_code);  
             //getAllCriteria(company_code);
         });
     //генерируем код

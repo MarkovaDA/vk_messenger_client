@@ -17,6 +17,7 @@
         <script type="text/javascript" src="<c:url value='static_resources/js/company.script.js' />"></script>
         <script type="text/javascript" src="<c:url value='static_resources/js/scroll.up.js' />"></script>
         <script type="text/javascript" src="<c:url value='static_resources/js/criteria.all.js' />"></script>
+        <script type="text/javascript" src="<c:url value='static_resources/js/statistics.script.js' />"></script>       
     </head>
     <body>
         <div id="wrapper">
@@ -321,7 +322,8 @@
                             </div>
                         </div>    
                         <jsp:include page="criteria_page.jsp"/> 
-                        <jsp:include page="company_add_page.jsp"/> 
+                        <jsp:include page="company_add_page.jsp"/>
+                        <jsp:include page="statistics_page.jsp"/>
                     </div>
                 </div>
             </div>

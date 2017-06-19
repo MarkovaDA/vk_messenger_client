@@ -6,3 +6,6 @@ table tr{
    top: 0px;
    display: none;
 }
+a {
+    cursor:pointer;
+}

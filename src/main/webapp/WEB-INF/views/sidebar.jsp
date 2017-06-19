@@ -9,13 +9,13 @@
         </li>
          <!--опция только для админа-->
         <li>
-            <a href="#add_user">
+            <a class="scroll" href="#statistics">
                 <span class="glyphicon glyphicon-align-justify" aria-hidden="true"></span>
                 Статистика
             </a>
         </li>
         <li> 
-            <a href="#add_company">
+            <a class="scroll" href="#add_company">
                 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
                 Добавить кампанию
             </a>
