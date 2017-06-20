@@ -25,7 +25,7 @@ public class APIController {
     @Autowired
     DBCriteriaService criteriaService;
     
-    @GetMapping(value="get_cities")
+    /*@GetMapping(value="get_cities")
     public List<VKObjectDTO> getCities(){
         try {
             return vkService.getCities();
@@ -33,7 +33,7 @@ public class APIController {
             Logger.getLogger(APIController.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
-    }
+    }*/
     
     @GetMapping(value="get_cities_bycountry")
     public List<VKObjectDTO> getCities(@RequestParam("country_id")Integer countryId){

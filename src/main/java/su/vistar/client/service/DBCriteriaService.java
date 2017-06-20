@@ -27,21 +27,19 @@ public class DBCriteriaService {
     }
     
     public void saveCriteria(AdresatCriteria criteria, int companyId){
-
-        saveCriteria(criteria.toString(),criteria.getCriteriaName(), 0, companyId); 
+        saveCriteria(criteria.toString(), criteria.getCriteriaName(), 0, companyId); 
         int criteriaId = dbMapper.lastCriteriaId();
-        int messageId; //если объект существует, то берем его id
+        int messageId; 
         Message suggestedMessage = dbMapper.tryUniqueMessage(criteria.getMessage());
-        //сообщение уже существует, берем существующий id
         if (suggestedMessage != null)
-            messageId = suggestedMessage.getId();          
+            messageId = suggestedMessage.getId();//идентификатор существующего сообщения          
         else {
-            //вставляем сообщение,запоминаем его id
             dbMapper.saveMessage(criteria.getMessage());
-            messageId = dbMapper.lastMessageId();
+            messageId = dbMapper.lastMessageId();//только вставленное сообщение
         }
         dbMapper.saveMessageCriteria(criteriaId, messageId);
     }
+    
     public Integer addCompany(Company company){
        return dbMapper.addCompany(company);
     }    
@@ -102,7 +100,6 @@ public class DBCriteriaService {
     public Integer tryUniqueCompanyTitle(String title){
         return dbMapper.tryUniqueTitle(title);
     }
-    
     public Integer updateCompanyCode(Long vkUid, Integer messageCount, Long code){
         return dbMapper.updateCompanyCode(vkUid, messageCount, code);
     }

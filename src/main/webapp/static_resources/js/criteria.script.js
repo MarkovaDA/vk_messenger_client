@@ -3,6 +3,26 @@ $(document).ready(function () {
     $('.selectpicker').on('change', function(){
         var id = $(this).attr('id');//идентификатор селекта  
         switch(id){
+            case 'select_country':
+                $('#select_city').empty();
+                 $.get("api/get_cities_bycountry?" + "country_id=" + $(this).val(),
+                        function (data) {
+                            var university;
+                            $('#select_city').append($('<option>', {
+                                    value: '',
+                                    text: 'выберите город'
+                                }));
+                            for (var i = 0; i < data.length; i++) {
+                                university = data[i];                                
+                                $('#select_city').append($('<option>', {
+                                    value: university.id,
+                                    text: university.title
+                                }));                                
+                            }
+                            $('#select_city').selectpicker('refresh');
+                        }
+                );
+                break;
             case 'select_city': 
                 $('#select_univ').empty();
                 $.get("api/get_universities?" + "city_id=" + $(this).val(),
@@ -88,7 +108,7 @@ $(document).ready(function () {
         }
     });
     
-    //функция, обобщающая все запросы
+    //функция, обобщающая все запросы - одна единственная функция на все запросы
     function get_objects(select_id,api_str,param_id){
         $(select_id).empty();
         $.get("api/"+api_str+"?token=" + $('#token_field').val() + param_id + $(this).val(),

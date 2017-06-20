@@ -25,12 +25,12 @@ public class CommonHTTPService {
         }
         return response;
     }
-    
-    private String readResponse(HttpURLConnection connection) throws IOException {
+
+    String readResponse(HttpURLConnection connection) throws IOException {
         BufferedReader in = new BufferedReader(
                 new InputStreamReader(connection.getInputStream(), "UTF-8"));
         String inputLine;
-        StringBuffer response = new StringBuffer();
+        StringBuilder response = new StringBuilder();
         while ((inputLine = in.readLine()) != null) {
             response.append(inputLine);
         }

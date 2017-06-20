@@ -7,6 +7,7 @@ import su.vistar.client.service.AuthService;
 import su.vistar.client.service.VKApiService;
 import su.vistar.client.service.DBCriteriaService;
 import java.io.IOException;
+import java.net.ProtocolException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,10 +21,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import su.vistar.client.dto.CriteriaDTO;
 import su.vistar.client.mapper.CriteriaMapper;
+import su.vistar.client.model.AccessToken;
 import su.vistar.client.model.Company;
 
 
@@ -45,20 +48,51 @@ public class MainController {
     //дополнительный json-конвертер
     private static final Gson gson = new Gson();
     
-    @GetMapping(value = "/tools_options")
-    public ModelAndView getToolPage(Model model){
-        User currentUser = authService.getCurrentUser();
-        //здесь список компаний
-        //String  token = currentUser.getAccess_token();   
+    private static String oauthVkUrl = "https://oauth.vk.com/" +
+            "authorize?" +
+            "client_id=5801227" +
+            "&redirect_uri=http://localhost:8084/vk_messenger_client/regist"+
+            "&response_type=code&scope=offline";
+    
+    @GetMapping(value = "/tools")
+    public ModelAndView getToolsPage(Model model){
+        User currentUser = authService.getCurrentUser();  
         model.addAttribute("login", currentUser.getLogin());
         try {
             model.addAttribute("companies", authService.getCompanies(currentUser.getId()));
-            model.addAttribute("cities", vkService.getCities());
             model.addAttribute("countries", vkService.getCountries());
         } catch (IOException ex) {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
         }
         return new ModelAndView("main_page");
+    }
+    @GetMapping(value = "/start")
+    public ModelAndView start(){
+        return new ModelAndView("redirect:" + oauthVkUrl);
+    }
+    @GetMapping(value = "/regist")
+    public ModelAndView regist(@RequestParam("code")String code){
+        
+        try {
+            /*1. uid ->
+              2. лезу в базу проверяю,существует ли этот uid
+                2.1 существует:
+                      статус active: 
+                                если expires_in не истек, то 
+                                    перехожу на страницу формирования критериев
+                                иначе повторная авторизация
+                      статус forbidden: вывожу страницу с "запрос не подтвержден"
+                2.2 не существует:
+                       добавляю юзера, отправляю запрос на подтверждение                 
+            */
+            AccessToken token = vkService.getAccessToken(code); 
+
+        } catch (ProtocolException ex) {
+            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return new ModelAndView("wait_page");
     }
 
     //сохранение критерия
@@ -88,11 +122,12 @@ public class MainController {
     @PostMapping(value = "/company/criteria/{id}/delete",  
             produces = "application/json;charset=UTF-8")
     public ResponseEntity<?> deleteCriteria(@PathVariable("id")Integer id){
-        //criteriaMapper.deleteCriteriaById(id);
+        criteriaMapper.deleteCriteriaById(id);
+        criteriaMapper.deleteCriteriaReference(id);
         return new ResponseEntity<>(gson.toJson("критерий удален успешно"), HttpStatus.OK);
     }
    
-    @GetMapping(value = "/add_company", produces = "application/json;charset=UTF-8"
+    @PostMapping(value = "/add_company", produces = "application/json;charset=UTF-8"
     /*MediaType.APPLICATION_JSON_VALUE*/)
     @ResponseBody
     public ResponseEntity<?> addCompany(@RequestBody Company company){

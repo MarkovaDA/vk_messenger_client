@@ -91,6 +91,7 @@ $(document).ready(function () {
             'data': JSON.stringify(serverObject),
             success: function(data){            
                 showMessage('alert-info',data);
+                getAllCriteria(company_code);
             },
             error:function(jqXHR, textStatus, errorThrown){
                 showMessage('alert-danger', xhr.responseJSON);

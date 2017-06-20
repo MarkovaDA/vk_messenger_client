@@ -5,6 +5,7 @@ $(document).ready(function(){
    });
 });
 function getAllCriteria(company_code){
+    
     //отображение всех критериев
     $.ajax({
         'contentType' : "application/json",
@@ -16,6 +17,7 @@ function getAllCriteria(company_code){
                 $('#all_criteria .panel-body').append("<p>критерии отсутсвуют</p>");
             };
             $('#all_criteria .panel-body .separate_criteria').remove();
+            $('#all_criteria .panel-body').empty();
             var cloned_block = $('.separate_criteria');
             for(index in data){
                 var item = data[index];

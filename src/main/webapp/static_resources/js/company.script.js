@@ -29,7 +29,6 @@ $(document).ready(function(){
             showMessage('alert-danger', "обновленный код не является целочисленным");
             return;
         }
-        
         $.ajax({          
             contentType : 'application/json',
             type: 'POST',
@@ -54,13 +53,14 @@ $(document).ready(function(){
         if (!Number.isInteger(parseInt(company.code))){
             showMessage('alert-danger', "сгенерированный код не является целочисленным");
             return;
-        }     
+        }
+        console.log("добавление кампании", company);
         $.ajax({
             /*headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
-            }*/        
-            contentType : "application/json",
+            },*/       
+            contentType : 'application/json',
             type: 'POST',
             url: 'add_company',
             data: JSON.stringify(company),

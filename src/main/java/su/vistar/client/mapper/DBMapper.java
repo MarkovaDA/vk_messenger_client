@@ -37,7 +37,7 @@ public interface DBMapper {
     @Update("UPDATE vk_messenger_v2.users SET access_token=#{access_token},last_date=#{last_date} WHERE login=#{login} and password=#{password}")
     void updateAccessToken(User user);
     
-    @Insert("INSERT into vk_messenger_v2.criteria (condition, offset, company_id, title) values (#{condition},#{offset},#{company_id},#{title})")
+    @Insert("INSERT into vk_messenger_v2.criteria (vk_messenger_v2.criteria.condition, vk_messenger_v2.criteria.offset, company_id, title) values (#{condition},#{offset},#{company_id},#{title})")
     void saveCriteria(@Param("condition")String condition,
             @Param("title")String title,
             @Param("offset")int offset, 
@@ -126,6 +126,5 @@ public interface DBMapper {
     
     @Select("SELECT * from vk_messenger_v2.messages where text=#{text} limit 1")
     Message tryUniqueMessage(@Param("text")String text);
-    
     
 }

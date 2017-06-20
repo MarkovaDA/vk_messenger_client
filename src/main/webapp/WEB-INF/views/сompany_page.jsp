@@ -14,9 +14,12 @@
                 </c:forEach>                                       
             </select>
             <br><br>
-            <input type="text" class="form-control" placeholder="код компании" id="txt_company_code">
-            <br>
-            <button class = "btn btn-default" id="btn_update_company">обновить код</button>
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="код компании" id="txt_company_code">
+                <span class="input-group-btn">
+                  <button class="btn btn-default" id="btn_update_company" type="button">обновить код</button>
+                </span>
+            </div>
         </div> 
     </div>
 </div>

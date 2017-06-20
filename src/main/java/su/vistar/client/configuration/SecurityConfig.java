@@ -48,14 +48,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
               
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-            http.csrf().disable();        
+            /*http.csrf().disable();        
             http.authorizeRequests()
             .antMatchers("/login").permitAll()
             .antMatchers("/tools_options/**").hasAuthority("ADMIN")
             .and().formLogin().loginPage("/login")
-            //.and().formLogin().loginProcessingUrl("/login") //сделать свою форму авторизации
             .usernameParameter("login")
             .passwordParameter("password")
-            .and().exceptionHandling().accessDeniedPage("/Access_Denied"); 
+            .and().exceptionHandling().accessDeniedPage("/Access_Denied");*/ 
 	}
 }

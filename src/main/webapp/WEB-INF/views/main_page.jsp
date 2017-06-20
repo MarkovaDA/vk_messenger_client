@@ -53,8 +53,7 @@
                                     <br>
                                     <jsp:include page="optional_select.jsp"/>           
                                     <br><hr><br>
-                                    <table>
-                                
+                                    <table>                                
                                         <!--паттерн имени-->
                                         <tr id="q">
                                             <td><span class="label label-primary">Шаблон имени:</span></td>
@@ -79,10 +78,7 @@
                                             <td><span class="label label-primary">Город проживания:</span></td>                    
                                             <td>
                                                 <select property="city" id="select_city" class="selectpicker for_reading" data-show-subtext="true" data-live-search="true" style="width: 200px">
-                                                    <option value="">выберите город</option>
-                                                    <c:forEach items="${cities}" var="city"> 
-                                                        <option value="${city.id}">${city.title}</option>
-                                                    </c:forEach>                                       
+                                                   <!--динамическая загрузка городов по стране-->                                      
                                                 </select>
                                             </td>
                                         </tr>
