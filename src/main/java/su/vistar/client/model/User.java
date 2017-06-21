@@ -5,20 +5,42 @@ import java.util.Date;
 
 public class User {
     int id;
+    Long uid;
     String login;
     String password;
     String status;
     String access_token;
+    String fio;    
     Date last_date;
+    Long expires_in;
 
+    public Long getExpires_in() {
+        return expires_in;
+    }
+
+    public String getFio() {
+        return fio;
+    }
+
+    public void setFio(String fio) {
+        this.fio = fio;
+    }
+
+    public void setExpires_in(Long expires_in) {
+        this.expires_in = expires_in;
+    }   
+    public Long getUid() {
+        return uid;
+    }
+    public void setUid(Long uid) {
+        this.uid = uid;
+    }    
     public String getStatus() {
         return status;
     }
-
     public void setStatus(String status) {
         this.status = status;
-    }
-    
+    }    
     public Date getLast_date() {
         return last_date;
     }   
@@ -46,7 +68,6 @@ public class User {
     public String getPassword() {
         return password;
     }
-
     public void setPassword(String password) {
         this.password = password;
     }   

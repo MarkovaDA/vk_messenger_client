@@ -11,8 +11,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class CommonHTTPService {
-    String ACCESS_TOKEN = "d673ddf6d978aeb273f5729889e02aa390b7274a893198870295640db9c8ef7add4e7d01d73fbeb658ac7";
-    
+    String ACCESS_TOKEN = "d673ddf6d978aeb273f5729889e02aa390b7274a893198870295640db9c8ef7add4e7d01d73fbeb658ac7";   
     //сделать GET-запрос и вернуть ответ в виде строки
     String doPureGETQuery(String query) throws MalformedURLException, ProtocolException, IOException {
         URL obj = new URL(query);

@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 
-public class ResponseForSearchDTO{
+public class UsersSearchResponse{
     
     String message;
     
@@ -38,18 +38,14 @@ public class ResponseForSearchDTO{
         public int getCount() {
             return count;
         }
-
         public void setCount(int count) {
             this.count = count;
         }
-
         public List<VKUserDTO> getItems() {
             return items;
         }
-
         public void setItems(List<VKUserDTO> items) {
             this.items = items;
-        }
-        
+        }        
     }
 }
