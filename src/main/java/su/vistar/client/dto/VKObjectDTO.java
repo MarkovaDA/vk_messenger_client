@@ -4,7 +4,9 @@ package su.vistar.client.dto;
 public class VKObjectDTO {
     String id;
     String title;
-
+    String area;
+    String region;
+    
     public String getId() {
         return id;
     }
@@ -19,6 +21,22 @@ public class VKObjectDTO {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getArea() {
+        return area;
+    }
+
+    public void setArea(String area) {
+        this.area = area;
+    }
+
+    public String getRegion() {
+        return region;
+    }
+
+    public void setRegion(String region) {
+        this.region = region;
     }
     
 }

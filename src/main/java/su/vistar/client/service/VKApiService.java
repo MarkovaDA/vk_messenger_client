@@ -97,6 +97,13 @@ public class VKApiService{
     private String getQueryForCitiesByCountry(int countryId){
         return String.format(cityQueryByCountryFormat, countryId);
     }
+    //"https://api.vk.com/method/database.getCities?country_id=%d&need_all=1&count=%d&offset=%d&v=5.65";
+    private static final String query = "https://api.vk.com/method/database.getCities?country_id=%d&count=%d&offset=%d&v=5.65";
+    
+    public String doPureGetQueryfromVk(int countryId,  int count, int offset) throws IOException{
+        String queryUrl = String.format(query, countryId, count, offset);
+        return httpService.doPureGetQuery(String.format(queryUrl, countryId, count, offset));
+    }
     
     
 }
