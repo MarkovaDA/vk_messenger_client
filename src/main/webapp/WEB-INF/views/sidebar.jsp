@@ -20,5 +20,11 @@
                 Добавить кампанию
             </a>
         </li>
+        <li> 
+            <a class="scroll" href="#all_messages">
+                <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
+                Мои сообщения
+            </a>
+        </li>
     </ul>
 </div>

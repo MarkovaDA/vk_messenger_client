@@ -27,7 +27,5 @@ public interface CriteriaMapper {
     
     @Insert("insert into vk_messenger_v2.city (id,title,area,region,country_id) values (#{id}, #{title},#{area}, #{region},#{country_id})")
     public void insertCity(@Param("id")Integer id, @Param("title")String title, @Param("area")String area, @Param("region")String region, @Param("country_id")Integer countryId);
-    
-    @Select("select distinct id from vk_messenger_v2.country where id > 3")
-    public List<Integer> getCountriesIds();
+      
 }

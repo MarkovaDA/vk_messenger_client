@@ -26,7 +26,7 @@ public class HTTPService {
         return commonService.doPureGETQuery(query);
     }
     protected String doPOSTQuery(String baseQuery, Map<String, String> params) throws MalformedURLException, UnsupportedEncodingException, ProtocolException, IOException {
-       
+        
         URL url = new URL(baseQuery);
         StringBuilder postData = new StringBuilder();
         for (Map.Entry<String, String> param : params.entrySet()) {
@@ -49,7 +49,7 @@ public class HTTPService {
         Gson gson = new Gson();
         Type responseType = new TypeToken<ArrayList<VKObjectDTO>>() {
         }.getType();
-        String response= commonService.doPureGETQuery(query);
+        String response = commonService.doPureGETQuery(query);
         int startIndex = response.lastIndexOf("items") + "items".length() + 1;
         response = response.substring(startIndex + 1, response.length() - 2);
         return gson.fromJson(response, responseType);

@@ -1,14 +1,18 @@
-
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package su.vistar.client.dto;
 
 import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
-
-public class UsersSearchResponse{
-    
-    String message;
-    
+/**
+ *
+ * @author Darya
+ */
+public class CitySearchStandardResponse {
     @SerializedName("response")
     Response response;
 
@@ -16,14 +20,6 @@ public class UsersSearchResponse{
         return response;
     }
     
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
     public void setResponse(Response response) {
         this.response = response;
     }
@@ -33,7 +29,7 @@ public class UsersSearchResponse{
         public int count;//кол-во человек по заданному критерию
         
         @SerializedName("items")
-        public List<VKUserDTO> items;
+        public List<VKObjectDTO> items;
 
         public int getCount() {
             return count;
@@ -41,10 +37,10 @@ public class UsersSearchResponse{
         public void setCount(int count) {
             this.count = count;
         }
-        public List<VKUserDTO> getItems() {
+        public List<VKObjectDTO> getItems() {
             return items;
         }
-        public void setItems(List<VKUserDTO> items) {
+        public void setItems(List<VKObjectDTO> items) {
             this.items = items;
         }        
     }

@@ -4,8 +4,7 @@ $(document).ready(function(){
         getAllCriteria($('#txt_company_code').val());
    });
 });
-function getAllCriteria(company_code){
-    
+function getAllCriteria(company_code){    
     //отображение всех критериев
     $.ajax({
         'contentType' : "application/json",

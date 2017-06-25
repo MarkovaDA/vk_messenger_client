@@ -42,7 +42,7 @@ import org.springframework.web.servlet.view.RedirectView;
 import su.vistar.client.configuration.SMTPMailSender;
 import su.vistar.client.dto.CriteriaDTO;
 import su.vistar.client.dto.TempResponse;
-import su.vistar.client.dto.UsersSearchResponse;
+import su.vistar.client.dto.UserSearchStandardResponse;
 import su.vistar.client.dto.VKObjectDTO;
 import su.vistar.client.dto.VKUserDTO;
 import su.vistar.client.mapper.AuthUserMapper;
@@ -86,14 +86,14 @@ public class MainController {
         User currentUser = authService.getCurrentUser(uid);  
         model.addAttribute("login", currentUser.getFio());      
         model.addAttribute("companies", authService.getCompanies(currentUser.getId()));
-            //model.addAttribute("countries", vkService.getCountries());
+        model.addAttribute("countries", criteriaService.getCountries());
         model.addAttribute("uid", uid);       
         return new ModelAndView("main_page");
-    }
+    }   
     @GetMapping(value = "/start")
     public ModelAndView start(){
         return new ModelAndView("redirect:" + oauthVkUrl);
-    }
+    }    
     @GetMapping(value = "/wait")
     public ModelAndView getWaitPage(Model model, @ModelAttribute("approval")Integer approval, @ModelAttribute("uid")Long uid){
         if (approval==0)
@@ -149,14 +149,13 @@ public class MainController {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
         }
         return new RedirectView("wait");
-    }
-    
+    }    
     @GetMapping(value = "/approve")
     public ModelAndView getApproveActionPage(@RequestParam("uid")Long uid){
         authUserMapper.updateUserStatus("ACTIVE", uid);
         return new ModelAndView("approve_page");
     }
-     @GetMapping(value = "/decline")
+    @GetMapping(value = "/decline")
     public ModelAndView getDeclineActionPage(@RequestParam("uid")Long uid){
         authUserMapper.updateUserStatus("DECLINED", uid);
         return new ModelAndView("decline_page");
@@ -235,9 +234,13 @@ public class MainController {
             response = new ResponseEntity<>(gson.toJson("ошибка обновления кода"), HttpStatus.BAD_REQUEST);          
         return response;
     }
-    @GetMapping(value="/db")
+    //написать сервис для выбора городов и факультетов
+    //оставить выбор университетов через вк id
+    //для России сделать выбор по регионам
+    //ввести поля дополнительные для указания идентификаторов городов,которых не нашлось
+    /*@GetMapping(value="/db")
     public ModelAndView getNotFoundPage() throws IOException, InterruptedException {   
-        List<Integer> countries = criteriaMapper.getCountriesIds();
+        //List<Integer> countries = criteriaMapper.getCountriesIds();
         TempResponse response;
         String textResponse;
         int _count = 1000, _delta = 1000;
@@ -259,7 +262,7 @@ public class MainController {
             }
         //}
         return new ModelAndView("not_found");
-    }
+    }*/
   
     @GetMapping(value = "/login")
     public ModelAndView getLoginPage(ModelMap model){

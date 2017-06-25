@@ -23,8 +23,7 @@ public class VKApiService{
     //этот сервис подлежит переписыванию, а данные выкачиванию
     @Autowired
     HTTPService httpService;  
-    
-    private String cityQueryFormat = "https://api.vk.com/method/database.getCities?country_id=1&v=5.60";
+  
     private String countryQueryFormat = "https://api.vk.com/method/database.getCountries&v=5.60&count=200";
     private String facultyQueryFormat = "https://api.vk.com/method/database.getFaculties?university_id=%d&v=5.60"; 
     private String universityQueryFormat = "https://api.vk.com/method/database.getUniversities?city_id=%d&v=5.60"; 
@@ -32,13 +31,15 @@ public class VKApiService{
     private String cityQueryByCountryFormat = "https://api.vk.com/method/database.getCities?country_id=%d&count=100&v=5.60";
     private String schoolQueryFormat = "https://api.vk.com/method/database.getCities?country_id=%d&count=100&v=5.60";
     private String searchUserQueryFormat = "https://api.vk.com/method/users.search?%s&offset=%d&v=5.60";
+    private String searchCityUrl = "https://api.vk.com/method/database.getCities";
+    private String searchCoutnryUrl = "https://api.vk.com/method/database.getCountries?q=%s&v=5.60";
     //запрашиваем token
     private String CLIENT_ID = "5801227";
     private String REDIRECT_URI = "http://localhost:8084/vk_messenger_client/regist";
     private String CLIENT_SECRET = "kzErha5eVdhBsKWJMcJ1";
     private String accessTokenUrl = "https://oauth.vk.com/access_token";
     private String usersGetUrl = "https://api.vk.com/method/users.get?user_ids=%d&v=5.65";    
-   
+    
     public AccessToken getAccessToken(String code) throws UnsupportedEncodingException, ProtocolException, IOException{
         Map<String,String> params = new HashMap<>();
         params.put("client_id", CLIENT_ID);
@@ -82,6 +83,19 @@ public class VKApiService{
     public  List<VKObjectDTO> getChairs(int facultyId) throws MalformedURLException, ProtocolException, IOException{
        return httpService.doGETQuery(getQueryForChairs(facultyId));
     }
+        
+    public String getCityByPattern(String pattern, Integer countryId) throws ProtocolException, IOException{
+        Map map = new HashMap<>();
+        map.put("q", pattern);
+        map.put("country_id", countryId);
+        map.put("v", 5.60);
+        String result =  httpService.doPOSTQuery(searchCityUrl, map);
+        return result;
+    }
+    public  List<VKObjectDTO> getCountryByPattern(String pattern) throws ProtocolException, IOException{
+        return httpService.doGETQuery(String.format(searchCoutnryUrl, pattern));
+    }
+    
     private  String getQueryForChairs(int facultyId){                
         return String.format(chairQueryFormat, facultyId);
     }        
@@ -97,13 +111,5 @@ public class VKApiService{
     private String getQueryForCitiesByCountry(int countryId){
         return String.format(cityQueryByCountryFormat, countryId);
     }
-    //"https://api.vk.com/method/database.getCities?country_id=%d&need_all=1&count=%d&offset=%d&v=5.65";
-    private static final String query = "https://api.vk.com/method/database.getCities?country_id=%d&count=%d&offset=%d&v=5.65";
-    
-    public String doPureGetQueryfromVk(int countryId,  int count, int offset) throws IOException{
-        String queryUrl = String.format(query, countryId, count, offset);
-        return httpService.doPureGetQuery(String.format(queryUrl, countryId, count, offset));
-    }
-    
     
 }

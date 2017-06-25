@@ -11,6 +11,7 @@ import org.apache.ibatis.annotations.Update;
 import org.springframework.transaction.annotation.Transactional;
 import su.vistar.client.dto.UserToCompanyDTO;
 import su.vistar.client.dto.CriteriaDTO;
+import su.vistar.client.dto.VKObjectDTO;
 import su.vistar.client.model.Company;
 
 @Transactional("mainManager")
@@ -126,5 +127,8 @@ public interface DBMapper {
     
     @Select("SELECT * from vk_messenger_v2.messages where text=#{text} limit 1")
     Message tryUniqueMessage(@Param("text")String text);
+    
+    @Select("select * from vk_messenger_v2.country")
+    public List<VKObjectDTO> getCountries();
     
 }

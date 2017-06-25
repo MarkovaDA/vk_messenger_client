@@ -3,6 +3,7 @@
 
 <div class="col-lg-12" id="all_criteria">   
     <div class="panel panel-default">
+        
         <div class="panel-heading">
             Все критерии компании <b class="company_title"></b>
             <div class="separate_criteria" style="display:none;" criteria_id="-1">
@@ -15,7 +16,7 @@
                 <br>
             </div>
         </div>
-        <div class="panel-body" >
+        <div class="panel-body" >          
            <!--здесь будут выводиться критерии-->
         </div> 
     </div>

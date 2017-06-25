@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import su.vistar.client.dto.UserToCompanyDTO;
 import su.vistar.client.dto.CriteriaDTO;
+import su.vistar.client.dto.VKObjectDTO;
 import su.vistar.client.mapper.CriteriaMapper;
 import su.vistar.client.mapper.DBMapper;
 import su.vistar.client.model.AdresatCriteria;
@@ -17,7 +18,6 @@ public class DBCriteriaService {
     
     @Autowired
     DBMapper dbMapper;
-    
     
     @Autowired
     AuthService authService;
@@ -103,5 +103,7 @@ public class DBCriteriaService {
     public Integer updateCompanyCode(Long vkUid, Integer messageCount, Long code){
         return dbMapper.updateCompanyCode(vkUid, messageCount, code);
     }
-
+    public List<VKObjectDTO> getCountries(){
+       return dbMapper.getCountries();
+    }
 }

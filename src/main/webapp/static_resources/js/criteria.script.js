@@ -108,7 +108,7 @@ $(document).ready(function () {
         }
     });
     
-    //функция, обобщающая все запросы - одна единственная функция на все запросы
+    //ОБОБЩИТЬ ОДНОЙ ФУНКЦИЕЙ ВСЕ ЗАПРОСЫ
     function get_objects(select_id,api_str,param_id){
         $(select_id).empty();
         $.get("api/"+api_str+"?token=" + $('#token_field').val() + param_id + $(this).val(),

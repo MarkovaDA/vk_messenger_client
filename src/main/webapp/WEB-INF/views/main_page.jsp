@@ -17,7 +17,8 @@
         <script type="text/javascript" src="<c:url value='static_resources/js/company.script.js' />"></script>
         <script type="text/javascript" src="<c:url value='static_resources/js/scroll.up.js' />"></script>
         <script type="text/javascript" src="<c:url value='static_resources/js/criteria.all.js' />"></script>
-        <script type="text/javascript" src="<c:url value='static_resources/js/statistics.script.js' />"></script>       
+        <script type="text/javascript" src="<c:url value='static_resources/js/statistics.script.js' />"></script>
+        <script type="text/javascript" src="<c:url value='static_resources/js/geo.object.search.js' />"></script>
     </head>
     <body>
         <div id="wrapper">
@@ -40,9 +41,12 @@
                                </div>
                            </div>
                         </div>
+                        
                         <jsp:include page="message_zone.jsp"/>
                         <jsp:include page="сompany_page.jsp"/>        
                         <div class="col-lg-12 toggle_visible" id="add_criteria" style="display: none;">
+                            
+                            
                             <div class="panel panel-default">
                                 <div class="panel-heading">
                                     Cоздать новый критерий в <b class="company_title"></b>
@@ -70,7 +74,7 @@
                                                     <c:forEach items="${countries}" var="coutry"> 
                                                         <option value="${coutry.id}">${coutry.title}</option>
                                                     </c:forEach>                                       
-                                                </select>
+                                                </select>                                             
                                             </td>
                                         </tr>
                                         <!--город-->
@@ -80,13 +84,17 @@
                                                 <select property="city" id="select_city" class="selectpicker for_reading" data-show-subtext="true" data-live-search="true" style="width: 200px">
                                                    <!--динамическая загрузка городов по стране-->                                      
                                                 </select>
+                                                <input type="checkbox" id="ch_city" class="not_presented_value"/>
+                                                <label for="ch_country">населенный пункт не представлен в списке</label>
+                                                <br><br>
+                                                <jsp:include page="object_search.jsp"></jsp:include>
                                             </td>
                                         </tr>
                                         <!--родной город-->
                                         <tr id="hometown">
                                             <td><span class="label label-primary">Родной город:</span></td>
                                             <td>        
-                                                <input type="text" property="hometown" class="form-control for_reading" placeholder="hometown">
+                                                <input type="text" property="hometown" class="form-control for_reading" placeholder="hometown">    
                                             </td>
                                         </tr>                                       
                                         <!--страна окончания вуза-->
@@ -320,6 +328,7 @@
                         <jsp:include page="criteria_page.jsp"/> 
                         <jsp:include page="company_add_page.jsp"/>
                         <jsp:include page="statistics_page.jsp"/>
+                        <input type="hidden" value="${uid}" id="txt_uid">
                     </div>
                 </div>
             </div>

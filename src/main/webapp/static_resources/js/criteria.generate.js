@@ -4,8 +4,8 @@ function isEmptyValue(value) {
     else
         return true;
 }
+var criteria = new Object();
 $(document).ready(function () {
-    var criteria = new Object();
     //селект, который отвечает за опциональное отображение критериев
     $('#criteria_type').on('changed.bs.select', function(event, clickedIndex, newValue, oldValue){
         var prop = $(this).children().eq(clickedIndex).attr('value');
@@ -41,13 +41,12 @@ $(document).ready(function () {
     $('#btn_add').click(function () {
         var propertyName, propertyValue, propertyText;
         var criteriaName = "";
-        //значение считывается только с селекта (?)
+
         $('.readable').each(function(){
             propertyName = $(this).attr('property');
             propertyValue = $(this).val();               
             if (/*typeof propertyName !== 'undefined'*/ !isEmptyValue(propertyName) && !isEmptyValue(propertyValue)){
                 criteria[propertyName] = propertyValue; 
-                //это для селектов только пропахивает
                 propertyText = $(this).find("option:selected").text();
                 if (isEmptyValue(propertyText)){
                     propertyText = propertyValue;
@@ -65,7 +64,7 @@ $(document).ready(function () {
             if (!isEmptyValue(key) && !isEmptyValue(criteria[key]))
                 criteriaString += key + "=" + criteria[key] + "&";
         }
-        //console.log(criteriaString);
+        console.log(criteriaString);
         //проверка содержимого критерия
         if (isEmptyValue(criteriaString)){
             showMessage('alert-danger', "критерий не указан");

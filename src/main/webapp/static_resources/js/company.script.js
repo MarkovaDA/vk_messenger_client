@@ -32,7 +32,7 @@ $(document).ready(function(){
         $.ajax({          
             contentType : 'application/json',
             type: 'POST',
-            url: 'update_company',
+            url: 'update_company?uid='+$('#txt_uid').val(),
             data: JSON.stringify(company),
             dataType: 'json',
             success: function(data) {
@@ -62,7 +62,7 @@ $(document).ready(function(){
             },*/       
             contentType : 'application/json',
             type: 'POST',
-            url: 'add_company',
+            url: 'add_company?uid='+$('#txt_uid').val(),
             data: JSON.stringify(company),
             dataType: 'json',
             success: function(data) {
@@ -101,8 +101,7 @@ function showMessage(type, text) {
             $('.message_block').fadeOut(100);
             clearTimeout(timerId);
         },            
-        2000);
-    
+        2000);   
 }
 /*генерирование рандомного кода*/
 function randomInteger(min, max) {

@@ -1,5 +1,6 @@
 package su.vistar.client.controller;
 
+import com.google.gson.Gson;
 import su.vistar.client.dto.VKObjectDTO;
 import su.vistar.client.service.VKApiService;
 import java.io.IOException;
@@ -12,6 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import su.vistar.client.dto.CitySearchStandardResponse;
+import su.vistar.client.dto.UserSearchStandardResponse;
+import su.vistar.client.dto.VKUserDTO;
 import su.vistar.client.model.Message;
 import su.vistar.client.service.DBCriteriaService;
 
@@ -24,17 +28,7 @@ public class APIController {
     
     @Autowired
     DBCriteriaService criteriaService;
-    
-    /*@GetMapping(value="get_cities")
-    public List<VKObjectDTO> getCities(){
-        try {
-            return vkService.getCities();
-        } catch (IOException ex) {
-            Logger.getLogger(APIController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
-    }*/
-    
+        
     @GetMapping(value="get_cities_bycountry")
     public List<VKObjectDTO> getCities(@RequestParam("country_id")Integer countryId){
         try {
@@ -85,5 +79,20 @@ public class APIController {
     @ResponseBody
     public Message getMessage(@RequestParam("mes_id")Integer mesId){
         return criteriaService.getMessageById(mesId);
+    }
+
+    @GetMapping(value="city/search", produces = "application/json;charset=UTF-8")
+    @ResponseBody
+    public List<VKObjectDTO> getSearchedCity(@RequestParam("q")String pattern, @RequestParam("country_id")Integer countryId){
+        String response;
+        CitySearchStandardResponse convertResponse = null;
+        Gson gson = new Gson();
+        try {
+            response = vkService.getCityByPattern(pattern,countryId);
+            convertResponse = gson.fromJson(response, CitySearchStandardResponse.class);
+        } catch (IOException ex) {
+            Logger.getLogger(APIController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return convertResponse.getResponse().getItems();
     }
 }

@@ -20,6 +20,8 @@
                   <button class="btn btn-default" id="btn_update_company" type="button">обновить код</button>
                 </span>
             </div>
+            <br>
+            <button class="btn btn-default" id="btn_delete_company" type="button">удалить выбранную кампанию</button>
         </div> 
     </div>
 </div>

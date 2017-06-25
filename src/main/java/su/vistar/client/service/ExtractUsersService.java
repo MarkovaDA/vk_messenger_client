@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.net.ProtocolException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import su.vistar.client.dto.UsersSearchResponse;
+import su.vistar.client.dto.UserSearchStandardResponse;
 
 @Service
 public class ExtractUsersService {
@@ -16,11 +16,11 @@ public class ExtractUsersService {
     private String searchUserQueryFormat 
             = "https://api.vk.com/method/users.search?%s&offset=%d&count=%d&access_token=%s&v=5.60";
        
-    public UsersSearchResponse getUsers(String queryString, int offset, int count) throws ProtocolException, IOException{            
+    public UserSearchStandardResponse getUsers(String queryString, int offset, int count) throws ProtocolException, IOException{            
         String queryStr = getQueryForUsersSearch(queryString, offset, count);
         String response = httpService.doPureGETQuery(queryStr);
         Gson gson = new Gson();
-        return gson.fromJson(response,UsersSearchResponse.class);
+        return gson.fromJson(response,UserSearchStandardResponse.class);
     }
     
     private String getQueryForUsersSearch(String queryString, int offset, int count){          

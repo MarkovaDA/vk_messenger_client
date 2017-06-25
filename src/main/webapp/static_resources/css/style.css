@@ -9,3 +9,7 @@ table tr{
 a {
     cursor:pointer;
 }
+.underline{
+    text-decoration: underline;
+    color: #08C;
+}
