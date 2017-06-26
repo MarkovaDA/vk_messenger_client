@@ -13,6 +13,7 @@ $(document).ready(function(){
             $('#st_company_title').empty();
             $('#st_company_title').append(company_title);
             fullStatistics(company_code);  
+            getMessages(company_code);
             //getAllCriteria(company_code);
         });
     //генерируем код
@@ -102,6 +103,46 @@ function showMessage(type, text) {
             clearTimeout(timerId);
         },            
         2000);   
+}
+function getMessages(company_code){   
+    //отображаем все сообщения по критерию
+     $.ajax({
+          'contentType' : "application/json",
+          'type': 'GET',
+          'url': 'api/messages/company/'+ company_code,
+          success: function(data){
+            $('.message_container .message_pattern').remove();
+            $('.message_container').empty();
+            if (data.length === 0){
+               $('.message_container').append('<p>у данной кампании сообщения отсутствуют</p>');  
+            }
+            var cloned_block = $('.message_pattern');
+            for(index in data){
+                var item = data[index];
+                cloned_block = cloned_block.clone();
+                cloned_block.find('.message_text').text(item["text"]);
+                cloned_block.attr('message_id', item["id"]);
+                cloned_block.find('.btn_delete_message').bind("click", function(){
+                    var id = $(this).parent().attr('message_id');                   
+                    $.post("api/messages/delete/"+id, function() {
+                        $(this).parent().fadeOut(100);
+                    });
+                });
+                cloned_block.find('.btn_save_message').bind("click", function(){
+                    var id = $(this).parent().attr('message_id');
+                    $.post("api/messages/update/"+id, 
+                        {title: cloned_block.find('.message_text').text()}, function() {
+                        showMessage('alert-success', 'сообщение было обновлено!');
+                    });                 
+                });
+                $('.message_container').append(cloned_block); 
+            }
+            $('.message_container .message_pattern').show();
+          },
+          error:function(jqXHR, textStatus, errorThrown){
+             console.log(jqXHR, textStatus, errorThrown);
+          }
+      });
 }
 /*генерирование рандомного кода*/
 function randomInteger(min, max) {

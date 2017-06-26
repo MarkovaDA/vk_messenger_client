@@ -11,7 +11,8 @@ $(document).ready(function(){
         }
     );
 });
- function fullStatistics(company_code){
+
+function fullStatistics(company_code){
     $.ajax({
           'contentType' : "application/json",
           'type': 'GET',

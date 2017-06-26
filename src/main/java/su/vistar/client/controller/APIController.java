@@ -9,13 +9,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import su.vistar.client.dto.CitySearchStandardResponse;
-import su.vistar.client.dto.UserSearchStandardResponse;
-import su.vistar.client.dto.VKUserDTO;
+import su.vistar.client.model.Company;
 import su.vistar.client.model.Message;
 import su.vistar.client.service.DBCriteriaService;
 
@@ -23,6 +24,7 @@ import su.vistar.client.service.DBCriteriaService;
 @RestController
 @RequestMapping("api/")
 public class APIController {
+    
     @Autowired
     VKApiService vkService;
     
@@ -95,4 +97,23 @@ public class APIController {
         }
         return convertResponse.getResponse().getItems();
     }
+    
+    @GetMapping(value="messages/company/{code}", produces = "application/json;charset=UTF-8")
+    @ResponseBody
+    public List<Message> getMessageByCompanyId(@PathVariable("code")Long companyCode){
+        Company company = criteriaService.getCompanyByCode(companyCode);
+        return criteriaService.getMessagesByCompanyId(company.getId());
+    }
+    
+    @PostMapping(value="messages/delete/{id}")
+    public void deleteMessage(@PathVariable("id")Integer messageId){
+        criteriaService.deleteMessage(messageId);
+    }
+    
+    @PostMapping(value="messages/update/{id}")
+    public void updateMessage(@PathVariable("id")Integer messageId, 
+            @RequestParam("title")String title){
+        criteriaService.updateMessage(messageId, title);
+    }
+    
 }

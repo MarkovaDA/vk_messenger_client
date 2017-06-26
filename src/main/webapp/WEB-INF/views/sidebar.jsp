@@ -1,5 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<div id="sidebar-wrapper">              
+<div id="sidebar-wrapper">    
+    <!--прописать полный путь-->
     <ul class="sidebar-nav">
         <a class="closebtn">&times;</a>
         <li class="sidebar-brand">

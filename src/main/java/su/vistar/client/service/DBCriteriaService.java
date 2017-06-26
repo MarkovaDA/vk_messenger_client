@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 import su.vistar.client.dto.UserToCompanyDTO;
 import su.vistar.client.dto.CriteriaDTO;
 import su.vistar.client.dto.VKObjectDTO;
-import su.vistar.client.mapper.CriteriaMapper;
 import su.vistar.client.mapper.DBMapper;
 import su.vistar.client.model.AdresatCriteria;
 import su.vistar.client.model.Company;
@@ -105,5 +104,15 @@ public class DBCriteriaService {
     }
     public List<VKObjectDTO> getCountries(){
        return dbMapper.getCountries();
+    }    
+    //сообщения кампании
+    public List<Message> getMessagesByCompanyId(Integer companyId){
+        return dbMapper.getMessagesByCompanyId(companyId);
+    }
+    public void updateMessage(Integer messageId, String title){
+        dbMapper.updateMessage(messageId, title);        
+    }
+    public void deleteMessage(Integer messageId){
+        dbMapper.deleteMessage(messageId); 
     }
 }

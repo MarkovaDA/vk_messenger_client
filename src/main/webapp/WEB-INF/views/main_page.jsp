@@ -37,11 +37,10 @@
                            <div class="panel panel-default">
                                <div class="panel-body">
                                    <span class="glyphicon glyphicon-home"></span>
-                                    Пользователь:<b>${login}</b>
+                                   Пользователь:<br><b>${login}</b>
                                </div>
                            </div>
-                        </div>
-                        
+                        </div>                        
                         <jsp:include page="message_zone.jsp"/>
                         <jsp:include page="сompany_page.jsp"/>        
                         <div class="col-lg-12 toggle_visible" id="add_criteria" style="display: none;">
@@ -328,7 +327,8 @@
                         <jsp:include page="criteria_page.jsp"/> 
                         <jsp:include page="company_add_page.jsp"/>
                         <jsp:include page="statistics_page.jsp"/>
-                        <input type="hidden" value="${uid}" id="txt_uid">
+                        <jsp:include page="messages_page.jsp"/>
+                    <input type="hidden" value="${uid}" id="txt_uid">
                     </div>
                 </div>
             </div>
