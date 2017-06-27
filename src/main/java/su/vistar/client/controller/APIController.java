@@ -30,7 +30,8 @@ public class APIController {
     
     @Autowired
     DBCriteriaService criteriaService;
-        
+    
+            
     @GetMapping(value="get_cities_bycountry")
     public List<VKObjectDTO> getCities(@RequestParam("country_id")Integer countryId){
         try {
@@ -73,8 +74,9 @@ public class APIController {
 
     @GetMapping(value="get_messages")
     @ResponseBody
-    public List<Message> getMessages(){
-        return criteriaService.getMessages();
+    public List<Message> getMessages(@RequestParam("code")Long companyCode){
+        Company company = criteriaService.getCompanyByCode(companyCode);
+        return criteriaService.getMessages(company.getId());
     }
     
     @GetMapping(value="get_message")
@@ -115,5 +117,10 @@ public class APIController {
             @RequestParam("title")String title){
         criteriaService.updateMessage(messageId, title);
     }
-    
+    //users/statistics
+    @PostMapping(value="company/delete/{code}")
+    public void deleteCompanyById(@PathVariable("code")Long companyCode){
+        Company company = criteriaService.getCompanyByCode(companyCode);
+        criteriaService.deleteCompany(company.getId());
+    }    
 }

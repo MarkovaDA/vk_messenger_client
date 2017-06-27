@@ -33,6 +33,11 @@ public class ExternalAPIController {
     @Autowired
     ExtractUsersService extractService;
 
+    
+    @GetMapping(value="/test")
+    public ResponseEntity<?> test(){
+        return new ResponseEntity<>(new ErrorResponse("API test"), HttpStatus.OK);
+    }
     //подписаться на рассылку
     @PostMapping(value = "/company/{code}/subscribe")
     @ResponseBody
@@ -110,7 +115,7 @@ public class ExternalAPIController {
     //получить сообщение и адресатов по критериям 
     @GetMapping(value = "/company/{code}/messages")
     @ResponseBody
-    public ResponseEntity<?> getMessageAndRecipients(
+    public  ResponseEntity<?> getMessageAndRecipients(
             @PathVariable("code") Long code, 
             @RequestParam("vk_uid")Long vkUid) {
         UserToCompanyDTO companyInfo = dbService.getCompanyInfo(code);
@@ -118,8 +123,7 @@ public class ExternalAPIController {
             return new ResponseEntity<>(new ErrorResponse("Компании с заданным code не существует"), HttpStatus.BAD_REQUEST);
         }
         //кол-во сообщений, которые юзер готов отправлять за кампанию ежедневно
-        Integer count = dbService.getCountMessagesByCompanyId(companyInfo.getId(), vkUid);
-        
+        Integer count = dbService.getCountMessagesByCompanyId(companyInfo.getId(), vkUid);        
         if (count == null) {
             return new ResponseEntity<>(new ErrorResponse("Юзер с заданным vk_uid не подписан на рассылку по данной кампании"), HttpStatus.CONFLICT);
         }
@@ -136,7 +140,6 @@ public class ExternalAPIController {
         int offset;
         CriteriaDTO criteria;
         List<VKUserDTO> usersByCriteria;//список пользователей по критерию полученных
-
         if (count <= criteriaCount) {
             for (int i = 0; i < count; i++) {
                 criteria = listCriteria.get(i);
@@ -147,7 +150,7 @@ public class ExternalAPIController {
                     usersByCriteria = extractService.getUsers(queryVkString, offset, 1).getResponse().getItems();
                     //обновление offset
                     dbService.updateOffset(criteria.getId(), offset + 1);
-                    responseList.add(new UsersToMessageDTO(message, usersByCriteria));
+                    responseList.add(new UsersToMessageDTO(message, usersByCriteria, criteria.getId()));
                 } catch (IOException ex) {
                     Logger.getLogger(ExternalAPIController.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -175,7 +178,7 @@ public class ExternalAPIController {
                 try {
                     usersByCriteria = extractService.getUsers(queryVkString, offset, numberByCriteria[i]).getResponse().getItems();
                     dbService.updateOffset(criteria.getId(), offset + numberByCriteria[i]);
-                    responseList.add(new UsersToMessageDTO(message, usersByCriteria));
+                    responseList.add(new UsersToMessageDTO(message, usersByCriteria, criteria.getId()));
                 } catch (IOException ex) {
                     Logger.getLogger(ExternalAPIController.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -186,4 +189,5 @@ public class ExternalAPIController {
         }
         return new ResponseEntity<>(responseList, HttpStatus.OK);
     }
+
 }

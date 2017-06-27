@@ -142,5 +142,6 @@ public interface DBMapper {
     @Update("DELETE from vk_messenger_v2.messages where id=#{id}")
     public void deleteMessage(@Param("id")Integer messageId);
     
-    
+    @Delete("DELETE from vk_messenger_v2.company where id=#{id}")
+    public void deleteCompanyById(@Param("id")Integer companyId);
 }

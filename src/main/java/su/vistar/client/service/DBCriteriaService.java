@@ -45,8 +45,8 @@ public class DBCriteriaService {
     public Integer updateCompanyCode(Company company){
         return dbMapper.updateCompanyCodeByTitle(company);
     }
-    public List<Message> getMessages(){
-        return dbMapper.getAllMessage();
+    public List<Message> getMessages(int companyId){
+        return dbMapper.getMessagesByCompanyId(companyId);
     }   
     public Message getMessageById(Integer mesId){
         return dbMapper.getMessageById(mesId);
@@ -114,5 +114,9 @@ public class DBCriteriaService {
     }
     public void deleteMessage(Integer messageId){
         dbMapper.deleteMessage(messageId); 
+    }
+    //удаление кампании по идентификатору
+    public void deleteCompany(Integer companyId){
+        dbMapper.deleteCompanyById(companyId);
     }
 }

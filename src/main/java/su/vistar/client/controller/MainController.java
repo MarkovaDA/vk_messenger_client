@@ -1,25 +1,15 @@
 package su.vistar.client.controller;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileReader;
 import su.vistar.client.model.AdresatCriteria;
 import su.vistar.client.model.User;
 import su.vistar.client.service.AuthService;
 import su.vistar.client.service.VKApiService;
 import su.vistar.client.service.DBCriteriaService;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.lang.reflect.Type;
 import java.net.ProtocolException;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.function.Consumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.mail.MessagingException;
@@ -28,7 +18,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -41,9 +30,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 import su.vistar.client.configuration.SMTPMailSender;
 import su.vistar.client.dto.CriteriaDTO;
-import su.vistar.client.dto.TempResponse;
-import su.vistar.client.dto.UserSearchStandardResponse;
-import su.vistar.client.dto.VKObjectDTO;
 import su.vistar.client.dto.VKUserDTO;
 import su.vistar.client.mapper.AuthUserMapper;
 import su.vistar.client.mapper.CriteriaMapper;
@@ -234,38 +220,4 @@ public class MainController {
             response = new ResponseEntity<>(gson.toJson("ошибка обновления кода"), HttpStatus.BAD_REQUEST);          
         return response;
     }
-    //написать сервис для выбора городов и факультетов
-    //оставить выбор университетов через вк id
-    //для России сделать выбор по регионам
-    //ввести поля дополнительные для указания идентификаторов городов,которых не нашлось
-    /*@GetMapping(value="/db")
-    public ModelAndView getNotFoundPage() throws IOException, InterruptedException {   
-        //List<Integer> countries = criteriaMapper.getCountriesIds();
-        TempResponse response;
-        String textResponse;
-        int _count = 1000, _delta = 1000;
-        //for(int i=0; i < countries.size(); i++){
-            int  _offset = 86000;
-            while(true){
-                textResponse = vkService.doPureGetQueryfromVk(1, _count, _offset);
-                Thread.sleep(300);               
-                response = (new Gson()).fromJson(textResponse, TempResponse.class); 
-                if (response.getResponse().getItems().size() == 0){
-                    break;
-                }
-                VKObjectDTO item;
-                for(int j=0; j < response.getResponse().getItems().size(); j++){
-                    item = response.getResponse().getItems().get(j);
-                    criteriaMapper.insertCity(Integer.parseInt(item.getId()), item.getTitle(),item.getArea(), item.getRegion(), 1);
-                }  
-                _offset += _delta; 
-            }
-        //}
-        return new ModelAndView("not_found");
-    }*/
-  
-    @GetMapping(value = "/login")
-    public ModelAndView getLoginPage(ModelMap model){
-        return new ModelAndView("login");
-    }   
 }

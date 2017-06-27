@@ -1,7 +1,5 @@
-$(document).ready(function(){
-   getAllMessagesToList();
-});
-function getAllMessagesToList(){
+
+function getAllMessagesToList(company_code){
     $('#message_list').empty();
     $.ajax({
             headers: {
@@ -9,7 +7,7 @@ function getAllMessagesToList(){
                 'Content-Type': 'application/json'
             },
             'type': 'GET',
-            'url': 'api/get_messages',
+            'url': 'api/get_messages?code='+company_code,
             'success': function (messages) {
                 for(var mesIndex in messages){
                     var li = "<li mesid=" + messages[mesIndex].id + 

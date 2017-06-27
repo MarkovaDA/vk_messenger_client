@@ -14,6 +14,7 @@ $(document).ready(function(){
             $('#st_company_title').append(company_title);
             fullStatistics(company_code);  
             getMessages(company_code);
+            getAllMessagesToList(company_code);//прогружаем кол-во сообщений в список
             //getAllCriteria(company_code);
         });
     //генерируем код
@@ -74,6 +75,15 @@ $(document).ready(function(){
             }                   
         });
     });
+    $('#btn_delete_company').click(function(){
+        $("#deleteModal").modal('show');
+    });
+    $('#btn_really_delete').click(function(){
+        $.post("api/company/delete/"+company_code, function(data){
+            showMessage('alert-success', 'кампания удалена успешно');
+        });
+        $("#deleteModal").modal('hide');
+    });
 });
 function deleteAllClass(){
     //alert-info, alert-success, alert-warning, alert-danger
@@ -105,7 +115,7 @@ function showMessage(type, text) {
         2000);   
 }
 function getMessages(company_code){   
-    //отображаем все сообщения по критерию
+    //отображаем все сообщения по критерию, внутри объявление и добавление и тра-та-та
      $.ajax({
           'contentType' : "application/json",
           'type': 'GET',
@@ -123,20 +133,21 @@ function getMessages(company_code){
                 cloned_block.find('.message_text').text(item["text"]);
                 cloned_block.attr('message_id', item["id"]);
                 cloned_block.find('.btn_delete_message').bind("click", function(){
-                    var id = $(this).parent().attr('message_id');                   
-                    $.post("api/messages/delete/"+id, function() {
-                        $(this).parent().fadeOut(100);
-                    });
+                    var id = $(this).parent().attr('message_id'); 
+                    $(this).parent().fadeOut(100);
+                    $.post("api/messages/delete/"+id, function(){});
                 });
-                cloned_block.find('.btn_save_message').bind("click", function(){
-                    var id = $(this).parent().attr('message_id');
-                    $.post("api/messages/update/"+id, 
-                        {title: cloned_block.find('.message_text').text()}, function() {
-                        showMessage('alert-success', 'сообщение было обновлено!');
-                    });                 
-                });
-                $('.message_container').append(cloned_block); 
+                $('.message_container').append(cloned_block);
             }
+            $('.btn_save_message').bind("click", function(){
+                    var id = $(this).parent().attr('message_id');
+                    var text = $(this).parent().find('.message_text').val();
+                    console.log(text);
+                    $.post("api/messages/update/"+id, 
+                        {title: text}, function() {
+                        showMessage('alert-success', 'сообщение было обновлено!');
+                    });               
+            });
             $('.message_container .message_pattern').show();
           },
           error:function(jqXHR, textStatus, errorThrown){
@@ -150,5 +161,7 @@ function randomInteger(min, max) {
     rand = Math.round(rand);
     return rand;
 }
+
+
 
 
