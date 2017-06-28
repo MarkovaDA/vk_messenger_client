@@ -33,6 +33,10 @@ function fullStatistics(company_code){
                   $('.list-group').append(cloned_block); 
               }
               $('.list-group .separate_li').show();
+              $('.btn_criteria_report').click(function(){
+                  var url = "statistics/" + $(this).parent().attr("criteria_id");
+                  window.open(url);
+              });
           },
           error:function(jqXHR, textStatus, errorThrown){
              console.log(jqXHR, textStatus, errorThrown);

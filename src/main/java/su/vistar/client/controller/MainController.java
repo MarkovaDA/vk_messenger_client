@@ -136,6 +136,12 @@ public class MainController {
         }
         return new RedirectView("wait");
     }    
+    
+    @GetMapping(value = "/statistics/{criterion_id}")
+    public ModelAndView getStatisticsPage(Model model, @PathVariable("criterion_id")Integer criterionId){
+        //Model model - добавить отчет, соответсвующий критерию
+        return new ModelAndView("criteria_statistics_page");
+    }
     @GetMapping(value = "/approve")
     public ModelAndView getApproveActionPage(@RequestParam("uid")Long uid){
         authUserMapper.updateUserStatus("ACTIVE", uid);

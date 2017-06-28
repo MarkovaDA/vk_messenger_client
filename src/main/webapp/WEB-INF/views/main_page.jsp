@@ -43,9 +43,7 @@
                         </div>                        
                         <jsp:include page="message_zone.jsp"/>
                         <jsp:include page="сompany_page.jsp"/>        
-                        <div class="col-lg-12 toggle_visible" id="add_criteria" style="display: none;">
-                            
-                            
+                        <div class="col-lg-12 toggle_visible" id="add_criteria" style="display: none;">                                                        
                             <div class="panel panel-default">
                                 <div class="panel-heading">
                                     Cоздать новый критерий в <b class="company_title"></b>
@@ -333,6 +331,7 @@
                 </div>
             </div>
         </div>
+        <!--вынести в один файлик-->
         <script>            
             $(document).ready(function () {
                 $('.visible_tr').show();

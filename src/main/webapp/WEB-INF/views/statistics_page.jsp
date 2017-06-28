@@ -15,7 +15,7 @@
             </select><br><br>
             <li class="list-group-item separate_li" style="display: none;" criteria_id="-1">
                     <span class="criteria_title">Критерий 1</span>
-                    <button class="btn btn-default">Отправлено сообщ.
+                    <button class="btn btn-default btn_criteria_report">Отправлено сообщ.
                         <span class="badge">14</span>
                     </button>
             </li>
@@ -25,3 +25,4 @@
         </div> 
     </div>
 </div>
+
