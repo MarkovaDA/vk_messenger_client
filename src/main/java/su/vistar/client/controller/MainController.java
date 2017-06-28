@@ -30,9 +30,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 import su.vistar.client.configuration.SMTPMailSender;
 import su.vistar.client.dto.CriteriaDTO;
+import su.vistar.client.dto.UserStatisticsDTO;
 import su.vistar.client.dto.VKUserDTO;
 import su.vistar.client.mapper.AuthUserMapper;
 import su.vistar.client.mapper.CriteriaMapper;
+import su.vistar.client.mapper.StatisticsMapper;
 import su.vistar.client.model.AccessToken;
 import su.vistar.client.model.Company;
 
@@ -55,6 +57,9 @@ public class MainController {
     
     @Autowired
     AuthUserMapper authUserMapper;
+    
+    @Autowired
+    StatisticsMapper statisticsMapper;
     
     @Autowired
     private SMTPMailSender mailSender;
@@ -140,6 +145,8 @@ public class MainController {
     @GetMapping(value = "/statistics/{criterion_id}")
     public ModelAndView getStatisticsPage(Model model, @PathVariable("criterion_id")Integer criterionId){
         //Model model - добавить отчет, соответсвующий критерию
+        List<UserStatisticsDTO> list = statisticsMapper.getCriteriaStatistics();
+        model.addAttribute("listInfo", list);
         return new ModelAndView("criteria_statistics_page");
     }
     @GetMapping(value = "/approve")

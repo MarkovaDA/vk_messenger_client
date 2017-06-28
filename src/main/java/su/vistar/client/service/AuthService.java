@@ -17,8 +17,7 @@ public class AuthService {
     @Autowired
     DBMapper dataMapper;
     
-    //подумать, как статически сохранять юзера
-    
+    //подумать, как статически сохранять юзера    
     //получение текущего авторизованного пользователя
     public  User getCurrentUser(Long uid){
        return authUserMapper.getUserByUid(uid);
