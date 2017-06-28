@@ -1,8 +1,11 @@
 package su.vistar.client.controller;
 
 import java.io.IOException;
+import java.sql.Date;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +14,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -20,6 +25,8 @@ import su.vistar.client.dto.CriteriaDTO;
 import su.vistar.client.dto.UsersToMessageDTO;
 import su.vistar.client.dto.VKUserDTO;
 import su.vistar.client.dto.ErrorResponse;
+import su.vistar.client.dto.UserStatisticsDTO;
+import su.vistar.client.mapper.StatisticsMapper;
 import su.vistar.client.service.DBCriteriaService;
 import su.vistar.client.service.ExtractUsersService;
 
@@ -34,10 +41,6 @@ public class ExternalAPIController {
     ExtractUsersService extractService;
 
     
-    @GetMapping(value="/test")
-    public ResponseEntity<?> test(){
-        return new ResponseEntity<>(new ErrorResponse("API test"), HttpStatus.OK);
-    }
     //подписаться на рассылку
     @PostMapping(value = "/company/{code}/subscribe")
     @ResponseBody
@@ -189,5 +192,26 @@ public class ExternalAPIController {
         }
         return new ResponseEntity<>(responseList, HttpStatus.OK);
     }
-
+    
+    @Autowired
+    StatisticsMapper statisticsMapper;
+    
+    //статистика по отправке
+    @PutMapping(value = "/statistics/{sender_vk_id}")
+    @ResponseBody
+    public ResponseEntity<?> putStatistics(@RequestBody  ArrayList<UserStatisticsDTO> list,
+            @PathVariable("sender_vk_id")Long senderVkId){
+        //проверка на несуществующий критерий
+        list.forEach(item -> {
+            Date sendingDate = new Date((long)item.getDeviceDate()*1000);
+            statisticsMapper.insertStatisticsInfo(
+                    item.getCriterionId(), 
+                    senderVkId, 
+                    item.getReceiverVkId(),
+                    item.getErrorMsg(),
+                    sendingDate);
+        });
+        return new ResponseEntity<>(HttpStatus.OK); 
+    }
+   
 }
