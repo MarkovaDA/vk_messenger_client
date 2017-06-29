@@ -9,6 +9,7 @@ import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.transaction.annotation.Transactional;
 import su.vistar.client.dto.UserStatisticsDTO;
+import su.vistar.client.model.SenderStatisticsReport;
 
 @Transactional("mainManager")
 public interface StatisticsMapper {    
@@ -20,16 +21,24 @@ public interface StatisticsMapper {
             @Param("receiver_vk_id")Long vkReceiverId,
             @Param("status")String status, 
             @Param("device_date")Date deviceDate);
-    
+    //where criteria_id = 
     //сделать ограничение по критерию
-    @Select("SELECT * from vk_messenger_v2.company_statistics")
+    @Select("SELECT * from vk_messenger_v2.company_statistics where sender_vk_id=#{sender_vk_id}")
     @Results({
-        @Result(property = "criterionId", column = "criteria_id"),
         @Result(property = "receiverVkId", column = "receiver_vk_id"),
-        @Result(property = "senderVkId", column = "sender_vk_id"),
         @Result(property = "errorMsg", column = "status"),
-        @Result(property = "humanDate", column = "device_date")
+        @Result(property = "humanDate", column = "device_date"),
+        @Result(property = "senderVkId", column = "sender_vk_id")
     })
-    List<UserStatisticsDTO> getCriteriaStatistics();
+    List<UserStatisticsDTO> getCriteriaStatisticsBySender(@Param("sender_vk_id")Long senderVkId);
+    
+    @Select("SELECT sender_vk_id, count(*) as count "
+            + "FROM vk_messenger_v2.company_statistics group by sender_vk_id")
+    @Results({
+        @Result(property = "count", column = "count"),
+        @Result(property = "senderVkId", column = "sender_vk_id"),
+    })
+    List<SenderStatisticsReport> getStatisticsBySendors();//добавить ограниение на принадлежности выбранному критерию
+    //where criteria_id =
     
 }

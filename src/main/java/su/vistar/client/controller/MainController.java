@@ -8,6 +8,7 @@ import su.vistar.client.service.VKApiService;
 import su.vistar.client.service.DBCriteriaService;
 import java.io.IOException;
 import java.net.ProtocolException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -37,6 +38,7 @@ import su.vistar.client.mapper.CriteriaMapper;
 import su.vistar.client.mapper.StatisticsMapper;
 import su.vistar.client.model.AccessToken;
 import su.vistar.client.model.Company;
+import su.vistar.client.model.SenderStatisticsReport;
 
 
 
@@ -95,6 +97,7 @@ public class MainController {
         model.addAttribute("login", login);
         return new ModelAndView("wait_page");
     }
+    
     @GetMapping(value = "/regist")
     public RedirectView regist(@RequestParam("code")String code, RedirectAttributes attributes) throws MessagingException{       
         try {          
@@ -142,13 +145,26 @@ public class MainController {
         return new RedirectView("wait");
     }    
     
+  
     @GetMapping(value = "/statistics/{criterion_id}")
-    public ModelAndView getStatisticsPage(Model model, @PathVariable("criterion_id")Integer criterionId){
-        //Model model - добавить отчет, соответсвующий критерию
-        List<UserStatisticsDTO> list = statisticsMapper.getCriteriaStatistics();
-        model.addAttribute("listInfo", list);
+    public ModelAndView getStatisticsPage(Model model, 
+            @PathVariable("criterion_id")Integer criterionId,
+            @RequestParam(value = "vk_sender", required=false)Long vkSender){
+        User currentUser = authService.getCurrentUser(null);  
+        model.addAttribute("login", currentUser.getFio());
+        
+        if (vkSender != null){
+            List<UserStatisticsDTO> userStatisticsList 
+                    = statisticsMapper.getCriteriaStatisticsBySender(vkSender);
+            model.addAttribute("listInfo", userStatisticsList);
+            model.addAttribute("addressee", vkSender);
+            return new ModelAndView("sender_report_page");
+        }
+        List<SenderStatisticsReport> senderStatisticsList = statisticsMapper.getStatisticsBySendors();
+        model.addAttribute("listInfo", senderStatisticsList);
         return new ModelAndView("criteria_statistics_page");
     }
+        
     @GetMapping(value = "/approve")
     public ModelAndView getApproveActionPage(@RequestParam("uid")Long uid){
         authUserMapper.updateUserStatus("ACTIVE", uid);

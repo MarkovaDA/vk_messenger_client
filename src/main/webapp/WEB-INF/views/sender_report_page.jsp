@@ -51,29 +51,33 @@
                         </div>                        
                         <div class="col-lg-12" id="all_criteria">   
                             <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    Статистика по выбранному критерию
+                                <div class="panel-heading">         
+                                    <p><b>Адресант:</b>
+                                        <a href="https://vk.com/id${addressee}">https://vk.com/id${addressee}</a>
+                                    </p>
                                 </div>
                                 <div class="panel-body" >                                            
                                     <table class="table tablesorter" id="report_table">
                                            <thead>
                                                <tr class="active">                                                
-                                                    <th>Отправитель</th>
-                                                    <th>Количество отправленных сообщений (всего)</th>                                                   
+                                                    <th>Адресат</th>
+                                                    <th>Статус отправки</th>
+                                                    <th>Дата и время</th> 
                                                </tr>
                                            </thead>
                                            <tbody>
-                                               <!--настроить дату и время, а также проверку на успех или не успех-->
-                                                <c:forEach items="${listInfo}" var="info">
-                                                    <tr>
-                                                        <td><a href="?vk_sender=${info.senderVkId}">https://vk.com/id${info.senderVkId}</a></td>
-                                                        <td>${info.count}</td>
-                                                    </tr>
+                                               <c:forEach items="${listInfo}" var="info">                                                
+                                                <tr <c:if test="${info.errorMsg == 'ERROR'}">class="danger"</c:if>>                                                        
+                                                    <td><a href="https://vk.com/id${info.receiverVkId}">https://vk.com/id${info.receiverVkId}</a></td>
+                                                    <td>${info.errorMsg}</td>
+                                                    <td>${info.humanDate}</td>
+                                                </tr>
                                                 </c:forEach>
                                            </tbody>                                       
                                     </table>             
                                 </div>                                
-                            </div>                                                     </div>                 
+                            </div>                                                     
+                        </div>                 
                         <input type="hidden" value="${uid}" id="txt_uid">
                      </div>
                     </div>
@@ -98,5 +102,6 @@
                             $("#report_table").tablesorter({});
                         });
                     </script>
-                    </body>
-                    </html>
+    </body>
+    </html>
+

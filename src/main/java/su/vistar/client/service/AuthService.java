@@ -17,12 +17,15 @@ public class AuthService {
     @Autowired
     DBMapper dataMapper;
     
-    //подумать, как статически сохранять юзера    
-    //получение текущего авторизованного пользователя
+    private static User currentUser;
+
     public  User getCurrentUser(Long uid){
-       return authUserMapper.getUserByUid(uid);
+        if (currentUser != null) 
+            return currentUser;
+        else currentUser = authUserMapper.getUserByUid(uid);
+        return currentUser;
     }
-    //получаем все компании данного пользователя
+
     public List<Company> getCompanies(int userId){
         return dataMapper.findCompany(userId);
     }    

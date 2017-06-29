@@ -1,7 +1,5 @@
-
 package su.vistar.client.dto;
 
-import java.util.Date;
 
 
 public class UserStatisticsDTO {
@@ -9,9 +7,8 @@ public class UserStatisticsDTO {
     private Long receiverVkId; //vk_id получателя
     private String errorMsg;
     private Long deviceDate;
-    
     //создать отдельную модель объекта
-    private Date humanDate;
+    private String humanDate;
     private Long senderVkId;
 
     public Long getSenderVkId() {
@@ -36,11 +33,11 @@ public class UserStatisticsDTO {
         this.receiverVkId = receiverVkId;
     }
 
-    public Date getHumanDate() {
+    public String getHumanDate() {
         return humanDate;
     }
 
-    public void setHumanDate(Date humanDate) {
+    public void setHumanDate(String humanDate) {
         this.humanDate = humanDate;
     }
 
