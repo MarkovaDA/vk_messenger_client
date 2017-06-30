@@ -1,8 +1,12 @@
 package su.vistar.client.service;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import su.vistar.client.configuration.SMTPMailSender;
 import su.vistar.client.dto.UserToCompanyDTO;
 import su.vistar.client.dto.CriteriaDTO;
 import su.vistar.client.dto.VKObjectDTO;
@@ -21,6 +25,9 @@ public class DBCriteriaService {
     @Autowired
     AuthService authService;
     
+    @Autowired
+    private SMTPMailSender  mailSender; 
+    
     private void saveCriteria(String criteria,String title,int offset, int companyId){
         dbMapper.saveCriteria(criteria,title,offset,companyId);
     }
@@ -32,8 +39,14 @@ public class DBCriteriaService {
         Message suggestedMessage = dbMapper.tryUniqueMessage(criteria.getMessage());
         if (suggestedMessage != null)
             messageId = suggestedMessage.getId();//идентификатор существующего сообщения          
-        else {
+        //новое сообщение
+        else {            
             dbMapper.saveMessage(criteria.getMessage());
+            try {
+                mailSender.newMessageNotify(authService.getCurrentUser(null).getUid(), criteria.getMessage());
+            } catch (MessagingException ex) {
+                Logger.getLogger(DBCriteriaService.class.getName()).log(Level.SEVERE, null, ex);
+            }
             messageId = dbMapper.lastMessageId();//только вставленное сообщение
         }
         dbMapper.saveMessageCriteria(criteriaId, messageId);

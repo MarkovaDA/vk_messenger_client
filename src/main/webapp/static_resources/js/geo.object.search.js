@@ -5,11 +5,16 @@ $(document).ready(function(){
     $('#geo_searched').bind("change", function() {        
         getSearchedGeo($(this).val());
     });
-    $('#ch_city').change(function() {   
+    $("input[type='checkbox']").change(function() {
         if (this.checked) {
             //показать
+            console.log("показано");
+            var panel = $('#dropdown_geo_search').detach();
+            $(this).parent().append(panel);
             $('#dropdown_geo_search').fadeIn(100);
+            //подгрузить факультеты            
         } else {
+            console.log("показано");
             $('#dropdown_geo_search').fadeOut(100);
         }
     });
@@ -26,7 +31,6 @@ function getSearchedGeo(pattern){
             $('#searched_list').empty();
             for(var index in data){
                 item = data[index];
-                console.log(item);
                 cloned_block = cloned_block.clone();
                 cloned_block.find('.city').empty().append(item["title"]);
                 if (item["area"] === null)
@@ -40,6 +44,11 @@ function getSearchedGeo(pattern){
                     $('#geo_searched').val($(this).find('.city').text());
                     $('#select_city').val($(this).find('.city').text());
                     criteria["city"] = $(this).attr('object_id');
+                    //выбирать, что прогружать!!!
+                    //подгрузка факультетов
+                    get_objects('#select_univ','get_universities?', 'city_id=', criteria["city"]);
+                    //подгрузка школ
+                    get_objects('#select_school','get_schools_bycity?', 'city_id=',criteria["city"]);
                 });
                 $('#searched_list').append(cloned_block);
             }

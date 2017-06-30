@@ -81,9 +81,9 @@
                                                 <select property="city" id="select_city" class="selectpicker for_reading" data-show-subtext="true" data-live-search="true" style="width: 200px">
                                                    <!--динамическая загрузка городов по стране-->                                      
                                                 </select>
-                                                <input type="checkbox" id="ch_city" class="not_presented_value"/>
-                                                <label for="ch_country">населенный пункт не представлен в списке</label>
-                                                <br><br>
+                                                <br>
+                                                <input type="checkbox" id="ch_point" class="not_presented_value"/>                                                
+                                                <label>населенный пункт не представлен в списке</label>
                                                 <jsp:include page="object_search.jsp"></jsp:include>
                                             </td>
                                         </tr>
@@ -193,6 +193,18 @@
                                             <td>                               
                                                 <select property="school_city" id="select_school_city" class="selectpicker for_reading" data-show-subtext="true" data-live-search="true" style="width: 200px">
                                                     <option value=''>выберите город</option>                                                                      
+                                                </select>
+                                                <br>                            
+                                                <input type="checkbox" class="ch_point" class="not_presented_value"/>
+                                                <label>населенный пункт не представлен в списке</label>                             
+                                            </td>
+                                        </tr>
+                                        <!--школа-->
+                                        <tr id="school">
+                                            <td><span class="label label-primary">Школа:</span></td>
+                                            <td>                               
+                                                <select property="school" id="select_school" class="selectpicker for_reading" data-show-subtext="true" data-live-search="true" style="width: 200px">
+                                                    <option value=''>выберите школу</option>                                                                      
                                                 </select>
                                             </td>
                                         </tr>

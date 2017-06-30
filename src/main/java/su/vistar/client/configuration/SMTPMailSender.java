@@ -1,4 +1,12 @@
 package su.vistar.client.configuration;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,20 +21,70 @@ public class SMTPMailSender {
     private JavaMailSender javaMailSender;
     
     private final String mailFrom = "darya.towarddreams@gmail.com";
-    private String messagePattern = "<p><a href=\"https://vk.com/id%d\">Пользователь</a> подал заявку на использование приложения OnClick messenger</p>"
-            + "<br><a href=\"http://localhost:8084/vk_messenger_client/approve?uid=%d\" style=\"padding: 5px; margin:5px; border: 1px solid black;text-decoration:none;box-shadow: 0 0 10px rgba(0,0,0,0.5);\">разрешить</a>"
-            + "<a href=\"http://localhost:8084/vk_messenger_client/decline?uid=%d\" style=\"padding: 5px; margin:5px; border: 1px solid black;text-decoration:none;box-shadow: 0 0 10px rgba(0,0,0,0.5);\">отклонить</a>";
+    private final String mailTo = "darya.markova.95@mail.ru";
     
-    public void sendMail(Long uid) throws MessagingException {
-        String to = "darya.markova.95@mail.ru";
-        String subject = "Новый пользователь в приложении OnClick messenger";
-        String body = String.format(messagePattern, uid, uid, uid);
-        MimeMessage message = javaMailSender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(message, true);
-        helper.setSubject(subject);
-        helper.setFrom(mailFrom);
-        helper.setTo(to);  
-        helper.setText(body, true);
-        javaMailSender.send(message);       
+     
+    private String readPattern(String fileName) throws FileNotFoundException, IOException{
+        String patternResult = "";
+        BufferedReader br =
+        new BufferedReader(new InputStreamReader(this.getClass().getResourceAsStream(fileName), "UTF-8"));
+        String strLine;
+        while ((strLine = br.readLine()) != null){
+            patternResult += strLine;
+        }
+        System.out.println(patternResult);
+        return patternResult;
+    }  
+    
+    public void newUserNotify(Long uid) throws MessagingException {        
+        try {
+            String subject = "Новый пользователь в приложении OnClick messenger";
+            String body = String.format(readPattern("/newuser.pattern.txt"), uid, uid, uid);
+            MimeMessage message = javaMailSender.createMimeMessage();            
+            MimeMessageHelper helper = new MimeMessageHelper(message, true);
+            helper.setSubject(subject);
+            helper.setFrom(mailFrom);
+            helper.setTo(mailTo);
+            helper.setText(body, true);
+            javaMailSender.send(message);
+        } catch (IOException ex) {
+            Logger.getLogger(SMTPMailSender.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    public void newCompanyNotify(Long uid, String companyName) throws MessagingException{
+        try {
+            String subject = "Cоздание новой кампании в приложении OnClick messenger";
+            String pattern = "dd-MM-yyyy HH:mm:ss";
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+            String dateFormat = simpleDateFormat.format(new Date());
+            String body = String.format(readPattern("/newcompany.pattern.txt"), uid, companyName, dateFormat);
+            MimeMessage message = javaMailSender.createMimeMessage();            
+            MimeMessageHelper helper = new MimeMessageHelper(message, true);
+            helper.setSubject(subject);
+            helper.setFrom(mailFrom);
+            helper.setTo(mailTo);
+            helper.setText(body, true);
+            javaMailSender.send(message);
+        } catch (IOException ex) {
+            Logger.getLogger(SMTPMailSender.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    public void newMessageNotify(Long uid, String companyMessage) throws MessagingException{
+        try {
+            String subject = "Cоздание нового сообщения в приложении OnClick messenger";
+            String pattern = "dd-MM-yyyy HH:mm:ss";
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+            String dateFormat = simpleDateFormat.format(new Date());
+            String body = String.format(readPattern("/newmessage.pattern.txt"), uid, companyMessage, dateFormat);
+            MimeMessage message = javaMailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true);
+            helper.setSubject(subject);
+            helper.setFrom(mailFrom);
+            helper.setTo(mailTo);
+            helper.setText(body, true);
+            javaMailSender.send(message);
+        } catch (IOException ex) {
+            Logger.getLogger(SMTPMailSender.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

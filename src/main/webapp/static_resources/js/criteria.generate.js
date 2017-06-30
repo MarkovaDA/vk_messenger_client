@@ -23,10 +23,10 @@ $(document).ready(function () {
             $('#' + prop).fadeOut(100);          
         }     
     });
-    //считываем с селектов параметры в объект criteria - кажется, этот кусок кода вообще не работает
+
     $('.selectpicker').on('changed.bs.select', function(event, clickedIndex, newValue, oldValue){
         if ($(this).hasClass('readable')) 
-        {   console.log("событие");
+        {   
             var selectedValue = $(this).find('option').eq(clickedIndex).val();
             //var selectedText = $(this).find('option').eq(clickedIndex).text();
             var propertyName = $(this).attr('property');
@@ -41,7 +41,6 @@ $(document).ready(function () {
     $('#btn_add').click(function () {
         var propertyName, propertyValue, propertyText;
         var criteriaName = "";
-
         $('.readable').each(function(){
             propertyName = $(this).attr('property');
             propertyValue = $(this).val();               

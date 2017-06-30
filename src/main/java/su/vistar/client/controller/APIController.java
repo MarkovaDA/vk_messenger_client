@@ -42,6 +42,16 @@ public class APIController {
         return null;
     }
     
+    @GetMapping(value="get_schools_bycity")
+    public List<VKObjectDTO> getSchools(@RequestParam("city_id")Integer cityId){
+        try {
+            return vkService.getSchools(cityId);
+        } catch (IOException ex) {
+            Logger.getLogger(APIController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
     @GetMapping(value="get_universities")
     public List<VKObjectDTO> getUniversities(@RequestParam("city_id")int cityId){
         try {

@@ -56,7 +56,6 @@ $(document).ready(function(){
             showMessage('alert-danger', "сгенерированный код не является целочисленным");
             return;
         }
-        console.log("добавление кампании", company);
         $.ajax({
             /*headers: {
                 'Accept': 'application/json',

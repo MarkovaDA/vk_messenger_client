@@ -30,7 +30,8 @@
     </head>
     <body>
         <div id="wrapper">
-            <jsp:include page="sidebar.jsp"/>
+            <jsp:include page="short_sidebar.jsp"/>
+            
             <div id="page-content-wrapper">              
                 <div class="container-fluid" style="position:relative!important;">
                     <div class="row">

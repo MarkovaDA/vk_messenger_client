@@ -30,7 +30,7 @@
     </head>
     <body>
         <div id="wrapper">
-            <jsp:include page="sidebar.jsp"/>
+            <jsp:include page="short_sidebar.jsp"/>
             <div id="page-content-wrapper">              
                 <div class="container-fluid" style="position:relative!important;">
                     <div class="row">
@@ -78,25 +78,25 @@
                      </div>
                     </div>
                     </div>
-                    </div>
-                    <script>
-                        $(document).ready(function () {
-                            $('.visible_tr').show();
-                            //код меню слева
-                            $('#btn_open_menu').hide();
-                            $("#btn_open_menu").click(function (e) {
-                                e.preventDefault();
-                                $("#wrapper").toggleClass("toggled");
-                                $('#btn_open_menu').fadeOut(200);
-                            });
-                            $('.closebtn').click(function () {
-                                //console.log("sidebar-wrapper click");
-                                //меню закрывается, отобразить кнопочку open
-                                $('#btn_open_menu').fadeIn(200);
-                                $("#wrapper").toggleClass("toggled");
-                            });
-                            $("#report_table").tablesorter({});
-                        });
-                    </script>
-                    </body>
-                    </html>
+            </div>
+            <script>
+                $(document).ready(function () {
+                    $('.visible_tr').show();
+                    //код меню слева
+                    $('#btn_open_menu').hide();
+                    $("#btn_open_menu").click(function (e) {
+                        e.preventDefault();
+                        $("#wrapper").toggleClass("toggled");
+                        $('#btn_open_menu').fadeOut(200);
+                    });
+                    $('.closebtn').click(function () {
+                        //console.log("sidebar-wrapper click");
+                        //меню закрывается, отобразить кнопочку open
+                        $('#btn_open_menu').fadeIn(200);
+                        $("#wrapper").toggleClass("toggled");
+                    });
+                    $("#report_table").tablesorter({});
+                });
+            </script>
+            </body>
+            </html>

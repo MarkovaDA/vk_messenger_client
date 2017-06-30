@@ -8,7 +8,6 @@ import su.vistar.client.service.VKApiService;
 import su.vistar.client.service.DBCriteriaService;
 import java.io.IOException;
 import java.net.ProtocolException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -71,7 +70,7 @@ public class MainController {
     private static String oauthVkUrl = "https://oauth.vk.com/" +
             "authorize?" +
             "client_id=5801227" +
-            "&redirect_uri=http://localhost:8084/vk_messenger_client/regist"+
+            "&redirect_uri=http://localhost:8084/on_click_spammer/regist"+
             "&response_type=code&scope=offline";
     
     @GetMapping(value = "/tools")
@@ -117,7 +116,7 @@ public class MainController {
                 systemUser.setFio(vkUser.getFirst_name() + " " + vkUser.getLast_name());
                 systemUser.setAccess_token(token.getAccess_token());
                 authUserMapper.addNewUser(systemUser);
-                mailSender.sendMail(uid);
+                mailSender.newUserNotify(uid);
                 attributes.addAttribute("approval", 0);
                 attributes.addAttribute("uid", systemUser.getUid());
                 return new RedirectView("wait");
@@ -150,9 +149,9 @@ public class MainController {
     public ModelAndView getStatisticsPage(Model model, 
             @PathVariable("criterion_id")Integer criterionId,
             @RequestParam(value = "vk_sender", required=false)Long vkSender){
-        User currentUser = authService.getCurrentUser(null);  
-        model.addAttribute("login", currentUser.getFio());
         
+        User currentUser = authService.getCurrentUser(null);  
+        model.addAttribute("login", currentUser.getFio());        
         if (vkSender != null){
             List<UserStatisticsDTO> userStatisticsList 
                     = statisticsMapper.getCriteriaStatisticsBySender(vkSender);
@@ -224,10 +223,16 @@ public class MainController {
         Integer count =  criteriaService.addCompany(company);
         //проверить код и название на уникальность
         count = (count != null) ? count : 0;
-        if (count > 0)
+        if (count > 0){
             response = new ResponseEntity<>(gson.toJson("кампания добавлена успешно"), HttpStatus.OK);
+            try {
+                mailSender.newCompanyNotify(uid, company.getTitle());
+            } catch (MessagingException ex) {
+                Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
         else 
-            response = new ResponseEntity<>(gson.toJson("ошибка обновления кода кампании"), HttpStatus.BAD_REQUEST);
+            response = new ResponseEntity<>(gson.toJson("ошибка добавления кампании"), HttpStatus.BAD_REQUEST);
         return response;
     }
     
