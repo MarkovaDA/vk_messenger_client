@@ -9,7 +9,7 @@
         <div class="panel-body">
             <input type="text" class="form-control" placeholder="название компании" id="company_title">
             <br>
-            <!--поле с кнопкой glyphicon glyphicon-refresh-->
+            
             <div class="input-group">
                 <input type="text" class="form-control" placeholder="код компании" id="company_code">
                 <span class="input-group-btn">                  

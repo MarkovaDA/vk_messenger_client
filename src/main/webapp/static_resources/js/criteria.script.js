@@ -34,7 +34,7 @@ $(document).ready(function () {
              
 });
   //обобщенная функция получения данных об объектах
-function get_objects(select_id,api_str,param_id, value) {
+function get_objects(select_id,api_str, param_id, value) {
     $(select_id).empty();
     var url = "api/"+api_str + param_id + value;     
     $.get(url, function (data) {

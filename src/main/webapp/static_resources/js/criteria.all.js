@@ -1,11 +1,13 @@
 //скрипт, ответственный за отображение всех критериев
 $(document).ready(function(){  
    $('#select_company').on('hide.bs.select', function(){
+        //выбираем кампанию -> отображаем критерий
         getAllCriteria($('#txt_company_code').val());
    });
 });
+//получение списка критериев
 function getAllCriteria(company_code){    
-    //отображение всех критериев
+    //отображение всех критериев кампании
     $.ajax({
         'contentType' : "application/json",
         'type': 'GET',
@@ -37,6 +39,7 @@ function getAllCriteria(company_code){
         }
     });
 }
+//удаление критерия
 function deleteCriteriaById(id){
     $.ajax({
         'contentType' : "application/json",
@@ -46,6 +49,9 @@ function deleteCriteriaById(id){
             $('.separate_criteria').find('.input-group').each(function(index){             
                 if (parseInt($(this).attr('criteria_id')) === id){                    
                     $(this).parent().fadeOut(100);
+                    var serachExpr = '.separate_li[criteria_id=\"' + id + "\"]";
+                    $(serachExpr).hide();
+                    //в блоке статистики сокрытие соответствующего модуля
                 }
             });
             showMessage('alert-info', data);

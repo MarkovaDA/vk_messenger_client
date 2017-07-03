@@ -38,7 +38,7 @@ public class VKApiService{
     private String searchCoutnryUrl = "https://api.vk.com/method/database.getCountries?q=%s&v=5.60";
     //запрашиваем token
     private String CLIENT_ID = "5801227";
-    private String REDIRECT_URI = "http://localhost:8084/on_click_spammer/regist";
+    private String REDIRECT_URI = "http://vps1.vistar.su:8080/on_click_spammer/regist";
     private String CLIENT_SECRET = "kzErha5eVdhBsKWJMcJ1";
     private String accessTokenUrl = "https://oauth.vk.com/access_token";
     private String usersGetUrl = "https://api.vk.com/method/users.get?user_ids=%d&v=5.65";    

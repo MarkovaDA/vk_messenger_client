@@ -131,7 +131,7 @@ public interface DBMapper {
     @Select("select * from vk_messenger_v2.country")
     public List<VKObjectDTO> getCountries();
     
-    @Select("SELECT * FROM vk_messenger_v2.messages join vk_messenger_v2.criteria_message " +
+    @Select("SELECT DISTINCT * FROM vk_messenger_v2.messages join vk_messenger_v2.criteria_message " +
             "on id = message_id join criteria on criteria_message.criteria_id = criteria.id " +
             "where criteria.company_id = #{company_id}")
     public List<Message> getMessagesByCompanyId(@Param("company_id")Integer companyId);

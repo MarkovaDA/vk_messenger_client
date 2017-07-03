@@ -1,8 +1,10 @@
 $(document).ready(function(){
     var company_code, company_title;
+    var clicked_index = -1;
+    //обработка клика на выбранной кампании
     $('#select_company').on('changed.bs.select', 
         function(event, clickedIndex, newValue, oldValue){
-             //выбранная компания
+            clicked_index = clickedIndex;
             company_code = $(this).find('option').eq(clickedIndex).val();
             company_title = $(this).find('option').eq(clickedIndex).text();
             $('#txt_company_code').val(company_code);
@@ -56,11 +58,7 @@ $(document).ready(function(){
             showMessage('alert-danger', "сгенерированный код не является целочисленным");
             return;
         }
-        $.ajax({
-            /*headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },*/       
+        $.ajax({     
             contentType : 'application/json',
             type: 'POST',
             url: 'add_company?uid='+$('#txt_uid').val(),
@@ -68,6 +66,12 @@ $(document).ready(function(){
             dataType: 'json',
             success: function(data) {
                 showMessage('alert-info', data);
+                //добавляем и в список кампанийновую кампанию
+                var option = '<option value="'+ company.code +'">'+company.title+'</option>';
+                $('#select_company').append(option);
+                $('#select_company').selectpicker('refresh');
+                $('#st_select_company').append(option);
+                $('#st_select_company').selectpicker('refresh');
             },  
             error: function(xhr, ajaxOptions, thrownError) {
                 showMessage('alert-danger', xhr.responseJSON);
@@ -77,9 +81,16 @@ $(document).ready(function(){
     $('#btn_delete_company').click(function(){
         $("#deleteModal").modal('show');
     });
+    //удаление кампании
     $('#btn_really_delete').click(function(){
         $.post("api/company/delete/"+company_code, function(data){
             showMessage('alert-success', 'кампания удалена успешно');
+            $('#select_company').find('option').eq(clicked_index).remove();
+            $('#st_select_company').find('option').eq(clicked_index).remove();
+            $('#select_company').selectpicker('refresh');
+            $('#st_select_company').selectpicker('refresh');
+        }).fail(function() {
+            showMessage('alert-danger', 'При удалении кампании возникла ошибка'); 
         });
         $("#deleteModal").modal('hide');
     });
@@ -113,9 +124,9 @@ function showMessage(type, text) {
         },            
         2000);   
 }
+//все сообщения текущей кампании
 function getMessages(company_code){   
-    //отображаем все сообщения по критерию, внутри объявление и добавление и тра-та-та
-     $.ajax({
+    $.ajax({
           'contentType' : "application/json",
           'type': 'GET',
           'url': 'api/messages/company/'+ company_code,
@@ -141,7 +152,6 @@ function getMessages(company_code){
             $('.btn_save_message').bind("click", function(){
                     var id = $(this).parent().attr('message_id');
                     var text = $(this).parent().find('.message_text').val();
-                    console.log(text);
                     $.post("api/messages/update/"+id, 
                         {title: text}, function() {
                         showMessage('alert-success', 'сообщение было обновлено!');

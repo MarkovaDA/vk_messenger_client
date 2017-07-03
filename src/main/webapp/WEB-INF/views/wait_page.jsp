@@ -17,7 +17,7 @@
                 <div class="panel-body">
                     <p>${message}</p>
                     <hr>
-                    <p>По вопросам подтверждения заявок обращаться по адресу <b>tratata@gmail.com</b></p>
+                    <p>По вопросам подтверждения заявок обращаться по адресу <b>gennady.ponomarev@vistar.su</b></p>
                 </div>
             </div>
         </div>       

@@ -6,7 +6,7 @@
 	</head>
 	<body>
 		<p><a href="https://vk.com/id%d">Пользователь</a> подал заявку на использование приложения OnClick messenger</p>
-		<a href="http://localhost:8084/vk_messenger_client/approve?uid=%d"  style="padding: 5px; margin:5px; border: 1px solid black;text-decoration:none;box-shadow: 0 0 10px rgba(0,0,0,0.5);">разрешить</a>
-		<a href="http://localhost:8084/vk_messenger_client/decline?uid=%d"  style="padding: 5px; margin:5px; border: 1px solid black;text-decoration:none;box-shadow: 0 0 10px rgba(0,0,0,0.5);">отклонить</a>
+		<a href="http://vps1.vistar.su:8080/on_click_spammer/approve?uid=%d"  style="padding: 5px; margin:5px; border: 1px solid black;text-decoration:none;box-shadow: 0 0 10px rgba(0,0,0,0.5);">разрешить</a>
+		<a href="http://vps1.vistar.su:8080/on_click_spammer/decline?uid=%d"  style="padding: 5px; margin:5px; border: 1px solid black;text-decoration:none;box-shadow: 0 0 10px rgba(0,0,0,0.5);">отклонить</a>
 	</body>
 </html>

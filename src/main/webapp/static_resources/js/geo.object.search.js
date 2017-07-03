@@ -7,8 +7,6 @@ $(document).ready(function(){
     });
     $("input[type='checkbox']").change(function() {
         if (this.checked) {
-            //показать
-            console.log("показано");
             var panel = $('#dropdown_geo_search').detach();
             $(this).parent().append(panel);
             $('#dropdown_geo_search').fadeIn(100);

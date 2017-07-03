@@ -17,6 +17,7 @@ public class CommonHTTPService {
     String doPureGETQuery(String query) throws MalformedURLException, ProtocolException, IOException {
         URL obj = new URL(query);
         HttpURLConnection connection = (HttpURLConnection) obj.openConnection();
+        //connection.connect();
         connection.setRequestMethod("GET");
         int responseCode = connection.getResponseCode();
         String response = "";

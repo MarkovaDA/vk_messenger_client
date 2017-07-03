@@ -22,7 +22,7 @@ public interface StatisticsMapper {
             @Param("status")String status, 
             @Param("device_date")Date deviceDate);
     //where criteria_id = 
-    //сделать ограничение по критерию
+  
     @Select("SELECT * from vk_messenger_v2.company_statistics where sender_vk_id=#{sender_vk_id}")
     @Results({
         @Result(property = "receiverVkId", column = "receiver_vk_id"),

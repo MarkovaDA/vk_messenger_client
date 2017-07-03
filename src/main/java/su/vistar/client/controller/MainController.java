@@ -70,7 +70,7 @@ public class MainController {
     private static String oauthVkUrl = "https://oauth.vk.com/" +
             "authorize?" +
             "client_id=5801227" +
-            "&redirect_uri=http://localhost:8084/on_click_spammer/regist"+
+            "&redirect_uri=http://vps1.vistar.su:8080/on_click_spammer/regist"+
             "&response_type=code&scope=offline";
     
     @GetMapping(value = "/tools")
@@ -82,10 +82,12 @@ public class MainController {
         model.addAttribute("uid", uid);       
         return new ModelAndView("main_page");
     }   
+    
     @GetMapping(value = "/start")
     public ModelAndView start(){
         return new ModelAndView("redirect:" + oauthVkUrl);
     }    
+    
     @GetMapping(value = "/wait")
     public ModelAndView getWaitPage(Model model, @ModelAttribute("approval")Integer approval, @ModelAttribute("uid")Long uid){
         if (approval==0)

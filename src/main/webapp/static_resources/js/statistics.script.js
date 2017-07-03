@@ -11,7 +11,7 @@ $(document).ready(function(){
         }
     );
 });
-
+//отображение статистики
 function fullStatistics(company_code){
     $.ajax({
           'contentType' : "application/json",
@@ -25,12 +25,12 @@ function fullStatistics(company_code){
               }
               var cloned_block = $('.separate_li');
               for(index in data){
-                  var item = data[index];
-                  cloned_block = cloned_block.clone();
-                  cloned_block.find('.criteria_title').text(item["title"]);
-                  cloned_block.find('.badge').text(item["offset"]);
-                  cloned_block.attr('criteria_id', item["id"]);
-                  $('.list-group').append(cloned_block); 
+                var item = data[index];
+                cloned_block = cloned_block.clone();
+                cloned_block.find('.criteria_title').text(item["title"]);
+                cloned_block.find('.badge').text(item["offset"]);
+                cloned_block.attr('criteria_id', item["id"]);
+                $('.list-group').append(cloned_block); 
               }
               $('.list-group .separate_li').show();
               $('.btn_criteria_report').click(function(){

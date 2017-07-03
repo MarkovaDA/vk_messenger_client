@@ -22,9 +22,11 @@ public class HTTPService {
     
     @Autowired
     private CommonHTTPService commonService;
+    
     String doPureGetQuery(String query) throws ProtocolException, IOException {
         return commonService.doPureGETQuery(query);
     }
+    
     protected String doPOSTQuery(String baseQuery, Map<String, String> params) throws MalformedURLException, UnsupportedEncodingException, ProtocolException, IOException {
         
         URL url = new URL(baseQuery);
@@ -38,13 +40,14 @@ public class HTTPService {
             postData.append(URLEncoder.encode(String.valueOf(param.getValue()), "UTF-8"));
         }
         byte[] postDataBytes = postData.toString().getBytes("UTF-8");
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        HttpURLConnection conn = (HttpURLConnection)url.openConnection();
         conn.setRequestMethod("POST");
         conn.setRequestProperty("Content-Length", String.valueOf(postDataBytes.length));
         conn.setDoOutput(true);
         conn.getOutputStream().write(postDataBytes);
         return commonService.readResponse(conn);
     }
+    
     protected List<VKObjectDTO> doGETQuery(String query) throws MalformedURLException, ProtocolException, IOException {
         Gson gson = new Gson();
         Type responseType = new TypeToken<ArrayList<VKObjectDTO>>() {

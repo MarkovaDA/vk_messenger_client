@@ -38,6 +38,7 @@ $(document).ready(function () {
         criteria.message_id = "";
     });
     //считываем значение остальных, текстовых полей
+    //добавление критерия
     $('#btn_add').click(function () {
         var propertyName, propertyValue, propertyText;
         var criteriaName = "";
@@ -89,12 +90,17 @@ $(document).ready(function () {
             'data': JSON.stringify(serverObject),
             success: function(data){            
                 showMessage('alert-info',data);
-                getAllCriteria(company_code);
+                getAllCriteria(company_code);//обновление списка критериев
+                //считать выбранное значение кампании, прогрузить сообщения
+                var selected_code = $('#select_company').find("option:selected").val();
+                getAllMessagesToList(selected_code);
+                getMessages(selected_code);
             },
             error:function(jqXHR, textStatus, errorThrown){
                 showMessage('alert-danger', xhr.responseJSON);
             }
         });
+        //обновление списка сообщений
         getAllMessagesToList();
     });   
 });

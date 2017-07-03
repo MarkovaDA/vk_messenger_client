@@ -1,11 +1,7 @@
-﻿<%-- 
-    Document   : optional_select
-    Created on : May 21, 2017, 3:49:54 PM
-    Author     : darya
---%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
- <p>Набор параметров критерия</p> 
+ 
+<p>Набор параметров критерия</p> 
 <select class="selectpicker" id="criteria_type" multiple data-live-search="true">
     <!-- шаблон имени-->                                       
     <option value="q">шаблон имени</option>

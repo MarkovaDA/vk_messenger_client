@@ -1,4 +1,4 @@
-<%@ page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
@@ -22,7 +22,7 @@
     </head>
     <body>
         <div id="wrapper">
-           <jsp:include page="sidebar.jsp"/>
+           <jsp:include page="templates/sidebar.jsp"/>
             <div id="page-content-wrapper">              
                 <div class="container-fluid" style="position:relative!important;">
                     <div class="row">
@@ -41,8 +41,8 @@
                                </div>
                            </div>
                         </div>                        
-                        <jsp:include page="message_zone.jsp"/>
-                        <jsp:include page="сompany_page.jsp"/>        
+                        <jsp:include page="templates/message_zone.jsp"/>
+                        <jsp:include page="templates/company_page.jsp"/>        
                         <div class="col-lg-12 toggle_visible" id="add_criteria" style="display: none;">                                                        
                             <div class="panel panel-default">
                                 <div class="panel-heading">
@@ -52,7 +52,7 @@
                                     <!--имя критерия-->
                                     <input type="text" id="criteria_title" class="form-control" placeholder="наименование критерия">
                                     <br>
-                                    <jsp:include page="optional_select.jsp"/>           
+                                    <jsp:include page="templates/optional_select.jsp"/>           
                                     <br><hr><br>
                                     <table>                                
                                         <!--паттерн имени-->
@@ -84,7 +84,7 @@
                                                 <br>
                                                 <input type="checkbox" id="ch_point" class="not_presented_value"/>                                                
                                                 <label>населенный пункт не представлен в списке</label>
-                                                <jsp:include page="object_search.jsp"></jsp:include>
+                                                <jsp:include page="templates/object_search.jsp"></jsp:include>
                                             </td>
                                         </tr>
                                         <!--родной город-->
@@ -334,10 +334,10 @@
                                 </div>
                             </div>
                         </div>    
-                        <jsp:include page="criteria_page.jsp"/> 
-                        <jsp:include page="company_add_page.jsp"/>
-                        <jsp:include page="statistics_page.jsp"/>
-                        <jsp:include page="messages_page.jsp"/>
+                        <jsp:include page="templates/criteria_page.jsp"/> 
+                        <jsp:include page="templates/company_add_page.jsp"/>
+                        <jsp:include page="templates/statistics_page.jsp"/>
+                        <jsp:include page="templates/messages_page.jsp"/>
                     <input type="hidden" value="${uid}" id="txt_uid">
                     </div>
                 </div>

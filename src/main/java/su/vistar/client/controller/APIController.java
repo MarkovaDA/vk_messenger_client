@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import su.vistar.client.dto.CitySearchStandardResponse;
 import su.vistar.client.model.Company;
 import su.vistar.client.model.Message;
+import su.vistar.client.service.AuthService;
 import su.vistar.client.service.DBCriteriaService;
 
 
@@ -31,7 +32,16 @@ public class APIController {
     @Autowired
     DBCriteriaService criteriaService;
     
-            
+    @Autowired
+    AuthService authService;
+    
+    @GetMapping(value="get_companies")
+    @ResponseBody
+    public List<Company> getCompanies(@RequestParam("uid")Long uid){
+        Integer userId = authService.getCurrentUser(uid).getId();
+        return authService.getCompanies(userId); 
+    }
+    
     @GetMapping(value="get_cities_bycountry")
     public List<VKObjectDTO> getCities(@RequestParam("country_id")Integer countryId){
         try {
