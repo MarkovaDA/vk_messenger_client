@@ -18,43 +18,69 @@ import su.vistar.client.dto.UsersGetResponse;
 import su.vistar.client.dto.VKUserDTO;
 import su.vistar.client.model.AccessToken;
 
+
 @Service
 public class VKApiService{
-    //этот сервис подлежит переписыванию, а данные выкачиванию
+
     @Autowired
     HTTPService httpService;  
+    
+    private final String BASE_URL = "https://api.vk.com/method/";
+    
+    enum QueryPattern {
+        getCountriesUrl ("database.getCountries&v=5.60&count=200"),
+        getCityByCountryUrl ("database.getCities?country_id=%d&count=100&v=5.60"),
+        getUniversitiesByCity ("database.getUniversities?city_id=%d&v=5.60"),
+        getFacultiesByUniversity("database.getFaculties?university_id=%d&v=5.60"),
+        getChairByFaculty("database.getChairs?faculty_id=%d&v=5.60"),
+        getSchoolByCity("database.getSchools?city_id=%d&count=100&v=5.60"),
+        getUsersUrl("users.search?%s&offset=%d&v=5.60"),
+        getCityUrl("database.getCities"),
+        getUsersInfoUrl("users.get?user_ids=%d&v=5.65");
+        
+        private final String url;       
+        private QueryPattern(String s) {
+            url = s;
+        }
+        public boolean equalsName(String otherName) {
+            return url.equals(otherName);
+        }
+        public String toString() {
+           return this.url;
+        }
+    }
+    
+    //private String countryQueryFormat = "https://api.vk.com/method/database.getCountries&v=5.60&count=200";//
+    //private String facultyQueryFormat = "https://api.vk.com/method/database.getFaculties?university_id=%d&v=5.60"; //
+    //private String universityQueryFormat = "https://api.vk.com/method/database.getUniversities?city_id=%d&v=5.60"; //  
+    //private String chairQueryFormat = "https://api.vk.com/method/database.getChairs?faculty_id=%d&v=5.60";//
+    //private String cityQueryByCountryFormat = "https://api.vk.com/method/database.getCities?country_id=%d&count=100&v=5.60";//
+    //private String schoolQueryByCityFormat = "https://api.vk.com/method/database.getSchools?city_id=%d&count=100&v=5.60";//    
+    //private String schoolQueryFormat = "https://api.vk.com/method/database.getCities?country_id=%d&count=100&v=5.60";    
+    //private String searchUserQueryFormat = "https://api.vk.com/method/users.search?%s&offset=%d&v=5.60";    
+    //private String searchCityUrl = "https://api.vk.com/method/database.getCities";    
+    //private String searchCoutnryUrl = "https://api.vk.com/method/database.getCountries?q=%s&v=5.60";
+    //private final String usersGetUrl = "https://api.vk.com/method/users.get?user_ids=%d&v=5.65";  
+    
+    private final String CLIENT_ID = "5801227";
+    private final String REDIRECT_URI = "http://localhost:8084/on_click_spammer/regist";
+    private final String CLIENT_SECRET = "kzErha5eVdhBsKWJMcJ1";
+    private final String ACCESS_TOKEN_URL = "https://oauth.vk.com/access_token";
   
-    private String countryQueryFormat = "https://api.vk.com/method/database.getCountries&v=5.60&count=200";
-    private String facultyQueryFormat = "https://api.vk.com/method/database.getFaculties?university_id=%d&v=5.60"; 
-    private String universityQueryFormat = "https://api.vk.com/method/database.getUniversities?city_id=%d&v=5.60"; 
-    private String chairQueryFormat = "https://api.vk.com/method/database.getChairs?faculty_id=%d&v=5.60";
-    private String cityQueryByCountryFormat = "https://api.vk.com/method/database.getCities?country_id=%d&count=100&v=5.60";
-    private String schoolQueryByCityFormat = "https://api.vk.com/method/database.getSchools?city_id=%d&count=100&v=5.60";
-    
-    //private String schoolQueryFormat = "https://api.vk.com/method/database.getCities?country_id=%d&count=100&v=5.60";
-    
-    private String searchUserQueryFormat = "https://api.vk.com/method/users.search?%s&offset=%d&v=5.60";
-    private String searchCityUrl = "https://api.vk.com/method/database.getCities";
-    private String searchCoutnryUrl = "https://api.vk.com/method/database.getCountries?q=%s&v=5.60";
-    //запрашиваем token
-    private String CLIENT_ID = "5801227";
-    private String REDIRECT_URI = "http://vps1.vistar.su:8080/on_click_spammer/regist";
-    private String CLIENT_SECRET = "kzErha5eVdhBsKWJMcJ1";
-    private String accessTokenUrl = "https://oauth.vk.com/access_token";
-    private String usersGetUrl = "https://api.vk.com/method/users.get?user_ids=%d&v=5.65";    
-    
+    //полуение персонального кода доступа польователя
     public AccessToken getAccessToken(String code) throws UnsupportedEncodingException, ProtocolException, IOException{
         Map<String,String> params = new HashMap<>();
         params.put("client_id", CLIENT_ID);
         params.put("redirect_uri", REDIRECT_URI);
         params.put("client_secret", CLIENT_SECRET);
         params.put("code", code);
-        String result = httpService.doPOSTQuery(accessTokenUrl, params);
+        String result = httpService.doPOSTQuery(ACCESS_TOKEN_URL, params);
         return (new Gson()).fromJson(result, AccessToken.class);
     }
+    //получение информации о пользователе по uid
     public VKUserDTO getUserByUid(Long uid){
         try {
-            String queryUrl = String.format(usersGetUrl, uid);
+            String queryUrl = String.format(BASE_URL + QueryPattern.getUsersInfoUrl.toString(), uid);
             String result = httpService.doPureGetQuery(queryUrl);
             Gson gson = new Gson();
             UsersGetResponse response = gson.fromJson(result, UsersGetResponse.class);
@@ -67,7 +93,7 @@ public class VKApiService{
             Logger.getLogger(VKApiService.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
-    }
+    }    
     public  List<VKObjectDTO> getCountries() throws MalformedURLException, IOException{        
        return httpService.doGETQuery(getQueryForCountries());
     }
@@ -80,9 +106,9 @@ public class VKApiService{
     public  List<VKObjectDTO> getSchoolsByCity(Integer cityId) throws MalformedURLException, IOException{
        return httpService.doGETQuery(getQueryForCitiesByCountry(cityId));
     }
-    public  List<VKObjectDTO> getUniversities(int cityId) throws MalformedURLException, IOException{
-        return httpService.doGETQuery(getQueryForUniversities(cityId));
-    }  
+    public  List<VKObjectDTO> getUniversitiesByCity(int cityId) throws MalformedURLException, IOException{
+        return httpService.doGETQuery(getQueryForUniversitiesByCityId(cityId));
+    }
     public  List<VKObjectDTO> getFaculties(int universityId) throws MalformedURLException, ProtocolException, IOException{
        return httpService.doGETQuery(getQueryForFaculties(universityId));
     }
@@ -91,41 +117,37 @@ public class VKApiService{
     }
     public  List<VKObjectDTO> getSchools(int cityId) throws MalformedURLException, ProtocolException, IOException{
        return httpService.doGETQuery(getQueryForSchoolsByCity(cityId));
-    }    
+    }       
+    /*public  List<VKObjectDTO> getCountryByPattern(String pattern) throws ProtocolException, IOException{
+        return httpService.doGETQuery(String.format(searchCoutnryUrl, pattern));
+    }*/
+    
+    //поиск населенного пункта по названию
     public String getCityByPattern(String pattern, Integer countryId) throws ProtocolException, IOException{
         Map map = new HashMap<>();
         map.put("q", pattern);
         map.put("country_id", countryId);
         map.put("v", 5.60);
-        String result =  httpService.doPOSTQuery(searchCityUrl, map);
+        String result =  httpService.doPOSTQuery(QueryPattern.getCityUrl.toString(), map);
         return result;
     }
     
-    public  List<VKObjectDTO> getCountryByPattern(String pattern) throws ProtocolException, IOException{
-        return httpService.doGETQuery(String.format(searchCoutnryUrl, pattern));
+    private String getQueryForChairs(int facultyId){                
+        return String.format(BASE_URL + QueryPattern.getChairByFaculty.toString(), facultyId);
+    }            
+    private String getQueryForFaculties(int universityId){       
+        return String.format(BASE_URL + QueryPattern.getFacultiesByUniversity.toString(), universityId);
+    }       
+    private String getQueryForUniversitiesByCityId(int cityId){              
+        return String.format(BASE_URL + QueryPattern.getUniversitiesByCity.toString(), cityId);
     }
-    
-    private  String getQueryForChairs(int facultyId){                
-        return String.format(chairQueryFormat, facultyId);
-    }        
-    
-    private  String getQueryForFaculties(int universityId){       
-        return String.format(facultyQueryFormat, universityId);
-    }   
-    
-    private  String getQueryForUniversities(int cityId){              
-        return String.format(universityQueryFormat, cityId);
-    }      
-    private  String getQueryForCountries(){
-        return countryQueryFormat;
-    }
-    
+    private String getQueryForCountries(){
+        return BASE_URL + QueryPattern.getCountriesUrl.toString();
+    }    
     private String getQueryForCitiesByCountry(int countryId){
-        return String.format(cityQueryByCountryFormat, countryId);
-    }
-    
+        return String.format(BASE_URL + QueryPattern.getCityByCountryUrl.toString(), countryId);
+    }    
     private String getQueryForSchoolsByCity(int cityId){
-        return String.format(schoolQueryByCityFormat, cityId);
-    }
-    
+        return String.format(BASE_URL + QueryPattern.getSchoolByCity.toString(), cityId);
+    } 
 }

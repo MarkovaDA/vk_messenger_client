@@ -7,7 +7,7 @@
     <option value="q">шаблон имени</option>
     <!--для поиска по стране указывается код страны-->
     <option value="country">страна</option>
-    <option value="city">город</option>
+    <option value="city">город проживания</option>
     <option value="hometown">родной город</option>
     <!--идентификатор страны, в которой пользователь закончил вуз-->
     <option value="university_country">страна окончания ВУЗа</option>

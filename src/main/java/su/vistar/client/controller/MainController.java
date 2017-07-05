@@ -70,11 +70,11 @@ public class MainController {
     private static String oauthVkUrl = "https://oauth.vk.com/" +
             "authorize?" +
             "client_id=5801227" +
-            "&redirect_uri=http://vps1.vistar.su:8080/on_click_spammer/regist"+
+            "&redirect_uri=http://localhost:8084/on_click_spammer/regist"+
             "&response_type=code&scope=offline";
     
     @GetMapping(value = "/tools")
-    public ModelAndView getToolsPage(Model model, @ModelAttribute("uid")Long uid){
+    public ModelAndView getToolsPage(Model model, @ModelAttribute("uid")Long uid){        
         User currentUser = authService.getCurrentUser(uid);  
         model.addAttribute("login", currentUser.getFio());      
         model.addAttribute("companies", authService.getCompanies(currentUser.getId()));

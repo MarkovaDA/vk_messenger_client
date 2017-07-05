@@ -21,7 +21,16 @@ public class UserStatisticsDTO {
     
     public UserStatisticsDTO() {
     }
-    
+
+    public UserStatisticsDTO(Integer criterionId, Long receiverVkId, String errorMsg, Long deviceDate, String humanDate, Long senderVkId) {
+        this.criterionId = criterionId;
+        this.receiverVkId = receiverVkId;
+        this.errorMsg = errorMsg;
+        this.deviceDate = deviceDate;
+        this.humanDate = humanDate;
+        this.senderVkId = senderVkId;
+    }
+
     public UserStatisticsDTO(
             Integer criterionId, 
             Long  receiverVkId,

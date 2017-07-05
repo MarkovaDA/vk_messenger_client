@@ -5,7 +5,7 @@
     <div class="panel panel-default">
         
         <div class="panel-heading">
-            Все критерии компании <b class="company_title"></b>
+            Все критерии выбранной кампании <b class="company_title"></b>
             <div class="separate_criteria" style="display:none;" criteria_id="-1">
                 <div class="input-group" criteria_id="-1">
                     <input type="text" class="form-control" value="название критерия">

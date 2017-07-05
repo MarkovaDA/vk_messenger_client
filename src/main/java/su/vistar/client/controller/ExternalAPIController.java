@@ -202,6 +202,8 @@ public class ExternalAPIController {
         //проверка на несуществующий критерий
         list.forEach(item -> {
             Date sendingDate = new Date((long)item.getDeviceDate()*1000);
+            if (item.getErrorMsg() == null)
+                item.setErrorMsg("SUCCESS");
             statisticsMapper.insertStatisticsInfo(
                     item.getCriterionId(), 
                     senderVkId, 

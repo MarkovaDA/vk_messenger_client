@@ -41,7 +41,7 @@
                                </div>
                            </div>
                         </div>                        
-                        <jsp:include page="templates/message_zone.jsp"/>
+                        <jsp:include page="templates/message_zone.jsp"/>                        
                         <jsp:include page="templates/company_page.jsp"/>        
                         <div class="col-lg-12 toggle_visible" id="add_criteria" style="display: none;">                                                        
                             <div class="panel panel-default">
@@ -74,10 +74,12 @@
                                                 </select>                                             
                                             </td>
                                         </tr>
-                                        <!--город-->
+                                        <!--город проживания-->
                                         <tr id="city">
-                                            <td><span class="label label-primary">Город проживания:</span></td>                    
-                                            <td>
+                                            <td style="height: 120px !important;">
+                                                <span class="label label-primary">Город проживания:</span>
+                                            </td>                    
+                                            <td style="height: 120px !important;">
                                                 <select property="city" id="select_city" class="selectpicker for_reading" data-show-subtext="true" data-live-search="true" style="width: 200px">
                                                    <!--динамическая загрузка городов по стране-->                                      
                                                 </select>
@@ -189,8 +191,10 @@
                                         </tr>
                                         <!--город окончания школы-->
                                         <tr id="school_city">
-                                            <td><span class="label label-primary">Город окончания школы:</span></td>
-                                            <td>                               
+                                            <td style="height: 120px !important;">
+                                                <span class="label label-primary">Город окончания школы:</span>
+                                            </td>
+                                            <td style="height: 120px !important;">                               
                                                 <select property="school_city" id="select_school_city" class="selectpicker for_reading" data-show-subtext="true" data-live-search="true" style="width: 200px">
                                                     <option value=''>выберите город</option>                                                                      
                                                 </select>
@@ -334,10 +338,10 @@
                                 </div>
                             </div>
                         </div>    
-                        <jsp:include page="templates/criteria_page.jsp"/> 
-                        <jsp:include page="templates/company_add_page.jsp"/>
-                        <jsp:include page="templates/statistics_page.jsp"/>
+                        <jsp:include page="templates/criteria_page.jsp"/>
                         <jsp:include page="templates/messages_page.jsp"/>
+                        <jsp:include page="templates/statistics_page.jsp"/> 
+                        <jsp:include page="templates/company_add_page.jsp"/>                   
                     <input type="hidden" value="${uid}" id="txt_uid">
                     </div>
                 </div>

@@ -4,7 +4,7 @@
 <div class="col-lg-12" id="all_messages">   
     <div class="panel panel-default">
         <div class="panel-heading">
-            Cообщения  кампании <b class="company_title"></b>
+            Cообщения выбранной кампании <b class="company_title"></b>
         </div>
         <div class="panel-body">
             <div class="message_pattern" message_id="-1" style="display:none;">

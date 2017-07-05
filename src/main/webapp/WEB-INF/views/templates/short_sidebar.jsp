@@ -10,9 +10,8 @@
                 OneClick
             </a>
         </li>
-         <!--опция только для админа-->
         <li>
-            <a class="scroll" href="/vk_messenger_client/start">
+            <a class="scroll" href="/on_click_spammer/start">
                 <span class="glyphicon glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
                 Личный кабинет
             </a>

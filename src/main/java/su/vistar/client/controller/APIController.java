@@ -65,7 +65,7 @@ public class APIController {
     @GetMapping(value="get_universities")
     public List<VKObjectDTO> getUniversities(@RequestParam("city_id")int cityId){
         try {
-            return vkService.getUniversities(cityId);
+            return vkService.getUniversitiesByCity(cityId);
         } catch (IOException ex) {
             Logger.getLogger(APIController.class.getName()).log(Level.SEVERE, null, ex);
         }

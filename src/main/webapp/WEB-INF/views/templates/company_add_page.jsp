@@ -14,7 +14,7 @@
                 <input type="text" class="form-control" placeholder="код компании" id="company_code">
                 <span class="input-group-btn">                  
                   <button class="btn btn-default" type="button" id="generate">
-                      <span class="glyphicon glyphicon-refresh"></span>
+                      <span class="glyphicon glyphicon-repeat"></span>
                       генерировать
                   </button>
                 </span>

@@ -4,7 +4,7 @@
 <div class="col-lg-12" id="statistics">   
     <div class="panel panel-default">
         <div class="panel-heading">
-            Статистика по кампании <b id="st_company_title"></b>
+            Статистика по критериям кампании <b id="st_company_title"></b>
         </div>
         <div class="panel-body">
             <select id="st_select_company" class="selectpicker" data-show-subtext="true" data-live-search="true" style="width: 200px">
