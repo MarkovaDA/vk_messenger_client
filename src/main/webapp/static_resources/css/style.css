@@ -13,3 +13,7 @@ a {
     text-decoration: underline;
     color: #08C;
 }
+.dropdown-menu li:hover {
+    background: #ebebeb;
+    cursor: pointer;
+}

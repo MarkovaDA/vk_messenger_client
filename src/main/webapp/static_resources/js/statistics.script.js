@@ -18,22 +18,25 @@ function fullStatistics(company_code){
           'type': 'GET',
           'url': 'company/criteria/'+ company_code,
           success: function(data){                    
-            $('.list-group .separate_li').remove();
-            $('.list-group').empty();
-            var cloned_block = $('.separate_li');
-            for(index in data){
-              var item = data[index];
-              cloned_block = cloned_block.clone();
-              cloned_block.find('.criteria_title').text(item["title"]);
-              cloned_block.find('.badge').text(item["offset"]);
-              cloned_block.attr('criteria_id', item["id"]);
-              $('.list-group').append(cloned_block); 
-            }
-            $('.list-group .separate_li').show();
-            $('.btn_criteria_report').click(function(){
-                var url = "statistics/" + $(this).parent().attr("criteria_id");
-                window.open(url);
-            });
+              $('.list-group .separate_li').remove();
+              $('.list-group').empty();
+              if (data.length === 0){
+                 $('.list-group').append('<p>у данной кампании критерии отсутствуют</p>');  
+              }
+              var cloned_block = $('.separate_li');
+              for(index in data){
+                var item = data[index];
+                cloned_block = cloned_block.clone();
+                cloned_block.find('.criteria_title').text(item["title"]);
+                cloned_block.find('.badge').text(item["offset"]);
+                cloned_block.attr('criteria_id', item["id"]);
+                $('.list-group').append(cloned_block); 
+              }
+              $('.list-group .separate_li').show();
+              $('.btn_criteria_report').click(function(){
+                  var url = "statistics/" + $(this).parent().attr("criteria_id");
+                  window.open(url);
+              });
           },
           error:function(jqXHR, textStatus, errorThrown){
              console.log(jqXHR, textStatus, errorThrown);

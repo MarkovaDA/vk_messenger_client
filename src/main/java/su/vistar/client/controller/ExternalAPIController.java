@@ -1,7 +1,7 @@
 package su.vistar.client.controller;
 
 import java.io.IOException;
-import java.sql.Date;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -201,9 +201,11 @@ public class ExternalAPIController {
             @PathVariable("sender_vk_id")Long senderVkId){
         //проверка на несуществующий критерий
         list.forEach(item -> {
-            Date sendingDate = new Date((long)item.getDeviceDate()*1000);
+            Date sendingDate = new Date(item.getDeviceDate()*1000L);
+            
             if (item.getErrorMsg() == null)
                 item.setErrorMsg("SUCCESS");
+            
             statisticsMapper.insertStatisticsInfo(
                     item.getCriterionId(), 
                     senderVkId, 

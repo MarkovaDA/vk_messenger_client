@@ -7,7 +7,6 @@ $(document).ready(function () {
             case 'select_country':
                 $('#select_city').empty();
                 get_objects('#select_city','get_cities_bycountry?', 'country_id=', $(this).val());
-                get_objects('#select_school_city','get_cities_bycountry?', 'country_id=', $(this).val());
             case 'select_city': 
                 $('#select_univ').empty();
                 get_objects('#select_univ','get_universities?', 'city_id=', $(this).val());
@@ -40,10 +39,6 @@ function get_objects(select_id,api_str, param_id, value) {
     var url = "api/"+api_str + param_id + value;     
     $.get(url, function (data) {
         var item; 
-        $(select_id).append($('<option>', {
-            value: -1,
-            text: 'Выберите'
-        }));
         for (var i = 0; i < data.length; i++) {
             item = data[i];                              
             $(select_id).append($('<option>', {

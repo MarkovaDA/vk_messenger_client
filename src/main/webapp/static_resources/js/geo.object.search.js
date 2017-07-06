@@ -2,9 +2,7 @@
  * поиск населенного пункта по названию
  */
 $(document).ready(function(){
-    $('#geo_searched').bind("change", function() {        
-        getSearchedGeo($(this).val());
-    });
+   
     $("input[type='checkbox']").change(function() {
         if (this.checked) {
             var panel = $('#dropdown_geo_search').detach();

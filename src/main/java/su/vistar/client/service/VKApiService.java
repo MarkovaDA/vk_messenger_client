@@ -49,19 +49,7 @@ public class VKApiService{
            return this.url;
         }
     }
-    
-    //private String countryQueryFormat = "https://api.vk.com/method/database.getCountries&v=5.60&count=200";//
-    //private String facultyQueryFormat = "https://api.vk.com/method/database.getFaculties?university_id=%d&v=5.60"; //
-    //private String universityQueryFormat = "https://api.vk.com/method/database.getUniversities?city_id=%d&v=5.60"; //  
-    //private String chairQueryFormat = "https://api.vk.com/method/database.getChairs?faculty_id=%d&v=5.60";//
-    //private String cityQueryByCountryFormat = "https://api.vk.com/method/database.getCities?country_id=%d&count=100&v=5.60";//
-    //private String schoolQueryByCityFormat = "https://api.vk.com/method/database.getSchools?city_id=%d&count=100&v=5.60";//    
-    //private String schoolQueryFormat = "https://api.vk.com/method/database.getCities?country_id=%d&count=100&v=5.60";    
-    //private String searchUserQueryFormat = "https://api.vk.com/method/users.search?%s&offset=%d&v=5.60";    
-    //private String searchCityUrl = "https://api.vk.com/method/database.getCities";    
-    //private String searchCoutnryUrl = "https://api.vk.com/method/database.getCountries?q=%s&v=5.60";
-    //private final String usersGetUrl = "https://api.vk.com/method/users.get?user_ids=%d&v=5.65";  
-    
+   
     private final String CLIENT_ID = "5801227";
     private final String REDIRECT_URI = "http://localhost:8084/on_click_spammer/regist";
     private final String CLIENT_SECRET = "kzErha5eVdhBsKWJMcJ1";
@@ -128,7 +116,7 @@ public class VKApiService{
         map.put("q", pattern);
         map.put("country_id", countryId);
         map.put("v", 5.60);
-        String result =  httpService.doPOSTQuery(QueryPattern.getCityUrl.toString(), map);
+        String result =  httpService.doPOSTQuery(BASE_URL + QueryPattern.getCityUrl.toString(), map);
         return result;
     }
     

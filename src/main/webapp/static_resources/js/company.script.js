@@ -134,7 +134,7 @@ function getMessages(company_code){
             $('.message_container .message_pattern').remove();
             $('.message_container').empty();
             if (data.length === 0){
-               $('.message_container').append('<p>У данной кампании нет сообщений</p>');  
+               $('.message_container').append('<p>у данной кампании сообщения отсутствуют</p>');  
             }
             var cloned_block = $('.message_pattern');
             for(index in data){

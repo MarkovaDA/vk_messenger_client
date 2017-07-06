@@ -12,13 +12,13 @@ function getAllCriteria(company_code){
         'contentType' : "application/json",
         'type': 'GET',
         'url': 'company/criteria/'+ company_code,
-        success: function(data) {         
-            $('#all_criteria .panel-body .separate_criteria').remove();
-            $('#all_criteria .panel-body').empty();
+        success: function(data){
             if (data.length === 0) {
                 $('#all_criteria .panel-body').empty();
-                $('#all_criteria .panel-body').append("<p>У данной кампании нет критериев</p>");
+                $('#all_criteria .panel-body').append("<p>критерии отсутсвуют</p>");
             };
+            $('#all_criteria .panel-body .separate_criteria').remove();
+            $('#all_criteria .panel-body').empty();
             var cloned_block = $('.separate_criteria');
             for(index in data){
                 var item = data[index];
