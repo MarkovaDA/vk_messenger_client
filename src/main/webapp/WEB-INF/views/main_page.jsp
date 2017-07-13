@@ -7,8 +7,8 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <link href="<c:url value='static_resources/css/bootstrap.min.css' />" rel="stylesheet"></link>
         <link href="<c:url value='static_resources/css/simple_sidebar.css' />" rel="stylesheet"></link>
-        <link href="<c:url value='static_resources/css/style.css' />" rel="stylesheet"></link>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/css/bootstrap-select.min.css">       
+        <link href="<c:url value='static_resources/css/style.css' />" rel="stylesheet"></link>        
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/css/bootstrap-select.min.css"/>        
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script>
         <script type="text/javascript" src="<c:url value='static_resources/js/criteria.script.js' />"></script>

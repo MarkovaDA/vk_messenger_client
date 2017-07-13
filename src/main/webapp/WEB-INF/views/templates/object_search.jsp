@@ -1,4 +1,4 @@
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <div id="div_pattern" style="display:none;">
@@ -8,7 +8,7 @@
                 <span class="area"></span><br>
                 <span class="region"></span><br>                
             </div>
-    </li>
+    </li>s
 </div>
 <div class="dropdown input-group" id="dropdown_geo_search" style="display:none;">   
     <div class="input-group dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -24,26 +24,11 @@
 </div>
 <script>
     $(document).ready(function(){         
-        function fullDropdown(){
-            getSearchedGeo($('#geo_searched').val());//прогрузка данных по шаблону
-            var dropdown = $(this).parent().parent().find('.dropdown-menu');
-            var length = dropdown.children().length;
-            if (length === 0){
-                dropdown.hide();
-            }
-            else if (length > 0) {
-                dropdown.height('200');
-                dropdown.show();
-                dropdown.find('li').bind('click', function(){
-                    dropdown.hide();
-                });
-            }
-        }
         $('#geo_searched').change(function(){
-            fullDropdown();
+            getSearchedGeo($('#geo_searched').val());
         });
         $('#geo_searched').click(function(){
-            fullDropdown();
+            getSearchedGeo($('#geo_searched').val());
         });
     });
 </script>

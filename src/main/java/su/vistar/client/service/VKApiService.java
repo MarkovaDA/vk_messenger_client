@@ -68,7 +68,7 @@ public class VKApiService{
     //получение информации о пользователе по uid
     public VKUserDTO getUserByUid(Long uid){
         try {
-            String queryUrl = String.format(BASE_URL + QueryPattern.getUsersInfoUrl.toString(), uid);
+            String queryUrl = String.format(BASE_URL.concat(QueryPattern.getUsersInfoUrl.toString()), uid);
             String result = httpService.doPureGetQuery(queryUrl);
             Gson gson = new Gson();
             UsersGetResponse response = gson.fromJson(result, UsersGetResponse.class);
@@ -106,36 +106,35 @@ public class VKApiService{
     public  List<VKObjectDTO> getSchools(int cityId) throws MalformedURLException, ProtocolException, IOException{
        return httpService.doGETQuery(getQueryForSchoolsByCity(cityId));
     }       
-    /*public  List<VKObjectDTO> getCountryByPattern(String pattern) throws ProtocolException, IOException{
-        return httpService.doGETQuery(String.format(searchCoutnryUrl, pattern));
-    }*/
-    
+   
     //поиск населенного пункта по названию
     public String getCityByPattern(String pattern, Integer countryId) throws ProtocolException, IOException{
         Map map = new HashMap<>();
         map.put("q", pattern);
         map.put("country_id", countryId);
         map.put("v", 5.60);
-        String result =  httpService.doPOSTQuery(BASE_URL + QueryPattern.getCityUrl.toString(), map);
-        return result;
+        //map.put("access_token", accessToken);
+        map.put("count", 50);
+        String url = BASE_URL.concat(QueryPattern.getCityUrl.toString());
+        return  httpService.doPOSTQuery(url, map);
     }
     
     private String getQueryForChairs(int facultyId){                
-        return String.format(BASE_URL + QueryPattern.getChairByFaculty.toString(), facultyId);
+        return String.format(BASE_URL.concat(QueryPattern.getChairByFaculty.toString()), facultyId);
     }            
     private String getQueryForFaculties(int universityId){       
-        return String.format(BASE_URL + QueryPattern.getFacultiesByUniversity.toString(), universityId);
+        return String.format(BASE_URL.concat(QueryPattern.getFacultiesByUniversity.toString()), universityId);
     }       
     private String getQueryForUniversitiesByCityId(int cityId){              
-        return String.format(BASE_URL + QueryPattern.getUniversitiesByCity.toString(), cityId);
+        return String.format(BASE_URL.concat(QueryPattern.getUniversitiesByCity.toString()), cityId);
     }
     private String getQueryForCountries(){
-        return BASE_URL + QueryPattern.getCountriesUrl.toString();
+        return BASE_URL.concat(QueryPattern.getCountriesUrl.toString());
     }    
     private String getQueryForCitiesByCountry(int countryId){
-        return String.format(BASE_URL + QueryPattern.getCityByCountryUrl.toString(), countryId);
+        return String.format(BASE_URL.concat(QueryPattern.getCityByCountryUrl.toString()), countryId);
     }    
     private String getQueryForSchoolsByCity(int cityId){
-        return String.format(BASE_URL + QueryPattern.getSchoolByCity.toString(), cityId);
+        return String.format(BASE_URL.concat(QueryPattern.getSchoolByCity.toString()), cityId);
     } 
 }

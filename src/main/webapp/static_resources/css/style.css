@@ -17,3 +17,6 @@ a {
     background: #ebebeb;
     cursor: pointer;
 }
+.right_bracket {
+    text-decoration: none !important;
+}

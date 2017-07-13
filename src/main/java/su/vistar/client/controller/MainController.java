@@ -66,7 +66,8 @@ public class MainController {
     private SMTPMailSender mailSender;
 
     private static final Gson gson = new Gson();
-    
+    //vps1.vistar.su:8080
+    //localhost:8084
     private static String oauthVkUrl = "https://oauth.vk.com/" +
             "authorize?" +
             "client_id=5801227" +
@@ -100,10 +101,12 @@ public class MainController {
     }
     
     @GetMapping(value = "/regist")
-    public RedirectView regist(@RequestParam("code")String code, RedirectAttributes attributes) throws MessagingException{       
+    public RedirectView regist(@RequestParam("code")String code, 
+                               RedirectAttributes attributes) throws MessagingException{       
         try {          
             AccessToken token = vkService.getAccessToken(code);
             Long uid = token.getUser_id();
+            //токен пользователя
             VKUserDTO vkUser =  vkService.getUserByUid(uid);
             User systemUser = authUserMapper.getUserByUid(uid);
             if (systemUser == null){
@@ -161,7 +164,8 @@ public class MainController {
             model.addAttribute("addressee", vkSender);
             return new ModelAndView("sender_report_page");
         }
-        List<SenderStatisticsReport> senderStatisticsList = statisticsMapper.getStatisticsBySendors();
+        List<SenderStatisticsReport> senderStatisticsList = 
+                statisticsMapper.getStatisticsBySendors();
         model.addAttribute("listInfo", senderStatisticsList);
         return new ModelAndView("criteria_statistics_page");
     }

@@ -11,11 +11,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import su.vistar.client.dto.CitySearchStandardResponse;
+import su.vistar.client.dto.GeoObjectSearchDTO;
 import su.vistar.client.model.Company;
 import su.vistar.client.model.Message;
 import su.vistar.client.service.AuthService;
@@ -105,14 +107,20 @@ public class APIController {
         return criteriaService.getMessageById(mesId);
     }
 
-    @GetMapping(value="city/search", produces = "application/json;charset=UTF-8")
+    @PostMapping(value="city/search", produces = "application/json;charset=UTF-8")
     @ResponseBody
-    public List<VKObjectDTO> getSearchedCity(@RequestParam("q")String pattern, @RequestParam("country_id")Integer countryId){
+    public List<VKObjectDTO> getSearchedCity(@RequestBody String searchParams) {
+        
         String response;
         CitySearchStandardResponse convertResponse = null;
         Gson gson = new Gson();
+        GeoObjectSearchDTO paramsObject = 
+        gson.fromJson(searchParams, GeoObjectSearchDTO.class);
+        //String token = authService.getCurrentUser(null).getAccess_token();
+        //pattern = Charset.forName("UTF-8").encode(pattern).toString();
+        Logger.getLogger(APIController.class.getName()).log(Level.SEVERE, paramsObject.getQ());
         try {
-            response = vkService.getCityByPattern(pattern,countryId);
+            response = vkService.getCityByPattern(paramsObject.getQ(), paramsObject.getCountry_id());
             convertResponse = gson.fromJson(response, CitySearchStandardResponse.class);
         } catch (IOException ex) {
             Logger.getLogger(APIController.class.getName()).log(Level.SEVERE, null, ex);
